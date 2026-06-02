@@ -1175,6 +1175,42 @@ body {
         text-align: center;
     }
 }
+/* ============================================
+   CORRECCIONES DE CONTRASTE PARA EQUIPO_DETALLE
+   ============================================ */
+
+/* Texto "QR no generado aún" */
+.no-qr-text {
+    color: #ffffff !important; /* Blanco puro */
+    font-weight: 500;
+}
+
+/* Estadísticas (Jugadores, Partidos, etc.) */
+.stat-label {
+    color: #cccccc !important; /* Gris claro para etiquetas */
+}
+.stat-value {
+    color: #ffffff !important; /* Blanco para los valores */
+    font-weight: bold;
+}
+
+/* Estado "No hay jugadores" */
+.empty-state p {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+}
+
+/* VS y Pendiente en Historial */
+.vs {
+    color: #888888 !important; /* Gris medio para el VS */
+    font-weight: bold;
+}
+.status-pending {
+    color: #ffffff !important; /* Blanco para el estado Pendiente */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil */
+    padding: 4px 8px;
+    border-radius: 4px;
+}
 
 /* ============================================
    RESPONSIVE DESIGN - MOBILE

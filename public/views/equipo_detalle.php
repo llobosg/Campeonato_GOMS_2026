@@ -205,7 +205,7 @@ function copiarLink(url) {
 
 // Generar QR
 async function generarQR(teamId) {
-    if (!confirm('¿Deseas generar el QR para este equipo?')) return;
+    if (!confirm('¿Deseas generar el QR para este equipo? Se requiere permisos de admin.')) return;
     
     try {
         showToast('⏳ Generando QR...', 'info');
@@ -215,7 +215,8 @@ async function generarQR(teamId) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
-            }
+            },
+            credentials: 'same-origin' // Importante para enviar cookies de sesión
         });
         
         const data = await response.json();
@@ -224,6 +225,7 @@ async function generarQR(teamId) {
             showToast('✅ QR generado exitosamente', 'success');
             setTimeout(() => location.reload(), 1500);
         } else {
+            // Si el error es de autorización, podríamos redirigir o mostrar mensaje
             showToast('❌ Error: ' + (data.error || 'No se pudo generar'), 'error');
         }
     } catch (error) {
