@@ -1013,7 +1013,7 @@ body {
 /* Top Navigation Bar */
 .top-nav {
     background: var(--gradient-header); /* Usa tu gradiente definido :root */
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     box-shadow: var(--shadow-md);
     position: sticky;
     top: 0;
