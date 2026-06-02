@@ -7,9 +7,6 @@
 // Definir variables si no existen (evita warnings)
 $current_page = $current_page ?? 'home';
 $page_title = $page_title ?? APP_NAME;
-
-// Determinar ruta base relativa para assets si es necesario
-// Pero usaremos BASE_URL definida en config.php
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -21,28 +18,29 @@ $page_title = $page_title ?? APP_NAME;
     <!-- Meta tags SEO -->
     <meta name="description" content="Campeonato de Fútbol GOMS 2026">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/images/favicon.png">
+    <!-- Favicon (Usamos ruta relativa absoluta) -->
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
     
-    <!-- CSS Principal -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/main.css">
+    <!-- CSS Principal (RUTA ABSOLUTA DESDE LA RAÍZ) -->
+    <link rel="stylesheet" href="/assets/css/main.css">
     
-    <!-- Google Fonts (Opcional pero recomendado para el estilo moderno) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body class="page-<?= h($current_page) ?>">
 
-    <!-- Navbar Simple (Opcional, puedes quitarlo si ya tienes header en home.php) -->
+    <!-- Navbar Simple -->
     <nav class="top-nav">
         <div class="nav-container">
-            <a href="<?= BASE_URL ?>" class="nav-brand"> GOMS 2026</a>
+            <!-- Usamos / para volver al inicio siempre desde la raíz -->
+            <a href="/" class="nav-brand"> GOMS 2026</a>
             <div class="nav-links">
-                <a href="<?= BASE_URL ?>">Inicio</a>
-                <a href="<?= BASE_URL ?>/fixture">Fixture</a>
-                <?php if (is_admin_authenticated()): ?>
-                    <a href="<?= BASE_URL ?>/equipos/listar" class="admin-link">Admin</a>
+                <a href="/">Inicio</a>
+                <a href="/fixture">Fixture</a>
+                <?php if (isset($_SESSION['admin_authenticated']) && $_SESSION['admin_authenticated']): ?>
+                    <a href="/equipos/listar" class="admin-link">Admin</a>
                 <?php endif; ?>
             </div>
         </div>
