@@ -105,8 +105,6 @@ $flash = get_flash_message();
                         <th>Equipo</th>
                         <th>Grupo</th>
                         <th>Jugadores</th>
-                        <th>QR Code</th>
-                        <th>Link Registro</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
