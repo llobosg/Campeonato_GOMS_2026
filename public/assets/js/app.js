@@ -407,6 +407,142 @@ function checkFlashMessages() {
 }
 
 // ============================================
+// LÓGICA DE VISIBILIDAD BOTÓN RESULTADO
+// ============================================
+
+function verificarVisibilidadBotonesResultado() {
+    const ahora = new Date();
+    const fechaHoy = ahora.toISOString().split('T')[0]; // YYYY-MM-DD
+    
+    // Seleccionar todas las tarjetas de partidos que tengan botón de resultado
+    const matchCards = document.querySelectorAll('.match-card');
+    
+    matchCards.forEach(card => {
+        const btn = card.querySelector('.btn-resultado');
+        if (!btn) return;
+
+        // Obtener fecha y hora del partido desde atributos data-
+        // Asegúrate que tu HTML tenga: <div class="match-card" data-fecha="2026-06-03" data-hora="19:00">
+        const fechaPartido = card.getAttribute('data-fecha');
+        const horaPartidoStr = card.getAttribute('data-hora');
+        
+        if (!fechaPartido || !horaPartidoStr) return;
+
+        // Crear objeto Date para el inicio del partido
+        const [horas, minutos] = horaPartidoStr.split(':').map(Number);
+        const inicioPartido = new Date(fechaPartido);
+        inicioPartido.setHours(horas, minutos, 0, 0);
+
+        // Calcular límite: 5 minutos antes del inicio
+        const limiteInicio = new Date(inicioPartido.getTime() - 5 * 60 * 1000);
+        
+        // Calcular límite fin: 2 horas después del inicio (para evitar que se cierre inmediatamente)
+        const limiteFin = new Date(inicioPartido.getTime() + 120 * 60 * 1000);
+
+        // Lógica: Mostrar si "Ahora" está entre [Inicio - 5min] y [Inicio + 2h]
+        // Y además, que sea el día correcto (aunque la comparación de fechas completa ya lo cubre)
+        if (ahora >= limiteInicio && ahora <= limiteFin) {
+            btn.classList.add('btn-visible');
+            btn.disabled = false;
+        } else {
+            btn.classList.remove('btn-visible');
+            btn.disabled = true; // Opcional: deshabilitar click
+        }
+    });
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    // ... tus otras inicializaciones ...
+    verificarVisibilidadBotonesResultado();
+    
+    // Opcional: Revisar cada minuto por si cambia la hora mientras el usuario está en la página
+    setInterval(verificarVisibilidadBotonesResultado, 60000);
+});
+
+// ============================================
+// LÓGICA MODAL RESULTADOS EN VIVO
+// ============================================
+
+function openModalVivo() {
+    const modal = document.getElementById('modalVivo');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Evitar scroll
+        
+        // Cargar datos del partido actual
+        // NOTA: Aquí asumimos que quieres ver el primer partido de la fecha activa
+        // O podrías pasar un ID específico si lo tienes.
+        cargarDatosVivo(); 
+    }
+}
+
+function closeModalVivo() {
+    const modal = document.getElementById('modalVivo');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+async function cargarDatosVivo() {
+    // Ejemplo: Obtener el fixture de la fecha activa o un ID hardcodeado para prueba
+    // Para producción, deberías tener una API que devuelva "el partido que se está jugando ahora"
+    
+    // Simulación: Usamos el currentFixtureId si existe, o buscamos uno activo
+    // Si no hay lógica de "partido actual", usaremos el primero de la lista como ejemplo
+    
+    try {
+        showToast(' Cargando transmisión...', 'info');
+        
+        // Aquí debes llamar a tu API. Ejemplo: /api/fixture/vivo o similar
+        // Como no tenemos ese endpoint específico, usaremos el currentFixtureId si está definido
+        // O podrías hacer fetch a /api/fixture/1 (ejemplo)
+        
+        let fixtureId = currentFixtureId || 1; // Fallback a ID 1 para prueba
+        
+        const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            const partido = data.data;
+            
+            // Actualizar UI del Modal Vivo
+            document.getElementById('vivo-team-a-name').textContent = partido.nombre_equipo_a;
+            document.getElementById('vivo-team-b-name').textContent = partido.nombre_equipo_b;
+            
+            // Marcadores (Si ya hay resultado guardado)
+            // Nota: Si el partido está en vivo y aún no se guarda el resultado final, 
+            // deberías tener una columna de 'marcador_parcial' en tu BD o calcularlo desde los goles.
+            // Por ahora mostramos 0-0 o el resultado final si existe.
+            document.getElementById('vivo-score-a').textContent = partido.goles_equipo_a || 0;
+            document.getElementById('vivo-score-b').textContent = partido.goles_equipo_b || 0;
+            
+            document.getElementById('vivo-match-time').textContent = partido.hora ? partido.hora.substring(0,5) : '--:--';
+            document.getElementById('vivo-match-date').textContent = `Fecha ${partido.nro_fecha}`;
+            
+            // Cargar goleadores del partido (si existen)
+            const scorersUl = document.getElementById('vivo-scorers-ul');
+            scorersUl.innerHTML = '<li>Cargando goleadores...</li>';
+            
+            // Fetch de goleadores específicos de este partido (necesitarás un endpoint o filtrar)
+            // Por ahora, dejaremos un placeholder o cargaremos todos los jugadores si no hay endpoint específico
+            scorersUl.innerHTML = '<li>Detalle de goles disponible al finalizar</li>';
+            
+        } else {
+            showToast('❌ No se encontraron datos del partido', 'error');
+        }
+    } catch (error) {
+        console.error('Error cargando vivo:', error);
+        showToast('❌ Error de conexión', 'error');
+    }
+}
+
+// Exportar funciones globales
+window.openModalVivo = openModalVivo;
+window.closeModalVivo = closeModalVivo;
+
+// ============================================
 // EXPORTAR FUNCIONES AL WINDOW (CRUCIAL PARA ONCLICK)
 // ============================================
 window.seleccionarFecha = seleccionarFecha;

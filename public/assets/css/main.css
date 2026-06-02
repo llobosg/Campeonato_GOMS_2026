@@ -1704,4 +1704,198 @@ body {
     text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* Sombra suave para legibilidad */
 }
 
+/* Clase auxiliar para mostrarlo vía JS */
+.btn-resultado.btn-visible {
+    display: inline-block; /* O block, según tu layout */
+    background: var(--gradient-button);
+    color: var(--color-dark);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    animation: pulseButton 2s infinite; /* Opcional: para destacar que ya se puede jugar */
+}
+
+@keyframes pulseButton {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 255, 135, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0); }
+}
+
+/* ============================================
+   MODAL RESULTADOS EN VIVO (PANTALLA GIGANTE)
+   ============================================ */
+
+.modal-vivo-overlay {
+    background: rgba(0, 0, 0, 0.95); /* Casi negro total */
+    backdrop-filter: blur(10px);
+    z-index: 2000; /* Por encima de todo */
+}
+
+.modal-vivo-content {
+    width: 90%;
+    max-width: 1200px; /* Muy ancho para pantallas grandes */
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 50px rgba(0, 255, 135, 0.3);
+    position: relative;
+    background: linear-gradient(145deg, #111 0%, #222 100%);
+}
+
+/* Botón Cerrar Rojo Animado */
+.btn-close-vivo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.close-icon {
+    font-size: 4rem;
+    color: #ff006e; /* Rosa/Rojo neón */
+    font-weight: bold;
+    line-height: 1;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+}
+
+.btn-close-vivo:hover .close-icon {
+    transform: rotate(90deg) scale(1.2);
+    color: #fff;
+    text-shadow: 0 0 20px #ff006e;
+}
+
+.vivo-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.vivo-title {
+    font-size: 3rem;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+}
+
+.vivo-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ff006e;
+    color: white;
+    padding: 5px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    animation: pulseLive 1.5s infinite;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+}
+
+@keyframes pulseLive {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Tarjeta de Partido Gigante */
+.vivo-match-card {
+    width: 100%;
+    text-align: center;
+}
+
+.vivo-teams-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 30px;
+}
+
+.vivo-team h3 {
+    font-size: 2.5rem;
+    color: var(--color-light);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.vivo-score {
+    font-size: 6rem; /* Números gigantes */
+    font-weight: 900;
+    color: var(--color-primary);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px 40px;
+    border-radius: 20px;
+    border: 2px solid var(--color-primary);
+    min-width: 150px;
+    text-shadow: 0 0 30px rgba(0, 255, 135, 0.6);
+}
+
+.vivo-vs {
+    font-size: 3rem;
+    color: var(--color-gray-light);
+    font-weight: bold;
+}
+
+.vivo-info p {
+    font-size: 1.5rem;
+    color: var(--color-gold);
+    margin: 5px 0;
+}
+
+.vivo-scorers-list {
+    margin-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+}
+
+.vivo-scorers-list h4 {
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.vivo-scorers-list ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.vivo-scorers-list li {
+    background: rgba(255,255,255,0.05);
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Responsive para móviles (aunque es para pantalla gigante, por si acaso) */
+@media (max-width: 768px) {
+    .vivo-teams-display { flex-direction: column; gap: 20px; }
+    .vivo-score { font-size: 4rem; min-width: 100px; padding: 10px 20px; }
+    .vivo-team h3 { font-size: 1.5rem; }
+    .vivo-title { font-size: 2rem; }
+}
+
 /* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */

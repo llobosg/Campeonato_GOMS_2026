@@ -323,8 +323,8 @@ $flash = get_flash_message();
         </section>
         
         <!-- BOTÓN MARCADOR EN VIVO -->
-        <button class="btn-vivo" onclick="window.location.href='<?= BASE_URL ?>/vivo'">
-             RESULTADOS EN VIVO
+        <button class="btn-vivo" onclick="openModalVivo()">
+            📺 RESULTADOS EN VIVO
         </button>
     </div>
 </div>
@@ -376,6 +376,57 @@ $flash = get_flash_message();
                 <button class="btn btn-success btn-finalizar" onclick="finalizarPartido()">
                     ✅ Finalizar Partido
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- MODAL RESULTADOS EN VIVO (PANTALLA GIGANTE) -->
+<!-- ============================================ -->
+<div id="modalVivo" class="modal-overlay modal-vivo-overlay" style="display: none;">
+    <div class="modal-content modal-vivo-content">
+        
+        <!-- Botón Cerrar Animado -->
+        <button class="btn-close-vivo" onclick="closeModalVivo()" aria-label="Cerrar">
+            <span class="close-icon">×</span>
+        </button>
+
+        <div class="vivo-header">
+            <h2 class="vivo-title">EN VIVO AHORA</h2>
+            <div class="vivo-indicator">
+                <span class="dot"></span> LIVE
+            </div>
+        </div>
+
+        <!-- Contenedor del Partido Espejo -->
+        <div id="vivo-match-container" class="vivo-match-card">
+            <!-- El contenido se llenará dinámicamente con JS -->
+            <div class="vivo-teams-display">
+                <div class="vivo-team team-a">
+                    <h3 id="vivo-team-a-name">EQUIPO A</h3>
+                    <div class="vivo-score" id="vivo-score-a">0</div>
+                </div>
+                
+                <div class="vivo-vs">VS</div>
+                
+                <div class="vivo-team team-b">
+                    <h3 id="vivo-team-b-name">EQUIPO B</h3>
+                    <div class="vivo-score" id="vivo-score-b">0</div>
+                </div>
+            </div>
+
+            <div class="vivo-info">
+                <p id="vivo-match-time">--:--</p>
+                <p id="vivo-match-date">Fecha --</p>
+            </div>
+            
+            <!-- Lista de Goleadores del Partido (Opcional pero recomendado para pantallas gigantes) -->
+            <div class="vivo-scorers-list">
+                <h4>Goleadores del Partido:</h4>
+                <ul id="vivo-scorers-ul">
+                    <li>Cargando...</li>
+                </ul>
             </div>
         </div>
     </div>
