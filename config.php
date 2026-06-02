@@ -111,7 +111,7 @@ if (!$pdo) {
 }
 
 // ============================================
-// CONSTANTES GLOBALES
+// RUTAS DE ARCHIVOS Y UPLOADS
 // ============================================
 define('APP_NAME', 'Campeonato GOMS 2026');
 define('APP_VERSION', '1.0.0');
@@ -119,9 +119,24 @@ define('APP_ENV', $isProduction ? 'production' : 'development');
 define('BASE_URL', $isProduction 
     ? 'https://campeonatogoms2026.up.railway.app' 
     : 'http://localhost/campeonato%20goms%202026/public');
-define('UPLOADS_DIR', __DIR__ . '/public/uploads');
+define('BASE_PATH', __DIR__);
+define('PUBLIC_PATH', BASE_PATH . '/public');
+define('UPLOADS_DIR', PUBLIC_PATH . '/uploads');
 define('QR_DIR', UPLOADS_DIR . '/qrs');
 define('LOGOS_DIR', UPLOADS_DIR . '/logos');
+
+// ============================================
+// AUTO-CREAR CARPETAS CON PERMISOS
+// ============================================
+$dirs = [UPLOADS_DIR, QR_DIR, LOGOS_DIR];
+foreach ($dirs as $dir) {
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true); // 0777 para asegurar escritura en Railway
+        error_log("📁 Carpeta creada: $dir");
+    }
+    // Forzar permisos incluso si existe
+    chmod($dir, 0777);
+}
 
 // ============================================
 // VERIFICACIÓN Y CREACIÓN DE CARPETAS DE UPLOADS
