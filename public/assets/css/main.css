@@ -1592,3 +1592,91 @@ body {
         font-size: 0.8rem;
     }
 }
+/* ============================================
+   HEADER COMPACTO Y RESPONSIVE
+   ============================================ */
+
+/* Header Principal */
+.top-nav {
+    padding: 0.5rem 1rem; /* Reducido significativamente (antes era ~1rem o más) */
+}
+
+.nav-container {
+    gap: 10px; /* Menos espacio entre elementos */
+}
+
+.nav-brand {
+    font-size: 1.2rem; /* Título un poco más pequeño */
+}
+
+/* Copa Animada en Header (Más pequeña para compensar el header delgado) */
+.copa-animada-img {
+    width: 60px; /* Reducida desde 90px */
+    margin-bottom: 0;
+}
+
+/* Ajuste específico para Móviles (60% más delgado) */
+@media (max-width: 768px) {
+    .top-nav {
+        padding: 0.3rem 0.5rem; /* Muy compacto en móvil */
+    }
+    
+    .nav-brand {
+        font-size: 1rem;
+    }
+    
+    .copa-animada-img {
+        width: 45px; /* Aún más pequeña en móvil */
+    }
+    
+    .nav-links a {
+        font-size: 0.8rem; /* Links más pequeños */
+        padding: 5px;
+    }
+}
+/* ============================================
+   CONTENEDOR DE POSICIONES (EL CUBO SEMI-TRANSPARENTE)
+   ============================================ */
+
+.posiciones-section {
+    background: rgba(255, 255, 255, 0.05); /* El fondo semi-transparente */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 100%; /* Asegurar que use todo el ancho disponible */
+    width: 95%; /* Un poco de margen lateral */
+    box-sizing: border-box;
+}
+
+/* Asegurar que las tablas ocupen el espacio dentro del cubo */
+.tabla-grupo {
+    width: 100%; /* Forzar ancho completo dentro de su columna flex */
+    margin-bottom: 20px;
+}
+
+/* En escritorio, poner Grupo A y B lado a lado dentro del mismo cubo */
+@media (min-width: 769px) {
+    .posiciones-section {
+        display: flex;
+        gap: 30px;
+        justify-content: space-between;
+    }
+    
+    .tabla-grupo {
+        width: 48%; /* Cada tabla ocupa casi la mitad del cubo */
+        margin-bottom: 0;
+    }
+}
+/* ============================================
+   COLOR DE POSICIÓN DE JUGADORES
+   ============================================ */
+
+.jugador-posicion, 
+.equipo-jugadores-lista li span:last-child { /* Selector genérico si no tienes clase específica */
+    color: #FFC107 !important; /* Amarillo Ocre / Ámbar brillante */
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* Sombra suave para legibilidad */
+}
+
+/* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */
