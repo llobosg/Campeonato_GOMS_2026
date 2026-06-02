@@ -17,7 +17,7 @@ $encargados = [
     'Calidad Prime' => ['nombre' => 'Luis Hernández', 'email' => 'luis.lobos.g@gmail.com'],
     'Los Desquinchadores' => ['nombre' => 'Carlos Rodríguez', 'email' => 'luis.lobos.g@gmail.com'],
     'Macizo United'   => ['nombre' => 'Chantal González', 'email' => 'luis.lobos.g@gmail.com'],
-    'Deportivo NdC' => ['nombre' => 'Brian Arancibia', 'email' => 'luis.lobos.g@gmail.com'],
+    'Deportivo NdC' => ['nombre' => 'Brian Arancibia', 'email' => 'brian.arancibia.g@gmail.com'],
     'Jaque Boys'    => ['nombre' => 'Jaqueline Marín', 'email' => 'luis.lobos.g@gmail.com'],
 ];
 
