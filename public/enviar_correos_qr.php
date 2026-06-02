@@ -10,7 +10,7 @@ require_once __DIR__ . '/../config.php';
 // Lista de Encargados
 $encargados = [
     'Los Galacticos'    => ['nombre' => 'Dennis Garrido', 'email' => 'luis.lobos.g@gmail.com'],
-    'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'Metro/fabian.poblete.v@ug.uchile.cl'],
+    'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'fabian.poblete.v@ug.uchile.cl'],
 ];
 
 echo "<h1>Enviando Correos con QRs...</h1>";
