@@ -10,6 +10,9 @@ namespace App\Controllers;
 use PDO;
 use QRGenerator;
 
+// Importar funciones globales definidas en config/functions
+global $pdo, $isProduction, $BASE_URL; 
+
 class EquipoController {
     private PDO $pdo;
     
@@ -344,6 +347,9 @@ class EquipoController {
     * GET /equipos/ver/{id} - Ver detalles de un equipo
     */
     public function show(array $params = []) {
+        // Acceder a variables globales correctamente
+        global $pdo, $isProduction;
+        
         $id_equipo = $params['id'] ?? null;
         
         if (!$id_equipo) {
@@ -353,7 +359,7 @@ class EquipoController {
         try {
             // 1. Obtener datos del equipo
             $equipo = db_fetch_one(
-                $this->pdo,
+                $pdo,
                 "SELECT * FROM equipos WHERE id_equipo = :id",
                 ['id' => (int)$id_equipo]
             );
@@ -364,14 +370,14 @@ class EquipoController {
             
             // 2. Obtener jugadores del equipo
             $jugadores = db_fetch_all(
-                $this->pdo,
+                $pdo,
                 "SELECT * FROM jugadores WHERE id_equipo = :id ORDER BY nombre ASC",
                 ['id' => (int)$id_equipo]
             );
             
-            // 3. Obtener partidos del equipo (CORREGIDO: Agregado FROM fixture f)
+            // 3. Obtener partidos del equipo (QUERY CORREGIDA CON FROM)
             $partidos = db_fetch_all(
-                $this->pdo,
+                $pdo,
                 "
                 SELECT f.*, 
                        e1.nombre as nombre_equipo_a, 
@@ -391,7 +397,9 @@ class EquipoController {
         } catch (\Exception $e) {
             error_log("FATAL ERROR en show(): " . $e->getMessage());
             http_response_code(500);
-            echo "<h1>Error Interno</h1><p>Detalles: " . ($isProduction ? "Contacte soporte" : $e->getMessage()) . "</p>";
+            // Mostrar error detallado solo si NO es producción para debug
+            $msg = $isProduction ? "Contacte soporte" : $e->getMessage();
+            echo "<h1>Error Interno</h1><p>Detalles: $msg</p>";
         }
     }
 }

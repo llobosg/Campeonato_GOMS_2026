@@ -89,7 +89,7 @@ $current_page = $current_page ?? 'home';
     <?php endif; ?>
     
     <!-- Service Worker para PWA (opcional) -->
-    <?php if (defined('APP_ENV') && APP_ENV === 'production'): ?>
+    <?php /* if (defined('APP_ENV') && APP_ENV === 'production'): ?>
         <script>
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -100,6 +100,7 @@ $current_page = $current_page ?? 'home';
             }
         </script>
     <?php endif; ?>
+    /* --- IGNORE --- */ ?>
     
     <!-- Debug Info (solo en desarrollo) -->
     <?php if (defined('APP_ENV') && APP_ENV !== 'production'): ?>
