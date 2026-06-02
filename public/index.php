@@ -1,7 +1,7 @@
 <?php
-/**
- * index.php - Router Principal Campeonato GOMS 2026
- */
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 define('APP_ENTRY_POINT', true);
 require_once __DIR__ . '/../config.php';
