@@ -1,9 +1,10 @@
 <?php
 /**
  * footer.php - Layout Footer Común
- * Ubicación: public/views/layout/footer.php
- * Cierra el HTML y carga scripts JS
  */
+
+// Definir current_page si no existe (evita el warning)
+$current_page = $current_page ?? 'home'; 
 ?>
 
     </main>
