@@ -2,8 +2,8 @@
 // includes/BrevoMailer.php
 class BrevoMailer {
     private $apiKey;
-    private $fromEmail = 'contacto@tudominio.com'; // Cambiar por email verificado en Brevo
-    private $fromName = 'Campeonato GOMS 2026';
+    private $fromEmail = 'llobos@gltcomex.com'; // Cambiar por email verificado en Brevo
+    private $fromName = 'Campeonato Fútbol GOMS 2026';
     
     public function __construct() {
         $this->apiKey = getenv('BREVO_API_KEY');
