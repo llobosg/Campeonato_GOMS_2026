@@ -14,7 +14,7 @@ $encargados = [
     'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'luis.lobos.g@gmail.com'],
     'Calidad Prime' => ['nombre' => 'Luis Hernández', 'email' => 'luis.lobos.g@gmail.com'],
     'Los Desquinchadores' => ['nombre' => 'Carlos Rodríguez', 'email' => 'luis.lobos.g@gmail.com'],
-    'Jaque Boys'    => ['nombre' => 'Jaqueline Marín', 'email' => 'luis.lobos.g@gmail.com'],
+    'Jaque Boys'    => ['nombre' => 'Jaqueline Marín', 'email' => 'rodrigofuentesfernandez@gmail.com'],
     'Macizo United'   => ['nombre' => 'Chantal González', 'email' => 'Chantal.g.m77@gmail.com'],
 ];
 
