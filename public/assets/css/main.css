@@ -1457,19 +1457,26 @@ body {
     transform: scale(1.1);
 }
 
+/* Imágenes de Fechas (Fecha 1 a 5) */
 .fecha-img {
-    width: 100px; /* Ajusta este tamaño según tus imágenes */
+    width: 105px; /* Aumentado aprox 5% desde 100px */
     height: auto;
     display: block;
+    border-radius: 8px;
+    transition: transform 0.2s;
 }
 
-/* Responsive para móviles */
+/* Asegurar que el contenedor de la fecha permita el crecimiento */
+.fecha-tab-img:hover .fecha-img {
+    transform: scale(1.05); /* Efecto zoom adicional al pasar el mouse */
+}
+/* Responsive: Ajuste proporcional en móviles */
 @media (max-width: 600px) {
-    .fecha-img {
-        width: 60px;
+    .copa-animada-img {
+        width: 70px;
     }
-    .fechas-tabs {
-        gap: 8px;
+    .fecha-img {
+        width: 90px;
     }
 }
 /* ============================================
@@ -1482,10 +1489,13 @@ body {
     margin-bottom: 15px;
 }
 
+/* Copa Animada en el Header */
 .copa-animada-img {
-    width: 80px; /* Ajusta el tamaño según prefieras */
+    width: 84px; /* Aumentado aprox 5% desde 80px */
     height: auto;
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); /* Brillo dorado sutil */
+    /* Si la imagen tiene fondo blanco, esto ayuda a integrarla mejor con fondos oscuros */
+    mix-blend-mode: screen; 
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
     animation: flotarCopa 3s ease-in-out infinite;
 }
 
