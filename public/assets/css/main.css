@@ -461,7 +461,7 @@ body {
 }
 
 .jugador-area {
-    color: var(--color-light);
+    color: solid rgba(48, 58, 241, 0.311);
     font-style: italic;
 }
 
@@ -1402,6 +1402,7 @@ body {
     color: var(--color-gold);
     padding: 2px 4px;
     border-radius: 4px;
+    font-size: var(--font-size-lg);
     font-weight: var(--font-bold);
 }
 .equipo-jugadores-lista {
