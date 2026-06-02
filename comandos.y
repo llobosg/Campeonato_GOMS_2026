@@ -25,7 +25,22 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "fix: populate empty layout files with correct HTML structure and CSS links"
+git commit -m "feat: remove admin check for QR generation and add bulk email script for team leads"
 git push origin main
 
+
+
+// Lista de Encargados
+$encargados = [
+    'Trancapelotas FC' => ['nombre' => 'Cristobal Arriagada', 'email' => 'CArri013@contratistas.codelco.cl'],
+    'Pem-K-Zo'        => ['nombre' => 'Camilo Fernández', 'email' => 'CFern055@contratistas.codelco.cl'],
+    'Los Mundiales' => ['nombre' => 'Santiago Medina', 'email' => 'SMedi002@codelco.cl'],
+    'Los Galacticos'    => ['nombre' => 'Dennis Garrido', 'email' => 'DGarr005@contratistas.codelco.cl'],
+    'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'FPobl007@codelco.cl'],
+    'Calidad Prime' => ['nombre' => 'Luis Hernández', 'email' => 'LHern019@contratistas.codelco.cl'],
+    'Los Desquinchadores' => ['nombre' => 'Carlos Rodríguez', 'email' => 'CRodr069@contratistas.codelco.cl'],
+    'Macizo United'   => ['nombre' => 'Chantal González', 'email' => 'CGonz213@contratistas.codelco.cl'],
+    'Deportivo NdC' => ['nombre' => 'Brian Arancibia', 'email' => 'BAran005@contratistas.codelco.cl'],
+    'Jaque Boys'    => ['nombre' => 'Jaqueline Marín', 'email' => 'JMari019@codelco.cl'],
+];
 

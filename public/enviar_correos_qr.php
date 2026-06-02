@@ -9,16 +9,16 @@ require_once __DIR__ . '/../config.php';
 
 // Lista de Encargados
 $encargados = [
-    'Trancapelotas' => ['nombre' => 'Cristobal Arriagada', 'email' => 'luis.lobos.g@gmail.com'],
-    'Pemkzo'        => ['nombre' => 'Camilo Fernández', 'email' => 'luis.lobos.g@gmail.com'],
+    'Trancapelotas FC' => ['nombre' => 'Cristobal Arriagada', 'email' => 'luis.lobos.g@gmail.com'],
+    'Pem-K-Zo'        => ['nombre' => 'Camilo Fernández', 'email' => 'luis.lobos.g@gmail.com'],
     'Los Mundiales' => ['nombre' => 'Santiago Medina', 'email' => 'luis.lobos.g@gmail.com'],
-    'Galacticos'    => ['nombre' => 'Dennis Garrido', 'email' => 'luis.lobos.g@gmail.com'],
-    'Mas Menos 1 Metro' => ['nombre' => 'Fabian Poblete', 'email' => 'luis.lobos.g@gmail.com'],
+    'Los Galacticos'    => ['nombre' => 'Dennis Garrido', 'email' => 'luis.lobos.g@gmail.com'],
+    'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'luis.lobos.g@gmail.com'],
     'Calidad Prime' => ['nombre' => 'Luis Hernández', 'email' => 'luis.lobos.g@gmail.com'],
-    'Desquinchadores' => ['nombre' => 'Carlos Rodríguez', 'email' => 'luis.lobos.g@gmail.com'],
-    'Los Macizos'   => ['nombre' => 'Chantal González', 'email' => 'luis.lobos.g@gmail.com'],
+    'Los Desquinchadores' => ['nombre' => 'Carlos Rodríguez', 'email' => 'luis.lobos.g@gmail.com'],
+    'Macizo United'   => ['nombre' => 'Chantal González', 'email' => 'luis.lobos.g@gmail.com'],
     'Deportivo NdC' => ['nombre' => 'Brian Arancibia', 'email' => 'luis.lobos.g@gmail.com'],
-    'Jaqui Boys'    => ['nombre' => 'Jaqueline Marín', 'email' => 'luis.lobos.g@gmail.com'],
+    'Jaque Boys'    => ['nombre' => 'Jaqueline Marín', 'email' => 'luis.lobos.g@gmail.com'],
 ];
 
 echo "<h1>Enviando Correos con QRs...</h1>";
