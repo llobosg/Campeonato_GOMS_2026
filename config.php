@@ -124,6 +124,32 @@ define('QR_DIR', UPLOADS_DIR . '/qrs');
 define('LOGOS_DIR', UPLOADS_DIR . '/logos');
 
 // ============================================
+// VERIFICACIÓN Y CREACIÓN DE CARPETAS DE UPLOADS
+// ============================================
+$dirs_to_check = [
+    __DIR__ . '/public/uploads',
+    __DIR__ . '/public/uploads/qrs',
+    __DIR__ . '/public/uploads/logos'
+];
+
+foreach ($dirs_to_check as $dir) {
+    if (!is_dir($dir)) {
+        // Intentar crear la carpeta recursivamente
+        if (mkdir($dir, 0777, true)) {
+            error_log("✅ Carpeta creada: $dir");
+        } else {
+            error_log("❌ FATAL: No se pudo crear la carpeta: $dir");
+        }
+    }
+    
+    // Asegurar permisos de escritura (777 es permisivo, ideal para dev/Railway simple)
+    if (is_dir($dir) && !is_writable($dir)) {
+        chmod($dir, 0777);
+        error_log("🔑 Permisos ajustados a 777 para: $dir");
+    }
+}
+
+// ============================================
 // CONFIGURACIÓN DE SEGURIDAD
 // ============================================
 define('ADMIN_PASSWORD', 'psg2026'); // Contraseña para ingresar resultados
