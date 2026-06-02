@@ -14,46 +14,39 @@ class QRGenerator {
      * @param string $team_name Nombre del equipo (para nombre de archivo)
      * @return bool True si se generó exitosamente
      */
+        /**
+     * Generar QR code para un equipo y guardarlo en disco
+     */
     public static function generateForTeam(int $team_id, string $team_name): bool {
         try {
-            // Crear directorio si no existe
             if (!is_dir(QR_DIR)) {
                 mkdir(QR_DIR, 0755, true);
             }
             
-            // Generar URL de registro
             $registration_url = generate_team_registration_url($team_id);
-            
-            // Nombre del archivo
             $filename = "team_{$team_id}.png";
             $filepath = QR_DIR . '/' . $filename;
             
-            // Si ya existe, no regenerar (a menos que se fuerce)
             if (file_exists($filepath)) {
-                error_log("QR ya existe para equipo $team_id");
                 return true;
             }
             
-            // Generar QR usando API externa (qrcode-api.com) o librería local
-            // Opción 1: Usar API externa (más simple, sin dependencias)
-            $qr_api_url = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" . urlencode($registration_url);
+            // ✅ MODIFICACIÓN: Forzar color negro (000000) y fondo blanco (ffffff)
+            $qr_api_url = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" . urlencode($registration_url) . "&color=000000&bgcolor=ffffff";
             
-            // Descargar imagen QR
             $qr_image = self::downloadImage($qr_api_url);
             
             if ($qr_image === false) {
                 throw new Exception("No se pudo descargar el QR desde la API");
             }
             
-            // Guardar en disco
             file_put_contents($filepath, $qr_image);
             
-            // Verificar que se guardó correctamente
             if (!file_exists($filepath) || filesize($filepath) === 0) {
                 throw new Exception("Error al guardar el archivo QR");
             }
             
-            // Actualizar registro en base de datos
+            // Actualizar BD...
             global $pdo;
             if (isset($pdo)) {
                 db_update(
@@ -68,12 +61,10 @@ class QRGenerator {
                 );
             }
             
-            app_log("QR generado para equipo #$team_id ($team_name): $filepath");
-            
             return true;
             
         } catch (\Exception $e) {
-            error_log("Error generando QR para equipo $team_id: " . $e->getMessage());
+            error_log("Error generando QR: " . $e->getMessage());
             return false;
         }
     }

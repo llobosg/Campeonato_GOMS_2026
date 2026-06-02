@@ -10,7 +10,7 @@ require_once __DIR__ . '/../config.php';
 // Lista de Encargados
 $encargados = [
     'Trancapelotas FC' => ['nombre' => 'Cristobal Arriagada', 'email' => 'andrea.galleguillos.v@gmail.com'],
-    'Pem-K-Zo'        => ['nombre' => 'Camilo Fernández', 'email' => 'luis.lobos.g@gmail.com'],
+    'Pem-K-Zo'        => ['nombre' => 'Camilo Fernández', 'email' => 'AGall035@codelco.cl'],
     'Los Mundiales' => ['nombre' => 'Santiago Medina', 'email' => 'luis.lobos.g@gmail.com'],
     'Los Galacticos'    => ['nombre' => 'Dennis Garrido', 'email' => 'luis.lobos.g@gmail.com'],
     'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'luis.lobos.g@gmail.com'],
@@ -62,8 +62,8 @@ foreach ($encargados as $nombre_equipo => $datos) {
             </p>
             
             <!-- QR Image -->
-            <div style='margin: 20px 0; padding: 15px; background: #ffffff; display: inline-block; border-radius: 10px; border: 1px solid #e0e0e0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);'>
-                <img src='$qr_image_url' alt='QR Code $nombre_equipo' style='width: 200px; height: 200px; display: block;'>
+            <div style='margin: 20px 0; padding: 10px; background: #ffffff; display: inline-block; border-radius: 8px; border: 2px solid #000000;'>
+                <img src='$qr_image_url' alt='QR Code' style='width: 200px; height: 200px; display: block;'>
             </div>
             
             <p style='font-size: 14px; color: #777;'>Escanea este código o usa el link de abajo:</p>
