@@ -7,7 +7,7 @@
 // ============================================
 // CONFIGURACIÓN GLOBAL
 // ============================================
-const BASE_URL = window.location.origin + (window.location.pathname.includes('/campeonato') ? '/campeonato%20goms%202026/public' : '');
+// const BASE_URL = window.location.origin + (window.location.pathname.includes('/campeonato') ? '/campeonato%20goms%202026/public' : '');
 let currentFixtureId = null;
 let currentPartidoData = null;
 
@@ -586,6 +586,43 @@ async function verificarPasswordAdmin(password) {
         console.error('Error verificando password:', error);
         showToast('❌ Error de conexión', 'error');
     }
+}
+
+/**
+ * Función para manejar el clic en las pestañas de fechas (Imágenes)
+ */
+function seleccionarFecha(nroFecha) {
+    // 1. Quitar clase 'active' de todos los botones
+    const botones = document.querySelectorAll('.fecha-tab-img');
+    botones.forEach(btn => btn.classList.remove('active'));
+
+    // 2. Agregar clase 'active' al botón clickeado
+    // Buscamos el botón que tiene el data-fecha igual al nroFecha
+    const botonActivo = document.querySelector(`.fecha-tab-img[data-fecha="${nroFecha}"]`);
+    if (botonActivo) {
+        botonActivo.classList.add('active');
+    }
+
+    // 3. Filtrar el fixture
+    filtrarFixturePorFecha(nroFecha);
+}
+
+/**
+ * Función auxiliar para filtrar el fixture (ajusta según tu lógica existente)
+ */
+function filtrarFixturePorFecha(nroFecha) {
+    // Ocultar todas las secciones de partidos
+    const seccionesPartidos = document.querySelectorAll('.partidos-fecha');
+    seccionesPartidos.forEach(sec => sec.style.display = 'none');
+
+    // Mostrar solo la sección correspondiente a la fecha seleccionada
+    const seccionSeleccionada = document.getElementById(`fecha-${nroFecha}`);
+    if (seccionSeleccionada) {
+        seccionSeleccionada.style.display = 'block';
+    }
+    
+    // Si usas AJAX para cargar partidos, aquí harías el fetch:
+    // fetch(`${BASE_URL}/api/fixture/${nroFecha}`)...
 }
 
 // ============================================
