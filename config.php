@@ -177,6 +177,19 @@ foreach ($filesToRequire as $file) {
 
 error_log("✅ Helpers cargados correctamente desde: $baseDir/includes");
 
+// Asegurar que las carpetas de uploads existan y tengan permisos
+$dirs = [UPLOADS_DIR, QR_DIR, LOGOS_DIR];
+foreach ($dirs as $dir) {
+    if (!is_dir($dir)) {
+        mkdir($dir, 0755, true);
+        error_log("📁 Carpeta creada: $dir");
+    }
+    if (!is_writable($dir)) {
+        chmod($dir, 0755);
+        error_log("🔑 Permisos ajustados para: $dir");
+    }
+}
+
 // ============================================
 // INICIAR SESIÓN SEGURA
 // ============================================

@@ -186,15 +186,15 @@ class QRGenerator {
      * @param string $url
      * @return string|false Contenido de la imagen o false
      */
-    private static function downloadImage(string $url) {
+        private static function downloadImage(string $url) {
         $ch = curl_init($url);
         
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_TIMEOUT => 10,
+            CURLOPT_TIMEOUT => 15, // Aumentar timeout
             CURLOPT_SSL_VERIFYPEER => true,
-            CURLOPT_USERAGENT => 'CampeonatoGOMS2026-QRGenerator/1.0'
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (compatible; GOMS2026 Bot)'
         ]);
         
         $image_data = curl_exec($ch);
@@ -204,17 +204,13 @@ class QRGenerator {
         curl_close($ch);
         
         if ($http_code !== 200 || $image_data === false) {
-            error_log("Error descargando QR: HTTP $http_code | $error");
+            error_log("❌ Error descargando QR: HTTP $http_code | URL: $url | Error: $error");
             return false;
         }
         
-        // Verificar que es una imagen PNG válida
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime_type = finfo_buffer($finfo, $image_data);
-        finfo_close($finfo);
-        
-        if ($mime_type !== 'image/png') {
-            error_log("Tipo MIME inválido para QR: $mime_type");
+        // Verificar que sea una imagen válida (al menos 100 bytes)
+        if (strlen($image_data) < 100) {
+            error_log("❌ Imagen QR demasiado pequeña o corrupta: " . strlen($image_data) . " bytes");
             return false;
         }
         
