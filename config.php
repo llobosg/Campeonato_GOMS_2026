@@ -117,7 +117,7 @@ define('APP_NAME', 'Campeonato GOMS 2026');
 define('APP_VERSION', '1.0.0');
 define('APP_ENV', $isProduction ? 'production' : 'development');
 define('BASE_URL', $isProduction 
-    ? 'https://campeonato-goms-2026.up.railway.app' 
+    ? 'https://campeonatogoms2026.up.railway.app' 
     : 'http://localhost/campeonato%20goms%202026/public');
 define('UPLOADS_DIR', __DIR__ . '/public/uploads');
 define('QR_DIR', UPLOADS_DIR . '/qrs');
