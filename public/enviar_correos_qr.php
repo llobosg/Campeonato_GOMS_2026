@@ -9,13 +9,10 @@ require_once __DIR__ . '/../config.php';
 
 // Lista de Encargados
 $encargados = [
-    'Pem-K-Zo'        => ['nombre' => 'Camilo Fernández', 'email' => 'camilofernandez1@gmail.com'],
     'Los Galacticos'    => ['nombre' => 'Dennis Garrido', 'email' => 'luis.lobos.g@gmail.com'],
     'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'luis.lobos.g@gmail.com'],
-    'Calidad Prime' => ['nombre' => 'Luis Hernández', 'email' => 'luis.lobos.g@gmail.com'],
-    'Los Desquinchadores' => ['nombre' => 'Carlos Rodríguez', 'email' => 'luis.lobos.g@gmail.com'],
-    'Jaque Boys'    => ['nombre' => 'Jaqueline Marín', 'email' => 'rodrigofuentesfernandez@gmail.com'],
-    'Macizo United'   => ['nombre' => 'Chantal González', 'email' => 'Chantal.g.m77@gmail.com'],
+    'Calidad Prime' => ['nombre' => 'Luis Hernández', 'email' => 'luishernandezt.ing@gmail.com'],
+    'Los Desquinchadores' => ['nombre' => 'Carlos Rodríguez', 'email' => 'rodriguezriveroscarlos@gmail.com'],
 ];
 
 echo "<h1>Enviando Correos con QRs...</h1>";

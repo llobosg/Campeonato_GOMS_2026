@@ -25,8 +25,9 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "feat: remove admin check for QR generation and add bulk email script for team leads"
+git commit -m "style: chao link y qr, 6"
 git push origin main
+
 
 
 
