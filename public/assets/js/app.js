@@ -1,13 +1,10 @@
 /**
  * app.js - JavaScript Principal Campeonato GOMS 2026
- * Ubicación: public/assets/js/app.js
- * Maneja: Tabs, Modales, API Calls, Animaciones, Toasts
  */
 
 // ============================================
 // CONFIGURACIÓN GLOBAL
 // ============================================
-// const BASE_URL = window.location.origin + (window.location.pathname.includes('/campeonato') ? '/campeonato%20goms%202026/public' : '');
 let currentFixtureId = null;
 let currentPartidoData = null;
 
@@ -15,51 +12,76 @@ let currentPartidoData = null;
 // INICIALIZACIÓN
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    initTabs();
+    initTabs(); // Inicializa los tabs originales si existen
     initModalEvents();
     checkFlashMessages();
 });
 
 // ============================================
-// TABS DE FECHAS
+// TABS DE FECHAS ORIGINALES (Si usas texto)
 // ============================================
 function initTabs() {
-    const tabs = document.querySelectorAll('.fecha-tab');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Remover active de todos
-            document.querySelectorAll('.fecha-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.fecha-content').forEach(c => c.classList.remove('active'));
-            
-            // Activar el clickeado
-            this.classList.add('active');
-            const fechaNum = this.dataset.fecha;
-            const content = document.getElementById(`fecha-${fechaNum}`);
-            if (content) {
-                content.classList.add('active');
-                animateTabSwitch(content);
-            }
+    const tabs = document.querySelectorAll('.fecha-tab'); // Clase original
+    if (tabs.length > 0) {
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.fecha-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.fecha-content').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                const fechaNum = this.dataset.fecha;
+                const content = document.getElementById(`fecha-${fechaNum}`);
+                if (content) {
+                    content.classList.add('active');
+                }
+            });
         });
-    });
+    }
 }
 
 // ============================================
-// ANIMACIÓN DE SWITCH ENTRE FECHAS (opcional)
+// NUEVA FUNCIÓN PARA IMÁGENES DE FECHAS
 // ============================================
-function animateTabSwitch(element) {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(10px)';
+function seleccionarFecha(nroFecha) {
+    console.log("Seleccionando fecha:", nroFecha);
     
-    setTimeout(() => {
-        element.style.transition = 'all 0.3s ease';
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-    }, 50);
+    // 1. Quitar clase 'active' de todos los botones de imagen
+    const botones = document.querySelectorAll('.fecha-tab-img');
+    botones.forEach(btn => btn.classList.remove('active'));
+
+    // 2. Agregar clase 'active' al botón clickeado
+    const botonActivo = document.querySelector(`.fecha-tab-img[data-fecha="${nroFecha}"]`);
+    if (botonActivo) {
+        botonActivo.classList.add('active');
+    }
+
+    // 3. Filtrar el fixture visualmente
+    filtrarFixturePorFecha(nroFecha);
+}
+
+function filtrarFixturePorFecha(nroFecha) {
+    // Ocultar todas las secciones de partidos
+    const seccionesPartidos = document.querySelectorAll('.partidos-fecha, .fecha-content');
+    seccionesPartidos.forEach(sec => sec.style.display = 'none');
+
+    // Mostrar solo la sección correspondiente a la fecha seleccionada
+    // Nota: Asegúrate que tus divs de contenido tengan id="fecha-1", id="fecha-2", etc.
+    const seccionSeleccionada = document.getElementById(`fecha-${nroFecha}`);
+    if (seccionSeleccionada) {
+        seccionSeleccionada.style.display = 'block';
+        // Pequeña animación opcional
+        seccionSeleccionada.style.opacity = 0;
+        setTimeout(() => {
+            seccionSeleccionada.style.transition = 'opacity 0.3s';
+            seccionSeleccionada.style.opacity = 1;
+        }, 50);
+    } else {
+        console.warn("No se encontró el elemento con ID: fecha-" + nroFecha);
+    }
 }
 
 // ============================================
-// MODAL DE RESULTADO
+// MODAL DE RESULTADO Y CONTRASEÑA
 // ============================================
 function openResultadoModal(fixtureId) {
     currentFixtureId = fixtureId;
@@ -67,16 +89,15 @@ function openResultadoModal(fixtureId) {
     
     if (modal) {
         modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Prevenir scroll
-        
-        // Resetear pasos
+        document.body.style.overflow = 'hidden';
         showPasswordStep();
         
-        // Animación de entrada
-        modal.querySelector('.modal-content').style.animation = 'none';
-        setTimeout(() => {
-            modal.querySelector('.modal-content').style.animation = 'slideUp 0.3s ease';
-        }, 10);
+        // Animación entrada
+        const content = modal.querySelector('.modal-content');
+        if(content) {
+            content.style.animation = 'none';
+            setTimeout(() => content.style.animation = 'slideUp 0.3s ease', 10);
+        }
     }
 }
 
@@ -84,7 +105,7 @@ function closeResultadoModal() {
     const modal = document.getElementById('resultadoModal');
     if (modal) {
         modal.style.display = 'none';
-        document.body.style.overflow = ''; // Restaurar scroll
+        document.body.style.overflow = '';
         currentFixtureId = null;
         currentPartidoData = null;
     }
@@ -97,7 +118,6 @@ function showPasswordStep() {
     if (pasoPassword) pasoPassword.style.display = 'block';
     if (pasoGoles) pasoGoles.style.display = 'none';
     
-    // Limpiar campos
     const passwordInput = document.getElementById('adminPassword');
     const error_msg = document.getElementById('passwordError');
     if (passwordInput) passwordInput.value = '';
@@ -112,9 +132,6 @@ function showGolesStep() {
     if (pasoGoles) pasoGoles.style.display = 'block';
 }
 
-// ============================================
-// VERIFICAR CONTRASEÑA ADMIN
-// ============================================
 async function verificarPassword() {
     const passwordInput = document.getElementById('adminPassword');
     const errorMsg = document.getElementById('passwordError');
@@ -122,7 +139,7 @@ async function verificarPassword() {
     
     if (!password) {
         if (errorMsg) {
-            errorMsg.textContent = '️ Ingrese una contraseña';
+            errorMsg.textContent = '⚠️ Ingrese una contraseña';
             errorMsg.style.display = 'block';
         }
         return;
@@ -131,6 +148,7 @@ async function verificarPassword() {
     try {
         showToast('⏳ Verificando...', 'info');
         
+        // Usamos BASE_URL definida en header.php
         const response = await fetch(`${BASE_URL}/api/resultado/verificar`, {
             method: 'POST',
             headers: {
@@ -173,18 +191,15 @@ async function cargarJugadoresPartido(fixtureId) {
     if (!fixtureId) return;
     
     try {
-        showToast('⏳ Cargando datos del partido...', 'info');
+        showToast('⏳ Cargando datos...', 'info');
         
         const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
         const data = await response.json();
         
         if (data.success) {
             currentPartidoData = data.data;
-            
-            // Actualizar UI con datos del partido
             actualizarInfoPartido(currentPartidoData);
             
-            // Cargar jugadores de ambos equipos
             await Promise.all([
                 cargarListaJugadores(currentPartidoData.equipo_a, 'A'),
                 cargarListaJugadores(currentPartidoData.equipo_b, 'B')
@@ -196,15 +211,11 @@ async function cargarJugadoresPartido(fixtureId) {
         }
     } catch (error) {
         console.error('Error cargando partido:', error);
-        showToast(' Error de conexión', 'error');
+        showToast('❌ Error de conexión', 'error');
     }
 }
 
-// ============================================
-// ACTUALIZAR INFORMACIÓN DEL PARTIDO EN EL MODAL
-// ============================================
 function actualizarInfoPartido(partido) {
-    // Título del modal
     const titulo = document.getElementById('modalPartidoTitulo');
     if (titulo) {
         const fechaFormateada = formatDate(partido.fecha);
@@ -212,28 +223,17 @@ function actualizarInfoPartido(partido) {
         titulo.textContent = `Fecha ${partido.nro_fecha} - ${fechaFormateada} ${hora}`;
     }
     
-    // Equipos en preview
     const previewEquipoA = document.getElementById('previewEquipoA');
     const previewEquipoB = document.getElementById('previewEquipoB');
     if (previewEquipoA) previewEquipoA.textContent = partido.nombre_equipo_a;
     if (previewEquipoB) previewEquipoB.textContent = partido.nombre_equipo_b;
     
-    // Títulos de secciones
-    const tituloEquipoA = document.getElementById('tituloEquipoA');
-    const tituloEquipoB = document.getElementById('tituloEquipoB');
-    if (tituloEquipoA) tituloEquipoA.textContent = partido.nombre_equipo_a;
-    if (tituloEquipoB) tituloEquipoB.textContent = partido.nombre_equipo_b;
-    
-    // Resetear marcadores
     const previewGolesA = document.getElementById('previewGolesA');
     const previewGolesB = document.getElementById('previewGolesB');
     if (previewGolesA) previewGolesA.textContent = '0';
     if (previewGolesB) previewGolesB.textContent = '0';
 }
 
-// ============================================
-// CARGAR LISTA DE JUGADORES CON CONTROLES +/-
-// ============================================
 async function cargarListaJugadores(equipoId, lado) {
     const container = document.getElementById(`listaJugadores${lado}`);
     if (!container) return;
@@ -253,60 +253,37 @@ async function cargarListaJugadores(equipoId, lado) {
                 div.innerHTML = `
                     <span class="jugador-nombre">${escapeHtml(jugador.nombre)}</span>
                     <div class="gol-controls">
-                        <button class="btn-minus" onclick="restarGol(${jugador.id_jugador}, '${lado}')" aria-label="Restar gol">−</button>
-                        <span class="gol-count" id="gol-${jugador.id_jugador}" role="status">0</span>
-                        <button class="btn-plus" onclick="sumarGol(${jugador.id_jugador}, '${lado}')" aria-label="Sumar gol">+</button>
+                        <button type="button" class="btn-minus" onclick="restarGol(${jugador.id_jugador}, '${lado}')">−</button>
+                        <span class="gol-count" id="gol-${jugador.id_jugador}">0</span>
+                        <button type="button" class="btn-plus" onclick="sumarGol(${jugador.id_jugador}, '${lado}')">+</button>
                     </div>
                 `;
-                
                 container.appendChild(div);
             });
         } else {
-            container.innerHTML = '<p class="no-jugadores">No hay jugadores registrados en este equipo</p>';
+            container.innerHTML = '<p class="no-jugadores">Sin jugadores registrados</p>';
         }
     } catch (error) {
         console.error(`Error cargando jugadores equipo ${lado}:`, error);
-        container.innerHTML = '<p class="error-message">Error al cargar jugadores</p>';
+        container.innerHTML = '<p class="error-message">Error al cargar</p>';
     }
 }
 
-// ============================================
-// CONTROLES DE GOLES +/-
-// ============================================
 function sumarGol(jugadorId, lado) {
     const element = document.getElementById(`gol-${jugadorId}`);
     if (!element) return;
-    
     let count = parseInt(element.textContent) || 0;
     element.textContent = count + 1;
-    
-    // Animación visual
-    animateNumber(element);
-    
-    // Actualizar marcador preview
     actualizarMarcadorPreview();
-    
-    // Feedback táctil (vibración en móviles)
-    if (navigator.vibrate) {
-        navigator.vibrate(50);
-    }
 }
 
-// ============================================
-// RESTA DE GOLES
-// ============================================
 function restarGol(jugadorId, lado) {
     const element = document.getElementById(`gol-${jugadorId}`);
     if (!element) return;
-    
     let count = parseInt(element.textContent) || 0;
     if (count > 0) {
         element.textContent = count - 1;
         actualizarMarcadorPreview();
-        
-        if (navigator.vibrate) {
-            navigator.vibrate(30);
-        }
     }
 }
 
@@ -320,314 +297,117 @@ function actualizarMarcadorPreview() {
     const previewGolesA = document.getElementById('previewGolesA');
     const previewGolesB = document.getElementById('previewGolesB');
     
-    if (previewGolesA) {
-        previewGolesA.textContent = golesA;
-        if (golesA > 0) animateNumber(previewGolesA);
-    }
-    
-    if (previewGolesB) {
-        previewGolesB.textContent = golesB;
-        if (golesB > 0) animateNumber(previewGolesB);
-    }
+    if (previewGolesA) previewGolesA.textContent = golesA;
+    if (previewGolesB) previewGolesB.textContent = golesB;
 }
 
-function animateNumber(element) {
-    element.classList.add('number-pop');
-    setTimeout(() => {
-        element.classList.remove('number-pop');
-    }, 300);
-}
-
-// ============================================
-// FINALIZAR PARTIDO - ENVIAR RESULTADO
-// ============================================
 async function finalizarPartido() {
     if (!currentFixtureId) {
-        showToast('❌ Error: No hay partido seleccionado', 'error');
+        showToast(' Error: No hay partido seleccionado', 'error');
         return;
     }
     
-    // Confirmación
-    if (!confirm('¿Estás seguro de finalizar este partido? El resultado quedará registrado permanentemente.')) {
-        return;
-    }
+    if (!confirm('¿Estás seguro de finalizar este partido?')) return;
     
     try {
-        showToast('⏳ Procesando resultado...', 'info');
+        showToast('⏳ Procesando...', 'info');
         
-        // Recolectar todos los goles
         const goles = [];
-        
-        // Goles equipo A
         document.querySelectorAll('#listaJugadoresA .jugador-gol-item').forEach(item => {
             const jugadorId = parseInt(item.dataset.jugadorId);
             const golesCount = parseInt(item.querySelector('.gol-count').textContent) || 0;
-            
             for (let i = 0; i < golesCount; i++) {
-                goles.push({
-                    id_jugador: jugadorId,
-                    minuto: null // Se puede agregar después
-                });
+                goles.push({ id_jugador: jugadorId, minuto: null });
             }
         });
         
-        // Goles equipo B
         document.querySelectorAll('#listaJugadoresB .jugador-gol-item').forEach(item => {
             const jugadorId = parseInt(item.dataset.jugadorId);
             const golesCount = parseInt(item.querySelector('.gol-count').textContent) || 0;
-            
             for (let i = 0; i < golesCount; i++) {
-                goles.push({
-                    id_jugador: jugadorId,
-                    minuto: null
-                });
+                goles.push({ id_jugador: jugadorId, minuto: null });
             }
         });
         
-        // Enviar al backend
         const response = await fetch(`${BASE_URL}/api/resultado/ingresar`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({
-                id_fixture: currentFixtureId,
-                goles: goles
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_fixture: currentFixtureId, goles: goles })
         });
         
         const data = await response.json();
         
         if (data.success) {
-            showToast('✅ Resultado registrado exitosamente', 'success');
+            showToast('✅ Resultado registrado', 'success');
             closeResultadoModal();
-            
-            // Recargar página después de 1.5 segundos para actualizar estadísticas
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
+            setTimeout(() => window.location.reload(), 1500);
         } else {
-            showToast('❌ Error: ' + (data.error || 'No se pudo registrar el resultado'), 'error');
+            showToast('❌ Error: ' + (data.error || 'No se pudo registrar'), 'error');
         }
     } catch (error) {
         console.error('Error finalizando partido:', error);
-        showToast('❌ Error de conexión al guardar resultado', 'error');
+        showToast('❌ Error de conexión', 'error');
     }
 }
 
 // ============================================
-// TOAST NOTIFICATIONS
+// UTILIDADES Y TOASTS
 // ============================================
 function showToast(message, type = 'success') {
-    // Remover toasts existentes
     const existingToasts = document.querySelectorAll('.toast');
     existingToasts.forEach(toast => toast.remove());
     
-    // Crear nuevo toast
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.setAttribute('role', 'alert');
-    toast.setAttribute('aria-live', 'polite');
-    
-    const icons = {
-        success: '✅',
-        error: '❌',
-        warning: '⚠️',
-        info: 'ℹ️'
-    };
-    
     toast.innerHTML = `
-        <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
-        <span class="toast-message">${escapeHtml(message)}</span>
-        <button class="toast-close" onclick="this.parentElement.remove()" aria-label="Cerrar">&times;</button>
+        <span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+        <span>${escapeHtml(message)}</span>
+        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:white;cursor:pointer;">&times;</button>
     `;
-    
     document.body.appendChild(toast);
     
-    // Auto-remover después de 3 segundos
     setTimeout(() => {
-        toast.classList.add('toast-exit');
-        setTimeout(() => {
-            if (toast.parentElement) {
-                toast.remove();
-            }
-        }, 300);
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
 
-// ============================================
-// CHECK FLASH MESSAGES (de PHP)
-// ============================================
-function checkFlashMessages() {
-    // Buscar mensaje flash en el DOM (inyectado por PHP)
-    const flashMessage = document.querySelector('.flash-message');
-    if (flashMessage) {
-        const message = flashMessage.dataset.message;
-        const type = flashMessage.dataset.type || 'success';
-        showToast(message, type);
-        
-        // Remover del DOM después de mostrar
-        setTimeout(() => {
-            flashMessage.remove();
-        }, 100);
-    }
-}
-
-// ============================================
-// UTILIDADES
-// ============================================
 function escapeHtml(text) {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, m => map[m]);
+    if (!text) return '';
+    return text.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
 }
 
 function formatDate(dateString) {
     if (!dateString) return '-';
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-CL', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
+    return date.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
-function formatTime(timeString) {
-    if (!timeString) return '-';
-    return timeString.substring(0, 5); // HH:MM
-}
-
-// ============================================
-// EVENT LISTENERS GLOBALES
-// ============================================
 function initModalEvents() {
-    // Cerrar modal al hacer click fuera
     const modal = document.getElementById('resultadoModal');
     if (modal) {
         modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeResultadoModal();
-            }
+            if (e.target === this) closeResultadoModal();
         });
     }
-    
-    // Cerrar modal con tecla Escape
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeResultadoModal();
-        }
+        if (e.key === 'Escape') closeResultadoModal();
     });
 }
 
-// ============================================
-// AUTO-REFRESH PARA MARCADOR EN VIVO (opcional)
-// ============================================
-function iniciarAutoRefresh(intervalo = 30000) {
-    setInterval(async () => {
-        if (window.location.pathname.includes('/vivo')) {
-            await refreshMarcadorVivo();
-        }
-    }, intervalo);
-}
-
-async function refreshMarcadorVivo() {
-    try {
-        const response = await fetch(`${BASE_URL}/api/marcador/vivo`);
-        const data = await response.json();
-        
-        if (data.success) {
-            actualizarMarcadorEnVivo(data.data);
-        }
-    } catch (error) {
-        console.error('Error refrescando marcador:', error);
+function checkFlashMessages() {
+    const flashMessage = document.querySelector('.flash-message');
+    if (flashMessage) {
+        showToast(flashMessage.dataset.message, flashMessage.dataset.type || 'success');
+        setTimeout(() => flashMessage.remove(), 100);
     }
 }
 
-function actualizarMarcadorEnVivo(datos) {
-    // Implementar actualización dinámica del marcador en vivo
-    // Esto se usará en la página /vivo
-    console.log('Actualizando marcador en vivo:', datos);
-}
-
-// Función para verificar contraseña de admin
-async function verificarPasswordAdmin(password) {
-    try {
-        const response = await fetch('/api/resultado/verificar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({ password: password })
-        });
-
-        // Verificar si la respuesta es OK (status 200-299)
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        
-        if (data.success) {
-            showToast('✅ Acceso Autorizado', 'success');
-            // Cerrar modal de password y abrir modal de ingreso de resultado
-            closePasswordModal(); 
-            openResultadoModalInternal(); // Función que muestra el form de resultados
-        } else {
-            showToast('❌ Contraseña incorrecta', 'error');
-        }
-    } catch (error) {
-        console.error('Error verificando password:', error);
-        showToast('❌ Error de conexión', 'error');
-    }
-}
-
-/**
- * Función para manejar el clic en las pestañas de fechas (Imágenes)
- */
-function seleccionarFecha(nroFecha) {
-    // 1. Quitar clase 'active' de todos los botones
-    const botones = document.querySelectorAll('.fecha-tab-img');
-    botones.forEach(btn => btn.classList.remove('active'));
-
-    // 2. Agregar clase 'active' al botón clickeado
-    // Buscamos el botón que tiene el data-fecha igual al nroFecha
-    const botonActivo = document.querySelector(`.fecha-tab-img[data-fecha="${nroFecha}"]`);
-    if (botonActivo) {
-        botonActivo.classList.add('active');
-    }
-
-    // 3. Filtrar el fixture
-    filtrarFixturePorFecha(nroFecha);
-}
-
-/**
- * Función auxiliar para filtrar el fixture (ajusta según tu lógica existente)
- */
-function filtrarFixturePorFecha(nroFecha) {
-    // Ocultar todas las secciones de partidos
-    const seccionesPartidos = document.querySelectorAll('.partidos-fecha');
-    seccionesPartidos.forEach(sec => sec.style.display = 'none');
-
-    // Mostrar solo la sección correspondiente a la fecha seleccionada
-    const seccionSeleccionada = document.getElementById(`fecha-${nroFecha}`);
-    if (seccionSeleccionada) {
-        seccionSeleccionada.style.display = 'block';
-    }
-    
-    // Si usas AJAX para cargar partidos, aquí harías el fetch:
-    // fetch(`${BASE_URL}/api/fixture/${nroFecha}`)...
-}
-
 // ============================================
-// EXPORTAR FUNCIONES GLOBALES (para onclick inline)
+// EXPORTAR FUNCIONES AL WINDOW (CRUCIAL PARA ONCLICK)
 // ============================================
+window.seleccionarFecha = seleccionarFecha;
+window.filtrarFixturePorFecha = filtrarFixturePorFecha;
 window.openResultadoModal = openResultadoModal;
 window.closeResultadoModal = closeResultadoModal;
 window.verificarPassword = verificarPassword;
