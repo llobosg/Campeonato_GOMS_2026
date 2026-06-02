@@ -555,6 +555,39 @@ function actualizarMarcadorEnVivo(datos) {
     console.log('Actualizando marcador en vivo:', datos);
 }
 
+// Función para verificar contraseña de admin
+async function verificarPasswordAdmin(password) {
+    try {
+        const response = await fetch('/api/resultado/verificar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ password: password })
+        });
+
+        // Verificar si la respuesta es OK (status 200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast('✅ Acceso Autorizado', 'success');
+            // Cerrar modal de password y abrir modal de ingreso de resultado
+            closePasswordModal(); 
+            openResultadoModalInternal(); // Función que muestra el form de resultados
+        } else {
+            showToast('❌ Contraseña incorrecta', 'error');
+        }
+    } catch (error) {
+        console.error('Error verificando password:', error);
+        showToast('❌ Error de conexión', 'error');
+    }
+}
+
 // ============================================
 // EXPORTAR FUNCIONES GLOBALES (para onclick inline)
 // ============================================

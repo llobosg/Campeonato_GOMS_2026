@@ -85,6 +85,10 @@ try {
             $controller_class = 'App\\Controllers\\ApiController';
             $method = 'getEquipos';
         }
+        if ($endpoint === 'resultado' && $sub_endpoint === 'verificar') {
+            $controller_class = 'App\\Controllers\\ApiController';
+            $method = 'verifyPassword';
+        }
     } 
     
     // --- RUTAS EQUIPOS ---

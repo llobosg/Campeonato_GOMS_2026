@@ -9,8 +9,8 @@ require_once __DIR__ . '/../config.php';
 
 // Lista de Encargados
 $encargados = [
-    'Trancapelotas FC' => ['nombre' => 'Cristobal Arriagada', 'email' => 'andrea.galleguillos.v@gmail.com'],
-    'Pem-K-Zo'        => ['nombre' => 'Camilo Fernández', 'email' => 'AGall035@codelco.cl'],
+    'Trancapelotas FC' => ['nombre' => 'Cristobal Arriagada', 'email' => 'luis.lobos.g@gmail.com'],
+    'Pem-K-Zo'        => ['nombre' => 'Camilo Fernández', 'email' => 'luis.lobos.g@gmail.com'],
     'Los Mundiales' => ['nombre' => 'Santiago Medina', 'email' => 'luis.lobos.g@gmail.com'],
     'Los Galacticos'    => ['nombre' => 'Dennis Garrido', 'email' => 'luis.lobos.g@gmail.com'],
     'Mas Menos 1 Metro FC' => ['nombre' => 'Fabian Poblete', 'email' => 'luis.lobos.g@gmail.com'],

@@ -226,29 +226,20 @@ class ApiController {
     /**
      * POST /api/resultado/verificar - Verificar contraseña admin
      */
-    public function verifyPassword(array $params = []) {
-        try {
-            // Leer body JSON
-            $input = json_decode(file_get_contents('php://input'), true);
-            $password = $input['password'] ?? '';
-            
-            if (empty($password)) {
-                json_error('Contraseña requerida', 400);
-            }
-            
-            // Verificar contraseña
-            if (verify_admin_password($password)) {
-                // Marcar sesión como autenticada
-                $_SESSION['admin_authenticated'] = true;
-                json_success([], 'Contraseña correcta');
-            } else {
-                json_error('Contraseña incorrecta', 403);
-            }
-            
-        } catch (\Exception $e) {
-            error_log("Error en verifyPassword: " . $e->getMessage());
-            json_error('Error de verificación', 500);
+    public function verifyPassword() {
+        header('Content-Type: application/json');
+        
+        // Leer input JSON
+        $input = json_decode(file_get_contents('php://input'), true);
+        $password = $input['password'] ?? '';
+        
+        if ($password === ADMIN_PASSWORD) { // Asegúrate que ADMIN_PASSWORD esté definida en config.php
+            $_SESSION['admin_authenticated'] = true;
+            echo json_encode(['success' => true, 'message' => 'Autorizado']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Contraseña incorrecta']);
         }
+        exit;
     }
     
     /**
