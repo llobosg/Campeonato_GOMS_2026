@@ -373,8 +373,7 @@ class EquipoController {
                 ['id' => (int)$id_equipo]
             );
             
-            // 3. Obtener partidos del equipo
-            // Asegúrate de que esta query tenga FROM fixture f
+                        // 3. Obtener partidos del equipo
             $sql_partidos = "
                 SELECT f.*, 
                        e1.nombre as nombre_equipo_a, 
@@ -382,14 +381,17 @@ class EquipoController {
                 FROM fixture f
                 JOIN equipos e1 ON f.equipo_a = e1.id_equipo
                 JOIN equipos e2 ON f.equipo_b = e2.id_equipo
-                WHERE f.equipo_a = :id OR f.equipo_b = :id
+                WHERE f.equipo_a = :id1 OR f.equipo_b = :id2
                 ORDER BY f.fecha ASC, f.hora ASC
             ";
             
             $partidos = db_fetch_all(
-                $this->pdo, // <--- USAR $this->pdo
+                $this->pdo,
                 $sql_partidos,
-                ['id' => (int)$id_equipo]
+                [
+                    'id1' => (int)$id_equipo,
+                    'id2' => (int)$id_equipo
+                ]
             );
             
             // 4. Cargar la vista
