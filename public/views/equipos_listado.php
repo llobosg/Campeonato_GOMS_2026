@@ -163,12 +163,14 @@ $flash = get_flash_message();
                                 
                                 <td class="actions-cell">
                                     <div class="action-buttons">
-                                        <a href="<?= BASE_URL ?>/equipos/ver/<?= $equipo['id_equipo'] ?>" class="btn-action btn-view" title="Ver detalles">
+                                        <!-- Ver Equipo -->
+                                        <a href="<?= BASE_URL ?>?page=equipos&action=ver&id=<?= $equipo['id_equipo'] ?>" class="btn-action btn-view" title="Ver detalles">
                                             👁️
                                         </a>
                                         
-                                        <a href="<?= BASE_URL ?>/equipos/editar/<?= $equipo['id_equipo'] ?>" class="btn-action btn-edit" title="Editar">
-                                            ️
+                                        <!-- Editar Equipo -->
+                                        <a href="<?= BASE_URL ?>?page=equipos&action=editar&id=<?= $equipo['id_equipo'] ?>" class="btn-action btn-edit" title="Editar">
+                                            ✏️
                                         </a>
                                         
                                         <button onclick="eliminarEquipo(<?= $equipo['id_equipo'] ?>, '<?= h($equipo['nombre']) ?>')" 

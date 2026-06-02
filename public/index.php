@@ -16,31 +16,40 @@ function render_layout($content, $page_title = 'home') {
 }
 
 // ============================================
-// LÓGICA DE ENRUTAMIENTO
+// LÓGICA DE ENRUTAMIENTO MEJORADA
 // ============================================
-$request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Ajustar base path según entorno
-$base_path = '';
-if (!$isProduction) {
-    // En local XAMPP, la ruta suele incluir la carpeta del proyecto
-    $base_path = '/campeonato%20goms%202026/public'; 
+// Prioridad 1: Usar Query Params (?page=...&action=...&id=...) si existen
+$page = $_GET['page'] ?? null;
+$action_param = $_GET['action'] ?? null;
+$id_param = $_GET['id'] ?? null;
+
+// Si no hay query params, usar la URI path (fallback para rutas limpias)
+if (!$page) {
+    $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    
+    // Ajustar base path según entorno
+    $base_path = '';
+    if (!$isProduction) {
+        $base_path = '/campeonato%20goms%202026/public'; 
+    }
+    
+    $request_uri = str_replace($base_path, '', $request_uri);
+    $request_uri = trim($request_uri, '/');
+    
+    $route_segments = explode('/', $request_uri);
+    $page = $route_segments[0] ?? 'home';
+    $action_param = $route_segments[1] ?? null;
+    $id_param = $route_segments[2] ?? null;
 }
 
-$request_uri = str_replace($base_path, '', $request_uri);
-$request_uri = trim($request_uri, '/');
+// Mapear a variables internas consistentes
+$action = $page; // home, equipos, jugadores, api, etc.
+$sub_action = $action_param; // listar, ver, editar, etc.
+$id = $id_param;
 
-// Dividir ruta en segmentos
-$route_segments = explode('/', $request_uri);
-$action = $route_segments[0] ?? 'home';
-$sub_action = $route_segments[1] ?? null;
-$id = $route_segments[2] ?? null;
-
-// --- CÓDIGO DE DEPURACIÓN (BORRAR DESPUÉS) ---
-error_log("DEBUG ROUTER: URI={$_SERVER['REQUEST_URI']} | Action=$action | Sub=$sub_action | ID=$id");
-// Si quieres verlo en pantalla temporalmente:
-// echo "<pre>DEBUG: Action=$action, Sub=$sub_action, ID=$id</pre>"; 
-// ---------------------------------------------
+// Log de depuración para ver qué recibe el router
+error_log("DEBUG ROUTER: Page=$action | Action=$sub_action | ID=$id | URI={$_SERVER['REQUEST_URI']}");
 
 try {
     global $pdo;
