@@ -1509,3 +1509,86 @@ body {
         transform: translateY(0px);
     }
 }
+/* ============================================
+   TABLAS DE POSICIONES SIMÉTRICAS (GRUPO A y B)
+   ============================================ */
+
+.posiciones-section {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tabla-grupo {
+    flex: 1;
+    min-width: 300px; /* Ancho mínimo para móviles */
+    max-width: 500px; /* Ancho máximo para escritorio */
+}
+
+.tabla-posiciones {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* CLAVE: Fuerza anchos fijos independientes del contenido */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla-posiciones th, 
+.tabla-posiciones td {
+    padding: 8px 4px;
+    text-align: center;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Definir anchos específicos para cada columna */
+.tabla-posiciones th:nth-child(1), /* # */
+.tabla-posiciones td:nth-child(1) {
+    width: 30px;
+}
+
+.tabla-posiciones th:nth-child(2), /* Equipo */
+.tabla-posiciones td:nth-child(2) {
+    width: 140px; /* Ancho fijo generoso para nombres */
+    text-align: left;
+    padding-left: 10px;
+    white-space: nowrap;       /* Evita que el nombre se parta en dos líneas */
+    overflow: hidden;          /* Oculta lo que sobra si es muy largo */
+    text-overflow: ellipsis;   /* Pone ... si el nombre es muy largo */
+}
+
+/* Columnas numéricas (PJ, G, E, P, GF, GC, Pts) */
+.tabla-posiciones th:nth-child(n+3), 
+.tabla-posiciones td:nth-child(n+3) {
+    width: 35px; /* Ancho uniforme para números */
+}
+
+/* Estilo para el primer lugar */
+.first-place {
+    background-color: rgba(0, 255, 135, 0.1); /* Fondo verde sutil */
+    font-weight: bold;
+}
+
+.first-place .puntos {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .posiciones-section {
+        flex-direction: column;
+    }
+    
+    .tabla-grupo {
+        max-width: 100%;
+    }
+    
+    .tabla-posiciones th:nth-child(2),
+    .tabla-posiciones td:nth-child(2) {
+        width: 100px; /* Reducir un poco en móvil */
+        font-size: 0.8rem;
+    }
+}
