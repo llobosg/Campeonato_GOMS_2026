@@ -44,24 +44,9 @@ $flash = get_flash_message();
     
     <!-- TARJETAS DE RESUMEN -->
     <section class="summary-cards">
-        <div class="card card-qr">
-            <h3>📱 QR de Registro</h3>
-            <?php if ($equipo['qr_code']): ?>
-                <img src="<?= get_qr_url($equipo['id_equipo']) ?>" alt="QR Code" class="qr-detail-image">
-                <a href="<?= h($equipo['link_registro']) ?>" target="_blank" class="link-register">
-                     Link de Registro
-                </a>
-                <button onclick="copiarLink('<?= h($equipo['link_registro']) ?>')" class="btn btn-small btn-copy">
-                    📋 Copiar Link
-                </button>
-            <?php else: ?>
-                <p class="no-qr-text">QR no generado aún.</p>
-                <button onclick="generarQR(<?= $equipo['id_equipo'] ?>)" class="btn btn-primary">
-                    ⚡ Generar QR
-                </button>
-            <?php endif; ?>
-        </div>
-        
+
+        <!-- AQUÍ VA BLOQUE PARA QR DE REGISTRO Y LINK A COPIAR -->
+
         <div class="card card-stats">
             <h3> Estadísticas</h3>
             <div class="stat-item">
