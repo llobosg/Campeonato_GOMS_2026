@@ -3,11 +3,6 @@
  */
 
 // ============================================
-// CONFIGURACIÓN GLOBAL
-// ============================================
-let currentPartidoData = null;
-
-// ============================================
 // INICIALIZACIÓN
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
