@@ -73,6 +73,8 @@ $routes = [
 // RESOLVER RUTA Y EJECUTAR CONTROLADOR
 // ============================================
 try {
+    // Hacer $pdo global para que las vistas puedan usarlo si es necesario (solución rápida)
+    global $pdo; 
     $controller_class = null;
     $method = null;
     $params = [];
@@ -103,31 +105,30 @@ try {
     
     // Ejecutar controlador si existe
     if ($controller_class && class_exists($controller_class)) {
+        // Pasamos $pdo al constructor del controlador
         $controller = new $controller_class($pdo);
         
         if (method_exists($controller, $method)) {
-            // Capturar output del controlador
             ob_start();
-            $controller->$method($params);
+            // Pasamos $pdo también como parámetro extra si el método lo necesita (opcional)
+            $controller->$method(array_merge($params, ['pdo' => $pdo]));
             $output = ob_get_clean();
             
-            // Si es API, enviar JSON
             if ($action === 'api') {
                 header('Content-Type: application/json; charset=utf-8');
                 echo $output;
             } else {
-                // Renderizar vista completa
                 render_layout($output, $action);
             }
         } else {
-            throw new Exception("Método '$method' no encontrado en $controller_class");
+             throw new Exception("Método '$method' no encontrado");
         }
     } else {
-        // Ruta no encontrada - mostrar home por defecto
+        // Fallback a Home
         require_once __DIR__ . '/../src/Controllers/HomeController.php';
         $controller = new App\Controllers\HomeController($pdo);
         ob_start();
-        $controller->index([]);
+        $controller->index(['pdo' => $pdo]);
         $output = ob_get_clean();
         render_layout($output, 'home');
     }

@@ -1,11 +1,14 @@
 <?php
 /**
- * home.php - Vista Principal Campeonato GOMS 2026
- * Ubicación: public/views/home.php
- * Diseño: FIFA World Cup 2026 style con colores fluorescentes
+ * home.php - Vista Principal
  */
 
-// Obtener mensaje flash si existe
+// Asegurar que $pdo esté disponible (viene del controller o global)
+global $pdo;
+if (!isset($pdo)) {
+    die("Error crítico: No hay conexión a BD.");
+}
+
 $flash = get_flash_message();
 ?>
 

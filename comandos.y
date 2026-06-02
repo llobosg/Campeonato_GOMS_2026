@@ -11,7 +11,21 @@ git remote add origin https://github.com/llobosg/Campeonato_GOMS_2026.git
 # Crear rama main
 git checkout -b main
 
+/Applications/XAMPP/xamppfiles/bin/mysql \
+  --host=zephyr.proxy.rlwy.net \
+  --port=55231 \
+  --user=root \
+  --password=bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH \
+  --database=railway \
+  -e "DESCRIBE equipos;"
+
+    < database/schema.sql
+
+mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railway
+
 
 git add .
-git commit -m "feat: initial project setup with database schema and architecture"
-git push -u origin main
+git commit -m "fix: corrige BrevoMailer y elimina public/config.php"
+git push origin main
+
+
