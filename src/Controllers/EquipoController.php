@@ -343,13 +343,11 @@ class EquipoController {
         }
     }
     
-    /**
-    * GET /equipos/ver/{id} - Ver detalles de un equipo
-    */
+        /**
+     * GET /equipos/ver/{id} - Ver detalles de un equipo
+     */
     public function show(array $params = []) {
-        // Acceder a variables globales correctamente
-        global $pdo, $isProduction;
-        
+        // Usar la conexión PDO de la clase, NO global
         $id_equipo = $params['id'] ?? null;
         
         if (!$id_equipo) {
@@ -359,7 +357,7 @@ class EquipoController {
         try {
             // 1. Obtener datos del equipo
             $equipo = db_fetch_one(
-                $pdo,
+                $this->pdo, // <--- USAR $this->pdo
                 "SELECT * FROM equipos WHERE id_equipo = :id",
                 ['id' => (int)$id_equipo]
             );
@@ -370,15 +368,14 @@ class EquipoController {
             
             // 2. Obtener jugadores del equipo
             $jugadores = db_fetch_all(
-                $pdo,
+                $this->pdo, // <--- USAR $this->pdo
                 "SELECT * FROM jugadores WHERE id_equipo = :id ORDER BY nombre ASC",
                 ['id' => (int)$id_equipo]
             );
             
-            // 3. Obtener partidos del equipo (QUERY CORREGIDA CON FROM)
-            $partidos = db_fetch_all(
-                $pdo,
-                "
+            // 3. Obtener partidos del equipo
+            // Asegúrate de que esta query tenga FROM fixture f
+            $sql_partidos = "
                 SELECT f.*, 
                        e1.nombre as nombre_equipo_a, 
                        e2.nombre as nombre_equipo_b
@@ -387,19 +384,27 @@ class EquipoController {
                 JOIN equipos e2 ON f.equipo_b = e2.id_equipo
                 WHERE f.equipo_a = :id OR f.equipo_b = :id
                 ORDER BY f.fecha ASC, f.hora ASC
-                ",
+            ";
+            
+            $partidos = db_fetch_all(
+                $this->pdo, // <--- USAR $this->pdo
+                $sql_partidos,
                 ['id' => (int)$id_equipo]
             );
             
             // 4. Cargar la vista
+            // Pasamos las variables a la vista explícitamente si es necesario, 
+            // pero al incluirse aquí, estarán disponibles.
             include __DIR__ . '/../../public/views/equipo_detalle.php';
             
         } catch (\Exception $e) {
-            error_log("FATAL ERROR en show(): " . $e->getMessage());
+            // Loguear el error real para verlo en Railway
+            error_log("❌ ERROR CRÍTICO en EquipoController::show(): " . $e->getMessage());
+            error_log("Stack Trace: " . $e->getTraceAsString());
+            
             http_response_code(500);
-            // Mostrar error detallado solo si NO es producción para debug
-            $msg = $isProduction ? "Contacte soporte" : $e->getMessage();
-            echo "<h1>Error Interno</h1><p>Detalles: $msg</p>";
+            // Mostrar el error real temporalmente para debug
+            echo "<h1>Error Interno</h1><p>Detalles: " . $e->getMessage() . "</p>";
         }
     }
 }
