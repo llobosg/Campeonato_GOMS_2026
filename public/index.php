@@ -36,6 +36,12 @@ $action = $route_segments[0] ?? 'home';
 $sub_action = $route_segments[1] ?? null;
 $id = $route_segments[2] ?? null;
 
+// --- CÓDIGO DE DEPURACIÓN (BORRAR DESPUÉS) ---
+error_log("DEBUG ROUTER: URI={$_SERVER['REQUEST_URI']} | Action=$action | Sub=$sub_action | ID=$id");
+// Si quieres verlo en pantalla temporalmente:
+// echo "<pre>DEBUG: Action=$action, Sub=$sub_action, ID=$id</pre>"; 
+// ---------------------------------------------
+
 try {
     global $pdo;
     
