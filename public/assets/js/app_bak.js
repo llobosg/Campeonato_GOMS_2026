@@ -210,27 +210,31 @@ async function cargarJugadoresPartido(fixtureId) {
 }
 
 function actualizarInfoPartido(partido) {
-    // Título del modal
+    console.log("Datos del partido recibidos:", partido); // Debug para ver qué llega
+
+    // 1. Actualizar Título del Modal
     const titulo = document.getElementById('modalPartidoTitulo');
     if (titulo) {
-        // Usamos la fecha del objeto partido que viene de la BD
-        // Si quieres forzar la fecha de HOY, descomenta la siguiente línea:
-        // const fechaUsar = new Date().toISOString().split('T')[0]; 
+        let textoTitulo = `Fecha ${partido.nro_fecha || '-'}`;
         
-        const fechaUsar = partido.fecha; // Usa la fecha real del fixture
+        if (partido.fecha && partido.hora) {
+            const fechaFormateada = formatDate(partido.fecha);
+            const horaFormateada = partido.hora.substring(0, 5); // HH:MM
+            textoTitulo += ` - ${fechaFormateada} ${horaFormateada}`;
+        } else if (partido.fecha) {
+             textoTitulo += ` - ${formatDate(partido.fecha)}`;
+        }
         
-        const fechaFormateada = formatDate(fechaUsar);
-        const hora = partido.hora ? partido.hora.substring(0, 5) : 'HH:MM';
-        
-        // Formato: "Fecha X - DD/MM/YYYY HH:MM"
-        titulo.textContent = `Fecha ${partido.nro_fecha} - ${fechaFormateada} ${hora}`;
+        titulo.textContent = textoTitulo;
     }
     
+    // 2. Actualizar Nombres de Equipos
     const previewEquipoA = document.getElementById('previewEquipoA');
     const previewEquipoB = document.getElementById('previewEquipoB');
-    if (previewEquipoA) previewEquipoA.textContent = partido.nombre_equipo_a;
-    if (previewEquipoB) previewEquipoB.textContent = partido.nombre_equipo_b;
+    if (previewEquipoA) previewEquipoA.textContent = partido.nombre_equipo_a || 'Equipo A';
+    if (previewEquipoB) previewEquipoB.textContent = partido.nombre_equipo_b || 'Equipo B';
     
+    // 3. Resetear Marcadores
     const previewGolesA = document.getElementById('previewGolesA');
     const previewGolesB = document.getElementById('previewGolesB');
     if (previewGolesA) previewGolesA.textContent = '0';
