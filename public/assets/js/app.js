@@ -44,6 +44,9 @@ function initTabs() {
     });
 }
 
+// ============================================
+// ANIMACIÓN DE SWITCH ENTRE FECHAS (opcional)
+// ============================================
 function animateTabSwitch(element) {
     element.style.opacity = '0';
     element.style.transform = 'translateY(10px)';
@@ -197,6 +200,9 @@ async function cargarJugadoresPartido(fixtureId) {
     }
 }
 
+// ============================================
+// ACTUALIZAR INFORMACIÓN DEL PARTIDO EN EL MODAL
+// ============================================
 function actualizarInfoPartido(partido) {
     // Título del modal
     const titulo = document.getElementById('modalPartidoTitulo');
@@ -286,6 +292,9 @@ function sumarGol(jugadorId, lado) {
     }
 }
 
+// ============================================
+// RESTA DE GOLES
+// ============================================
 function restarGol(jugadorId, lado) {
     const element = document.getElementById(`gol-${jugadorId}`);
     if (!element) return;
