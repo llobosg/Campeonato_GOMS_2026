@@ -21,10 +21,8 @@ class QRGenerator {
         try {
 
             // En config.php o al inicio de QRGenerator.php
-            define('QR_DIR', __DIR__ . '/public/uploads/qrs'); 
-            // O si estás en config.php que está en la raíz:
-            // define('QR_DIR', __DIR__ . '/public/uploads/qrs');
-            
+            define('QR_DIR', __DIR__ . '/../public/uploads/qrs'); 
+
             if (!is_dir(QR_DIR)) {
                 mkdir(QR_DIR, 0755, true);
             }
