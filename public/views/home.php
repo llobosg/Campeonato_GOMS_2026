@@ -55,7 +55,7 @@ $flash = get_flash_message();
                             data-fecha="<?= $fecha['nro_fecha'] ?>"
                             onclick="seleccionarFecha(<?= $fecha['nro_fecha'] ?>)">
                         <!-- Usamos la imagen correspondiente al número de fecha -->
-                        <img src="/assets/images/fecha_<?= $fecha['nro_fecha'] ?>.png" 
+                        <img src="/assets/images/fecha<?= $fecha['nro_fecha'] ?>.png" 
                             alt="Fecha <?= $fecha['nro_fecha'] ?>" 
                             class="fecha-img">
                     </button>
