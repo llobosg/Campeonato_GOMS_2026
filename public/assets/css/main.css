@@ -1399,10 +1399,10 @@ body {
     filter: drop-shadow(0 0 10px rgba(0, 255, 135, 0.5)); /* Brillo neón sutil */
 }
 .status-pendiente {
-    color: #ffffff !important; /* Blanco */
+    color: var(--color-gold);
     padding: 2px 4px;
     border-radius: 4px;
-    font-weight: bold;
+    font-weight: var(--font-bold);
 }
 .equipo-jugadores-lista {
     list-style: none;
