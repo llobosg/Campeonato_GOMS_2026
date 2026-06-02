@@ -1314,3 +1314,41 @@ body {
         display: none;
     }
 }
+/* ============================================
+   CORRECCIONES FORMULARIO DE REGISTRO
+   ============================================ */
+
+/* Textos de ayuda (hints) debajo de los inputs */
+.form-hint {
+    color: #cccccc !important; /* Gris claro legible */
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Checkbox personalizado */
+.checkbox-custom {
+    background-color: #ffffff !important; /* Fondo blanco para el cuadro */
+    border: 2px solid #00ff87 !important; /* Borde verde neón */
+}
+
+/* Cuando está marcado */
+.checkbox-input:checked + .checkbox-custom {
+    background-color: #00ff87 !important; /* Fondo verde neón */
+    border-color: #00ff87 !important;
+}
+
+/* El check (✓) dentro del cuadro */
+.checkbox-input:checked + .checkbox-custom::after {
+    color: #000000 !important; /* Check negro para contraste */
+}
+
+/* Texto de los términos */
+.checkbox-text {
+    color: #ffffff !important;
+}
+
+.link-terms {
+    color: #00ff87 !important; /* Link verde neón */
+    text-decoration: underline;
+}

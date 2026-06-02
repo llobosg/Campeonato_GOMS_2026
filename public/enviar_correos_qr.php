@@ -62,8 +62,8 @@ foreach ($encargados as $nombre_equipo => $datos) {
             </p>
             
             <!-- QR Image -->
-            <div style='margin: 20px 0; padding: 10px; background: white; display: inline-block; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
-                <img src='$qr_image_url' alt='QR Code $nombre_equipo' style='width: 200px; height: 200px;'>
+            <div style='margin: 20px 0; padding: 15px; background: #ffffff; display: inline-block; border-radius: 10px; border: 1px solid #e0e0e0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);'>
+                <img src='$qr_image_url' alt='QR Code $nombre_equipo' style='width: 200px; height: 200px; display: block;'>
             </div>
             
             <p style='font-size: 14px; color: #777;'>Escanea este código o usa el link de abajo:</p>
