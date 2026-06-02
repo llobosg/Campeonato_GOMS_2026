@@ -61,16 +61,9 @@ $current_page = $current_page ?? 'home';
             
             <!-- Sección Inferior del Footer -->
             <div class="footer-bottom">
-                <div class="footer-copyright">
-                    <p>&copy; <?= date('Y') ?> Campeonato GOMS 2026. Todos los derechos reservados.</p>
-                    <p class="footer-developer">Desarrollado por <strong>GLT Sport</strong> </p>
-                </div>
-                
-                <div class="footer-social">
-                    <a href="#" class="social-link" aria-label="Facebook"><span class="social-icon">📘</span></a>
-                    <a href="#" class="social-link" aria-label="Instagram"><span class="social-icon">📸</span></a>
-                    <a href="#" class="social-link" aria-label="Twitter"><span class="social-icon">🐦</span></a>
-                    <a href="#" class="social-link" aria-label="WhatsApp"><span class="social-icon">💬</span></a>
+                <div class="footer-copyright" style="text-align: center; width: 100%;">
+                    <p>&copy; <?= date('Y') ?> Campeonato Fútbol GOMS 2026. Todos los derechos reservados.</p>
+                    <p class="footer-developer" style="text-align: center; width: 100%;">Powered by <strong>GLT Sport</strong> </p>
                 </div>
             </div>
         </div>

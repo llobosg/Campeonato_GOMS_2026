@@ -1352,3 +1352,123 @@ body {
     color: #00ff87 !important; /* Link verde neón */
     text-decoration: underline;
 }
+/* ============================================
+   CORRECCIONES TABLAS DE POSICIONES
+   ============================================ */
+.posiciones-table th, .posiciones-table td {
+    text-align: center;
+    padding: 8px 4px;
+}
+
+/* Forzar ancho mínimo para la columna de Equipo/Jugador */
+.posiciones-table td:nth-child(2), 
+.posiciones-table th:nth-child(2) {
+    min-width: 120px; /* Ancho fijo para nombres */
+    text-align: left;
+    padding-left: 10px;
+}
+
+/* Asegurar que las tablas ocupen el mismo espacio */
+.card-grupo-a, .card-grupo-b {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-grupo-a table, .card-grupo-b table {
+    width: 100%;
+    table-layout: fixed; /* Distribuye el ancho equitativamente */
+}
+.btn-fecha-img {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s;
+}
+.btn-fecha-img:hover {
+    transform: scale(1.05);
+}
+.hero-copa-container {
+    text-align: center;
+    margin: 20px 0;
+}
+.copa-hero-img {
+    max-width: 150px; /* Ajusta el tamaño según prefieras */
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 135, 0.5)); /* Brillo neón sutil */
+}
+.status-pendiente {
+    color: #ffffff !important; /* Blanco */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil */
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+.equipo-jugadores-lista {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+.equipo-jugadores-lista li {
+    color: #cccccc !important; /* Gris claro */
+    font-size: 0.9rem;
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.equipo-jugadores-lista li:last-child {
+    border-bottom: none;
+}
+.jugador-posicion {
+    color: #00ff87 !important; /* Verde neón para la posición */
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+/* ============================================
+   ESTILOS PARA TABS DE FECHAS CON IMÁGENES
+   ============================================ */
+.fechas-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.fecha-tab-img {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0.7; /* Opacidad para las no activas */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fecha-tab-img:hover {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.fecha-tab-img.active {
+    opacity: 1;
+    box-shadow: 0 0 15px var(--color-primary); /* Brillo neón verde */
+    transform: scale(1.1);
+}
+
+.fecha-img {
+    width: 100px; /* Ajusta este tamaño según tus imágenes */
+    height: auto;
+    display: block;
+}
+
+/* Responsive para móviles */
+@media (max-width: 600px) {
+    .fecha-img {
+        width: 60px;
+    }
+    .fechas-tabs {
+        gap: 8px;
+    }
+}

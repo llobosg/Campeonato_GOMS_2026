@@ -21,7 +21,7 @@ $flash = get_flash_message();
             <img src="<?= BASE_URL ?>/assets/images/logo.png" alt="Mundial Futbol GOMS 2026" class="championship-logo">
         </div>
         <div class="header-title">
-            <h1>MUNDIAL FUTBOL GOMS</h1>
+            <h1>MUNDIAL FÚTBOL GOMS</h1>
             <h2>2026 ⚽</h2>
         </div>
         <div class="header-badge">
@@ -51,10 +51,13 @@ $flash = get_flash_message();
             
             <div class="fechas-tabs">
                 <?php foreach ($fechas as $index => $fecha): ?>
-                    <button class="fecha-tab <?= $index === 0 ? 'active' : '' ?>" 
-                            data-fecha="<?= $fecha['nro_fecha'] ?>">
-                        Fecha <?= $fecha['nro_fecha'] ?>
-                        <small><?= format_date($fecha['fecha']) ?></small>
+                    <button class="fecha-tab-img <?= $index === 0 ? 'active' : '' ?>" 
+                            data-fecha="<?= $fecha['nro_fecha'] ?>"
+                            onclick="seleccionarFecha(<?= $fecha['nro_fecha'] ?>)">
+                        <!-- Usamos la imagen correspondiente al número de fecha -->
+                        <img src="/assets/images/fecha_<?= $fecha['nro_fecha'] ?>.png" 
+                            alt="Fecha <?= $fecha['nro_fecha'] ?>" 
+                            class="fecha-img">
                     </button>
                 <?php endforeach; ?>
             </div>
@@ -91,7 +94,7 @@ $flash = get_flash_message();
                                         <span class="score-divider">-</span>
                                         <span class="score score-b"><?= $partido['goles_b'] ?></span>
                                     <?php else: ?>
-                                        <span class="pending">Pendiente</span>
+                                        <span class="status-pendiente">Pendiente</span>
                                     <?php endif; ?>
                                 </div>
                                 <?php if (!is_admin_authenticated()): ?>
@@ -120,7 +123,7 @@ $flash = get_flash_message();
                                         <span class="score-divider">-</span>
                                         <span class="score score-b"><?= $partido['goles_b'] ?></span>
                                     <?php else: ?>
-                                        <span class="pending">Pendiente</span>
+                                        <span class="status-pendiente">Pendiente</span>
                                     <?php endif; ?>
                                 </div>
                                 <?php if (!is_admin_authenticated()): ?>
