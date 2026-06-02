@@ -33,21 +33,5 @@ $page_title = $page_title ?? APP_NAME;
     </script>
 </head>
 <body class="page-<?= h($current_page) ?>">
-
-    <!-- Navbar Simple -->
-    <nav class="top-nav">
-        <div class="nav-container">
-            <!-- Usamos / para volver al inicio siempre desde la raíz -->
-            <a href="/" class="nav-brand"> GOMS 2026</a>
-            <div class="nav-links">
-                <a href="/">Inicio</a>
-                <a href="/fixture">Fixture</a>
-                <?php if (isset($_SESSION['admin_authenticated']) && $_SESSION['admin_authenticated']): ?>
-                    <a href="/equipos/listar" class="admin-link">Admin</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </nav>
-
     <!-- Contenedor principal donde se inyecta el contenido de las vistas -->
     <main id="main-content">

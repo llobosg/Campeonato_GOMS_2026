@@ -23,12 +23,9 @@ $flash = get_flash_message();
             <h1>GESTIÓN DE EQUIPOS</h1>
             <h2>⚙️ Panel de Administración</h2>
         </div>
-        
-        <div class="header-actions">
-            <a href="<?= BASE_URL ?>/equipos/crear" class="btn btn-primary btn-create">
-                <span class="btn-icon">+</span> Nuevo Equipo
-            </a>
-        </div>
+        <!-- ============================================ -->
+        <!-- BLOQUE NUEVO EQUIPO -->
+        <!-- ============================================ -->  
     </div>
 </div>
 
