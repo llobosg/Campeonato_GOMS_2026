@@ -1472,3 +1472,31 @@ body {
         gap: 8px;
     }
 }
+/* ============================================
+   ANIMACIÓN DE LA COPA DEL MUNDO
+   ============================================ */
+.copa-animada-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.copa-animada-img {
+    width: 80px; /* Ajusta el tamaño según prefieras */
+    height: auto;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); /* Brillo dorado sutil */
+    animation: flotarCopa 3s ease-in-out infinite;
+}
+
+@keyframes flotarCopa {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px); /* Sube 10px */
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

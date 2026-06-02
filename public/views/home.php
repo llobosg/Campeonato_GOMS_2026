@@ -17,11 +17,11 @@ $flash = get_flash_message();
 <!-- ============================================ -->
 <div class="championship-header">
     <div class="header-content">
-        <div class="logo-container">
-            <img src="<?= BASE_URL ?>/assets/images/logo.png" alt="Mundial Futbol GOMS 2026" class="championship-logo">
-        </div>
+        <div class="copa-animada-container">
+        <img src="/assets/images/copa-mundo.png" alt="Copa Fútbol Mundial GOMS 2026" class="copa-animada-img">
+    </div>
         <div class="header-title">
-            <h1>MUNDIAL FÚTBOL GOMS</h1>
+            <h1>CAMPEONATO MUNDIAL FÚTBOL GOMS</h1>
             <h2>2026 ⚽</h2>
         </div>
         <div class="header-badge">
