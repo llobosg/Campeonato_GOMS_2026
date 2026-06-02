@@ -482,11 +482,34 @@ body {
 
 .posiciones-section,
 .goleadores-section {
-    background: var(--gradient-card);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-md);
-    border: 1px solid rgba(0, 255, 135, 0.2);
+    background: rgba(255, 255, 255, 0.05); /* Mismo fondo semi-transparente que posiciones */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 95%; /* Mismo ancho que el contenedor de posiciones */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Asegurar que la tabla interna ocupe todo el espacio */
+.goleadores-section table {
+    width: 100%;
+    table-layout: fixed; /* Distribución equitativa */
+}
+
+/* Ajustar columnas de la tabla de goleadores */
+.goleadores-section th, 
+.goleadores-section td {
+    padding: 10px;
+    text-align: center;
+}
+
+/* Columna de Nombre más ancha */
+.goleadores-section td:nth-child(2),
+.goleadores-section th:nth-child(2) {
+    text-align: left;
+    padding-left: 15px;
+    width: 50%; /* La mitad del ancho para el nombre */
 }
 
 .tabla-grupo,

@@ -210,10 +210,19 @@ async function cargarJugadoresPartido(fixtureId) {
 }
 
 function actualizarInfoPartido(partido) {
+    // Título del modal
     const titulo = document.getElementById('modalPartidoTitulo');
     if (titulo) {
-        const fechaFormateada = formatDate(partido.fecha);
-        const hora = partido.hora.substring(0, 5);
+        // Usamos la fecha del objeto partido que viene de la BD
+        // Si quieres forzar la fecha de HOY, descomenta la siguiente línea:
+        // const fechaUsar = new Date().toISOString().split('T')[0]; 
+        
+        const fechaUsar = partido.fecha; // Usa la fecha real del fixture
+        
+        const fechaFormateada = formatDate(fechaUsar);
+        const hora = partido.hora ? partido.hora.substring(0, 5) : 'HH:MM';
+        
+        // Formato: "Fecha X - DD/MM/YYYY HH:MM"
         titulo.textContent = `Fecha ${partido.nro_fecha} - ${fechaFormateada} ${hora}`;
     }
     
