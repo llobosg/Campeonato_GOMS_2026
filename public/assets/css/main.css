@@ -461,12 +461,12 @@ body {
 }
 
 .jugador-area {
-    color: var(--color-gray-light);
+    color: var(--color-light);
     font-style: italic;
 }
 
 .no-jugadores {
-    color: var(--color-gray-light);
+    color: var(--color-light);
     font-style: italic;
     font-size: var(--font-size-sm);
 }
@@ -615,7 +615,7 @@ body {
 
 .goleador-equipo {
     font-size: var(--font-size-sm);
-    color: var(--color-gray-light);
+    color: var(--color-light);
 }
 
 .goleador-goles {
@@ -628,7 +628,7 @@ body {
 }
 
 .no-data {
-    color: var(--color-gray-light);
+    color: var(--color-light);
     font-style: italic;
     text-align: center;
     padding: var(--spacing-md);
@@ -1400,8 +1400,7 @@ body {
 }
 .status-pendiente {
     color: #ffffff !important; /* Blanco */
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil */
-    padding: 4px 8px;
+    padding: 2px 4px;
     border-radius: 4px;
     font-weight: bold;
 }
@@ -1518,6 +1517,8 @@ body {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    min-width: 300px; /* Ancho mínimo para móviles */
+    max-width: 500px; /* Ancho máximo para escritorio */
 }
 
 .tabla-grupo {
