@@ -341,8 +341,8 @@ class EquipoController {
     }
     
     /**
-     * GET /equipos/ver/{id} - Ver detalles de un equipo
-     */
+    * GET /equipos/ver/{id} - Ver detalles de un equipo
+    */
     public function show(array $params = []) {
         $id_equipo = $params['id'] ?? null;
         
@@ -350,39 +350,48 @@ class EquipoController {
             redirect_with_message(BASE_URL, 'ID de equipo no especificado', 'error');
         }
         
-        $equipo = db_fetch_one(
-            $this->pdo,
-            "SELECT * FROM equipos WHERE id_equipo = :id",
-            ['id' => (int)$id_equipo]
-        );
-        
-        if (!$equipo) {
-            redirect_with_message(BASE_URL, 'Equipo no encontrado', 'error');
+        try {
+            // 1. Obtener datos del equipo
+            $equipo = db_fetch_one(
+                $this->pdo,
+                "SELECT * FROM equipos WHERE id_equipo = :id",
+                ['id' => (int)$id_equipo]
+            );
+            
+            if (!$equipo) {
+                redirect_with_message(BASE_URL, 'Equipo no encontrado', 'error');
+            }
+            
+            // 2. Obtener jugadores del equipo
+            $jugadores = db_fetch_all(
+                $this->pdo,
+                "SELECT * FROM jugadores WHERE id_equipo = :id ORDER BY nombre ASC",
+                ['id' => (int)$id_equipo]
+            );
+            
+            // 3. Obtener partidos del equipo (CORREGIDO: Agregado FROM fixture f)
+            $partidos = db_fetch_all(
+                $this->pdo,
+                "
+                SELECT f.*, 
+                       e1.nombre as nombre_equipo_a, 
+                       e2.nombre as nombre_equipo_b
+                FROM fixture f
+                JOIN equipos e1 ON f.equipo_a = e1.id_equipo
+                JOIN equipos e2 ON f.equipo_b = e2.id_equipo
+                WHERE f.equipo_a = :id OR f.equipo_b = :id
+                ORDER BY f.fecha ASC, f.hora ASC
+                ",
+                ['id' => (int)$id_equipo]
+            );
+            
+            // 4. Cargar la vista
+            include __DIR__ . '/../../public/views/equipo_detalle.php';
+            
+        } catch (\Exception $e) {
+            error_log("FATAL ERROR en show(): " . $e->getMessage());
+            http_response_code(500);
+            echo "<h1>Error Interno</h1><p>Detalles: " . ($isProduction ? "Contacte soporte" : $e->getMessage()) . "</p>";
         }
-        
-        // Obtener jugadores del equipo
-        $jugadores = db_fetch_all(
-            $this->pdo,
-            "SELECT * FROM jugadores WHERE id_equipo = :id ORDER BY nombre ASC",
-            ['id' => (int)$id_equipo]
-        );
-        
-        // Obtener partidos del equipo
-        $partidos = db_fetch_all(
-            $this->pdo,
-            "
-            SELECT f.*, 
-                   e1.nombre as nombre_equipo_a, 
-                   e2.nombre as nombre_equipo_b
-            FROM fixture f
-            JOIN equipos e1 ON f.equipo_a = e1.id_equipo
-            JOIN equipos e2 ON f.equipo_b = e2.id_equipo
-            WHERE f.equipo_a = :id OR f.equipo_b = :id
-            ORDER BY f.fecha ASC, f.hora ASC
-            ",
-            ['id' => (int)$id_equipo]
-        );
-        
-        include __DIR__ . '/../../public/views/equipo_detalle.php';
     }
 }
