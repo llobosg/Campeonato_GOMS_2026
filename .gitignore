@@ -40,3 +40,6 @@ temp/
 # .gitignore
 .env
 *.env.local
+
+logs/
+*.log
