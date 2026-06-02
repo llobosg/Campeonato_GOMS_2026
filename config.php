@@ -152,9 +152,30 @@ spl_autoload_register(function ($class) {
 // ============================================
 // INCLUIR HELPERS GLOBALES
 // ============================================
-require_once __DIR__ . '/includes/functions.php';
-require_once __DIR__ . '/includes/BrevoMailer.php';
-require_once __DIR__ . '/includes/QRGenerator.php';
+
+// Definir rutas absolutas para evitar errores de relativo en Railway
+$baseDir = dirname(__FILE__);
+
+$filesToRequire = [
+    $baseDir . '/includes/functions.php',
+    $baseDir . '/includes/BrevoMailer.php',
+    $baseDir . '/includes/QRGenerator.php'
+];
+
+foreach ($filesToRequire as $file) {
+    if (!file_exists($file)) {
+        error_log("❌ FATAL: Archivo requerido no encontrado: $file");
+        // Si es producción, mostrar error genérico
+        if (APP_ENV === 'production') {
+            http_response_code(500);
+            exit("Error de configuración del sistema. Contacte soporte.");
+        }
+        throw new Exception("Archivo no encontrado: $file");
+    }
+    require_once $file;
+}
+
+error_log("✅ Helpers cargados correctamente desde: $baseDir/includes");
 
 // ============================================
 // INICIAR SESIÓN SEGURA
