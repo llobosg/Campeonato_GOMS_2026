@@ -1477,7 +1477,7 @@ body {
 .fecha-tab-img.active {
     opacity: 1;
     box-shadow: 0 0 15px var(--color-primary); /* Brillo neón verde */
-    transform: scale(1.1);
+    transform: scale(1.5);
 }
 
 /* Imágenes de Fechas (Fecha 1 a 5) */
