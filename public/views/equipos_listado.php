@@ -144,11 +144,6 @@ $flash = get_flash_message();
                                             👁️
                                         </a>
                                         
-                                        <!-- Editar Equipo -->
-                                        <a href="<?= BASE_URL ?>?page=equipos&action=editar&id=<?= $equipo['id_equipo'] ?>" class="btn-action btn-edit" title="Editar">
-                                            ✏️
-                                        </a>
-                                        
                                         <button onclick="eliminarEquipo(<?= $equipo['id_equipo'] ?>, '<?= h($equipo['nombre']) ?>')" 
                                                 class="btn-action btn-delete" 
                                                 title="Eliminar"

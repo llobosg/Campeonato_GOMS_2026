@@ -97,11 +97,10 @@ $flash = get_flash_message();
                                         <span class="status-pendiente">Pendiente</span>
                                     <?php endif; ?>
                                 </div>
-                                <?php if (!is_admin_authenticated()): ?>
-                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
-                                        📝 Resultado
-                                    </button>
-                                <?php endif; ?>
+                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                    📝 Resultado
+                                </button>
+
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -126,11 +125,9 @@ $flash = get_flash_message();
                                         <span class="status-pendiente">Pendiente</span>
                                     <?php endif; ?>
                                 </div>
-                                <?php if (!is_admin_authenticated()): ?>
-                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
-                                        📝 Resultado
-                                    </button>
-                                <?php endif; ?>
+                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                    📝 Resultado
+                                </button>
                             </div>
                         <?php endforeach; ?>
                     </div>
