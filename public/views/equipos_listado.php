@@ -138,29 +138,7 @@ $flash = get_flash_message();
                                 <td class="text-center">
                                     <span class="player-count"><?= $equipo['total_jugadores'] ?></span>
                                 </td>
-                                
-                                <td class="text-center">
-                                    <?php if ($equipo['tiene_qr']): ?>
-                                        <button class="btn-icon btn-qr" onclick="verQR(<?= $equipo['id_equipo'] ?>, '<?= h($equipo['nombre']) ?>')" title="Ver QR">
-                                            📱
-                                        </button>
-                                    <?php else: ?>
-                                        <button class="btn-icon btn-generate" onclick="generarQR(<?= $equipo['id_equipo'] ?>)" title="Generar QR">
-                                            ⚡
-                                        </button>
-                                    <?php endif; ?>
-                                </td>
-                                
-                                <td>
-                                    <?php if ($equipo['link_registro']): ?>
-                                        <a href="<?= h($equipo['link_registro']) ?>" target="_blank" class="link-copy" title="Copiar link">
-                                             Ver Link
-                                        </a>
-                                    <?php else: ?>
-                                        <span class="no-link">-</span>
-                                    <?php endif; ?>
-                                </td>
-                                
+                                                            
                                 <td class="actions-cell">
                                     <div class="action-buttons">
                                         <!-- Ver Equipo -->

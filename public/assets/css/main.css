@@ -1491,11 +1491,10 @@ body {
 
 /* Copa Animada en el Header */
 .copa-animada-img {
-    width: 84px; /* Aumentado aprox 5% desde 80px */
+    width: 90px; /* Ajuste de tamaño */
     height: auto;
-    /* Si la imagen tiene fondo blanco, esto ayuda a integrarla mejor con fondos oscuros */
-    mix-blend-mode: screen; 
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+    /* Eliminamos mix-blend-mode para evitar el efecto borroso/deslavado */
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)); /* Sombra dorada sutil */
     animation: flotarCopa 3s ease-in-out infinite;
 }
 
