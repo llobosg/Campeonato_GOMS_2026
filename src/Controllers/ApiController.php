@@ -353,4 +353,37 @@ class ApiController {
             json_error('Error al registrar resultado: ' . $e->getMessage(), 500);
         }
     }
+        /**
+     * GET /api/goles?fixture={id} - Obtener goles de un partido
+     */
+    public function getGolesPorPartido() {
+        header('Content-Type: application/json');
+        
+        $fixture_id = $_GET['fixture'] ?? null;
+        
+        if (!$fixture_id) {
+            echo json_encode(['success' => false, 'error' => 'Falta ID de fixture']);
+            return;
+        }
+        
+        try {
+            $goles = db_fetch_all(
+                $this->pdo,
+                "
+                SELECT g.*, j.nombre as nombre_jugador, e.nombre as nombre_equipo
+                FROM goles g
+                JOIN jugadores j ON g.id_jugador = j.id_jugador
+                JOIN equipos e ON j.id_equipo = e.id_equipo
+                WHERE g.id_fixture = :fixture
+                ORDER BY g.minuto ASC
+                ",
+                ['fixture' => (int)$fixture_id]
+            );
+            
+            echo json_encode(['success' => true, 'data' => $goles]);
+            
+        } catch (\Exception $e) {
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
 }

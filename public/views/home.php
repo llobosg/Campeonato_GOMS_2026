@@ -425,6 +425,7 @@ $flash = get_flash_message();
             <div class="vivo-scorers-list">
                 <h4>Goleadores del Partido:</h4>
                 <ul id="vivo-scorers-ul">
+                    <!-- Se llena dinámicamente -->
                     <li>Cargando...</li>
                 </ul>
             </div>

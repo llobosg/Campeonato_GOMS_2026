@@ -58,7 +58,7 @@ try {
     $method = null;
     $params = ['id' => $id, 'pdo' => $pdo];
 
-    // --- RUTAS API ---
+        // --- RUTAS API ---
     if ($action === 'api') {
         $endpoint = $sub_action ?? '';
         $sub_endpoint = $route_segments[2] ?? '';
@@ -80,14 +80,17 @@ try {
              $controller_class = 'App\\Controllers\\ApiController';
              $method = 'getMarcadorVivo';
         }
+        
+        // ✅ AGREGA ESTO AQUÍ (junto a los otros elseif)
+        elseif ($endpoint === 'goles') {
+            $controller_class = 'App\\Controllers\\ApiController';
+            $method = 'getGolesPorPartido';
+        }
+        
         else {
             // Default API
             $controller_class = 'App\\Controllers\\ApiController';
             $method = 'getEquipos';
-        }
-        if ($endpoint === 'resultado' && $sub_endpoint === 'verificar') {
-            $controller_class = 'App\\Controllers\\ApiController';
-            $method = 'verifyPassword';
         }
     } 
     

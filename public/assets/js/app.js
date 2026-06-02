@@ -461,19 +461,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// LÓGICA MODAL RESULTADOS EN VIVO
+// LÓGICA MODAL RESULTADOS EN VIVO (AUTO-REFRESH)
 // ============================================
+
+let vivoIntervalId = null; // Variable para guardar el ID del intervalo
 
 function openModalVivo() {
     const modal = document.getElementById('modalVivo');
     if (modal) {
         modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Evitar scroll
+        document.body.style.overflow = 'hidden';
         
-        // Cargar datos del partido actual
-        // NOTA: Aquí asumimos que quieres ver el primer partido de la fecha activa
-        // O podrías pasar un ID específico si lo tienes.
+        // Cargar datos inmediatamente
         cargarDatosVivo(); 
+        
+        // Iniciar auto-refresh cada 5 segundos (5000 ms)
+        if (!vivoIntervalId) {
+            vivoIntervalId = setInterval(cargarDatosVivo, 5000);
+            console.log("🔴 Auto-refresh iniciado para Modal Vivo");
+        }
     }
 }
 
@@ -482,59 +488,91 @@ function closeModalVivo() {
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = '';
+        
+        // Detener el auto-refresh para ahorrar recursos
+        if (vivoIntervalId) {
+            clearInterval(vivoIntervalId);
+            vivoIntervalId = null;
+            console.log("⚪ Auto-refresh detenido");
+        }
     }
 }
 
 async function cargarDatosVivo() {
-    // Ejemplo: Obtener el fixture de la fecha activa o un ID hardcodeado para prueba
-    // Para producción, deberías tener una API que devuelva "el partido que se está jugando ahora"
-    
-    // Simulación: Usamos el currentFixtureId si existe, o buscamos uno activo
-    // Si no hay lógica de "partido actual", usaremos el primero de la lista como ejemplo
-    
     try {
-        showToast(' Cargando transmisión...', 'info');
+        // Usamos el currentFixtureId si existe, o buscamos el partido "activo"
+        // Para este ejemplo, asumimos que currentFixtureId se setea al abrir el modal de resultados
+        // O podrías pasar un ID específico de un partido "estrella"
         
-        // Aquí debes llamar a tu API. Ejemplo: /api/fixture/vivo o similar
-        // Como no tenemos ese endpoint específico, usaremos el currentFixtureId si está definido
-        // O podrías hacer fetch a /api/fixture/1 (ejemplo)
+        let fixtureId = currentFixtureId || 1; // Fallback
         
-        let fixtureId = currentFixtureId || 1; // Fallback a ID 1 para prueba
-        
+        // Fetch a la API de fixture para obtener marcadores y goles
         const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
         const data = await response.json();
         
         if (data.success && data.data) {
             const partido = data.data;
             
-            // Actualizar UI del Modal Vivo
+            // 1. Actualizar Marcadores con animación si cambian
+            actualizarMarcadorVivo('vivo-score-a', partido.goles_equipo_a || 0);
+            actualizarMarcadorVivo('vivo-score-b', partido.goles_equipo_b || 0);
+            
+            // 2. Actualizar Nombres de Equipos (por si acaso)
             document.getElementById('vivo-team-a-name').textContent = partido.nombre_equipo_a;
             document.getElementById('vivo-team-b-name').textContent = partido.nombre_equipo_b;
             
-            // Marcadores (Si ya hay resultado guardado)
-            // Nota: Si el partido está en vivo y aún no se guarda el resultado final, 
-            // deberías tener una columna de 'marcador_parcial' en tu BD o calcularlo desde los goles.
-            // Por ahora mostramos 0-0 o el resultado final si existe.
-            document.getElementById('vivo-score-a').textContent = partido.goles_equipo_a || 0;
-            document.getElementById('vivo-score-b').textContent = partido.goles_equipo_b || 0;
-            
-            document.getElementById('vivo-match-time').textContent = partido.hora ? partido.hora.substring(0,5) : '--:--';
-            document.getElementById('vivo-match-date').textContent = `Fecha ${partido.nro_fecha}`;
-            
-            // Cargar goleadores del partido (si existen)
-            const scorersUl = document.getElementById('vivo-scorers-ul');
-            scorersUl.innerHTML = '<li>Cargando goleadores...</li>';
-            
-            // Fetch de goleadores específicos de este partido (necesitarás un endpoint o filtrar)
-            // Por ahora, dejaremos un placeholder o cargaremos todos los jugadores si no hay endpoint específico
-            scorersUl.innerHTML = '<li>Detalle de goles disponible al finalizar</li>';
-            
-        } else {
-            showToast('❌ No se encontraron datos del partido', 'error');
+            // 3. Actualizar Lista de Goleadores
+            actualizarGoleadoresVivo(partido.id_fixture);
         }
     } catch (error) {
-        console.error('Error cargando vivo:', error);
-        showToast('❌ Error de conexión', 'error');
+        console.error('Error refrescando vivo:', error);
+    }
+}
+
+// Función auxiliar para actualizar números con animación suave
+function actualizarMarcadorVivo(elementId, nuevoValor) {
+    const element = document.getElementById(elementId);
+    if (element && parseInt(element.textContent) !== nuevoValor) {
+        // Animación simple de "pop"
+        element.style.transform = "scale(1.5)";
+        element.style.color = "#fff";
+        element.textContent = nuevoValor;
+        
+        setTimeout(() => {
+            element.style.transform = "scale(1)";
+            element.style.color = "var(--color-primary)";
+        }, 300);
+    }
+}
+
+// Función para cargar y mostrar goleadores del partido
+async function actualizarGoleadoresVivo(fixtureId) {
+    try {
+        // Necesitas un endpoint que devuelva los goles de un partido específico
+        // Ejemplo: /api/goles/partido/{id}
+        // Si no tienes ese endpoint, puedes filtrar desde el array de jugadores si lo traes todo
+        
+        // Por ahora, simularemos que traemos los goles desde la misma respuesta del fixture 
+        // o haremos un fetch separado si tienes la tabla 'goles' accesible via API.
+        
+        // Supongamos que tienes una API /api/goles?fixture=ID
+        const response = await fetch(`${BASE_URL}/api/goles?fixture=${fixtureId}`);
+        const data = await response.json();
+        
+        const scorersUl = document.getElementById('vivo-scorers-ul');
+        
+        if (data.success && data.data && data.data.length > 0) {
+            let html = '';
+            data.data.forEach(gol => {
+                // Asumiendo que gol tiene: nombre_jugador, minuto, equipo
+                html += `<li> ${gol.nombre_jugador} <small>(${gol.minuto ? gol.minuto + "'" : ''})</small></li>`;
+            });
+            scorersUl.innerHTML = html;
+        } else {
+            scorersUl.innerHTML = '<li>Sin goles registrados aún</li>';
+        }
+    } catch (error) {
+        console.error('Error cargando goleadores vivo:', error);
     }
 }
 
