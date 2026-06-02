@@ -25,7 +25,7 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "fix: corrige BrevoMailer y elimina public/config.php"
+git commit -m "fix: populate empty layout files with correct HTML structure and CSS links"
 git push origin main
 
 
