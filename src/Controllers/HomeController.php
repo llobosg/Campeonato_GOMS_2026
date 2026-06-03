@@ -15,10 +15,20 @@ class HomeController {
         
         // Obtener datos
         $fechas = $this->getAllFechas($pdo);
-        $posicionesA = get_posiciones_grupo($pdo, 'A');
-        $posicionesB = get_posiciones_grupo($pdo, 'B');
+        
+        // ✅ OBTENER POSICIONES DIRECTAMENTE DE LA VISTA CON ORDENAMIENTO CORRECTO
+        $posicionesA = db_fetch_all($pdo, 
+            "SELECT * FROM v_posiciones WHERE grupo = 'A' ORDER BY puntos DESC, dg DESC, goles_favor DESC"
+        );
+        
+        $posicionesB = db_fetch_all($pdo, 
+            "SELECT * FROM v_posiciones WHERE grupo = 'B' ORDER BY puntos DESC, dg DESC, goles_favor DESC"
+        );
+        
+        // Goleadores (mantenemos la función auxiliar si funciona bien)
         $goleadoresA = get_goleadores_grupo($pdo, 'A', 3);
         $goleadoresB = get_goleadores_grupo($pdo, 'B', 3);
+        
         $fecha_actual = $this->getFechaActual($pdo);
         
         // Pasar variables a la vista

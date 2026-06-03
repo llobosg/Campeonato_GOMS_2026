@@ -17,7 +17,7 @@ git checkout -b main
   --user=root \
   --password=bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH \
   --database=railway \
-  -e "DESCRIBE equipos;"
+  -e "DESCRIBE jugadores;"
 
     < database/schema.sql
 
@@ -25,7 +25,7 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "resultados en vivo, 3"
+git commit -m "clave resultados, litueche"
 git push origin main
 
 

@@ -241,6 +241,7 @@ $flash = get_flash_message();
                             <th>P</th>
                             <th>GF</th>
                             <th>GC</th>
+                            <th>DG</th>
                             <th>Pts</th>
                         </tr>
                     </thead>
@@ -255,6 +256,9 @@ $flash = get_flash_message();
                                 <td><?= $equipo['perdidos'] ?></td>
                                 <td><?= $equipo['goles_favor'] ?></td>
                                 <td><?= $equipo['goles_contra'] ?></td>
+                                <td style="color: <?= $equipo['dg'] > 0 ? '#00ff87' : ($equipo['dg'] < 0 ? '#ff006e' : '#ffffff') ?>; font-weight: bold;">
+                                    <?= $equipo['dg'] > 0 ? '+' . $equipo['dg'] : $equipo['dg'] ?>
+                                </td>
                                 <td class="puntos"><?= $equipo['puntos'] ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -276,6 +280,7 @@ $flash = get_flash_message();
                             <th>P</th>
                             <th>GF</th>
                             <th>GC</th>
+                            <th>DG</th>
                             <th>Pts</th>
                         </tr>
                     </thead>
@@ -290,6 +295,9 @@ $flash = get_flash_message();
                                 <td><?= $equipo['perdidos'] ?></td>
                                 <td><?= $equipo['goles_favor'] ?></td>
                                 <td><?= $equipo['goles_contra'] ?></td>
+                                <td style="color: <?= $equipo['dg'] > 0 ? '#00ff87' : ($equipo['dg'] < 0 ? '#ff006e' : '#ffffff') ?>; font-weight: bold;">
+                                    <?= $equipo['dg'] > 0 ? '+' . $equipo['dg'] : $equipo['dg'] ?>
+                                </td>
                                 <td class="puntos"><?= $equipo['puntos'] ?></td>
                             </tr>
                         <?php endforeach; ?>
