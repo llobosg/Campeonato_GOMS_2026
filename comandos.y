@@ -25,7 +25,7 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "style: chao link y qr, 6"
+git commit -m "resultados en vivo, 3"
 git push origin main
 
 
