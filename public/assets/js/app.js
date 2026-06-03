@@ -456,46 +456,53 @@ function checkFlashMessages() {
 }
 
 // ============================================
-// LÓGICA DE VISIBILIDAD BOTÓN RESULTADO
+// LÓGICA DE VISIBILIDAD BOTÓN RESULTADO (CORREGIDA ZONA HORARIA)
 // ============================================
-
 function verificarVisibilidadBotonesResultado() {
-    const ahora = new Date();
-    const fechaHoy = ahora.toISOString().split('T')[0]; // YYYY-MM-DD
+    // Usamos new Date() sin argumentos para obtener la hora LOCAL del navegador del usuario
+    const ahora = new Date(); 
     
-    // Seleccionar todas las tarjetas de partidos que tengan botón de resultado
+    // Formateamos "hoy" según la zona horaria local del usuario (YYYY-MM-DD)
+    const year = ahora.getFullYear();
+    const month = String(ahora.getMonth() + 1).padStart(2, '0');
+    const day = String(ahora.getDate()).padStart(2, '0');
+    const fechaHoyStr = `${year}-${month}-${day}`; 
+    
     const matchCards = document.querySelectorAll('.match-card');
     
     matchCards.forEach(card => {
         const btn = card.querySelector('.btn-resultado');
         if (!btn) return;
 
-        // Obtener fecha y hora del partido desde atributos data-
-        // Asegúrate que tu HTML tenga: <div class="match-card" data-fecha="2026-06-03" data-hora="19:00">
-        const fechaPartido = card.getAttribute('data-fecha');
+        const fechaPartidoStr = card.getAttribute('data-fecha');
         const horaPartidoStr = card.getAttribute('data-hora');
+        const estadoPartido = card.getAttribute('data-estado');
         
-        if (!fechaPartido || !horaPartidoStr) return;
+        if (!fechaPartidoStr || !horaPartidoStr) return;
 
-        // Crear objeto Date para el inicio del partido
+        // Crear objeto Date usando la fecha/hora del partido PERO en la zona horaria LOCAL
+        // Esto evita el desfase UTC vs Local
         const [horas, minutos] = horaPartidoStr.split(':').map(Number);
-        const inicioPartido = new Date(fechaPartido);
+        const inicioPartido = new Date(fechaPartidoStr);
         inicioPartido.setHours(horas, minutos, 0, 0);
 
-        // Calcular límite: 5 minutos antes del inicio
-        const limiteInicio = new Date(inicioPartido.getTime() - 5 * 60 * 1000);
-        
-        // Calcular límite fin: 2 horas después del inicio (para evitar que se cierre inmediatamente)
-        const limiteFin = new Date(inicioPartido.getTime() + 120 * 60 * 1000);
+        // Ventana de tiempo: Desde 10 min antes hasta 3 horas después (más tolerante)
+        const limiteApertura = new Date(inicioPartido.getTime() - 10 * 60 * 1000); 
+        const limiteCierre = new Date(inicioPartido.getTime() + 180 * 60 * 1000);
 
-        // Lógica: Mostrar si "Ahora" está entre [Inicio - 5min] y [Inicio + 2h]
-        // Y además, que sea el día correcto (aunque la comparación de fechas completa ya lo cubre)
-        if (ahora >= limiteInicio && ahora <= limiteFin) {
+        const esFechaHoy = (fechaPartidoStr === fechaHoyStr);
+        const noEstaFinalizado = (estadoPartido !== 'finalizado');
+        const estaEnVentanaTiempo = (ahora >= limiteApertura && ahora <= limiteCierre);
+
+        // DEBUG: Descomenta esto temporalmente en consola para ver qué está comparando
+        // console.log(`Partido: ${fechaPartidoStr} ${horaPartidoStr} | Ahora: ${ahora} | En ventana: ${estaEnVentanaTiempo}`);
+
+        if (esFechaHoy && noEstaFinalizado && estaEnVentanaTiempo) {
             btn.classList.add('btn-visible');
             btn.disabled = false;
         } else {
             btn.classList.remove('btn-visible');
-            btn.disabled = true; // Opcional: deshabilitar click
+            btn.disabled = true;
         }
     });
 }

@@ -81,10 +81,11 @@ $flash = get_flash_message();
                         <h5 class="grupo-title">GRUPO A</h5>
                         <?php foreach ($partidosA as $partido): ?>
                             <!-- Agregamos data-fecha, data-hora y data-estado aquí -->
+                            <!-- Asegúrate que data-fecha y data-hora tengan este formato exacto -->
                             <div class="match-card" 
                                 data-id="<?= $partido['id_fixture'] ?>"
-                                data-fecha="<?= h($partido['fecha']) ?>" 
-                                data-hora="<?= h($partido['hora']) ?>"
+                                data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
+                                data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
                                 data-estado="<?= h($partido['estado']) ?>">
                                 
                                 <div class="match-time"><?= format_time($partido['hora']) ?></div>
