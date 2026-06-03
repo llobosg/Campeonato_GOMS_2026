@@ -167,7 +167,7 @@ foreach ($dirs_to_check as $dir) {
 // ============================================
 // CONFIGURACIÓN DE SEGURIDAD
 // ============================================
-define('ADMIN_PASSWORD', 'psg2026'); // Contraseña para ingresar resultados
+define('ADMIN_PASSWORD', 'litueche'); // Contraseña para ingresar resultados
 define('SESSION_LIFETIME', 86400); // 24 horas sin timeout
 
 // ============================================
