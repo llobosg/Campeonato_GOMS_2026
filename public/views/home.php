@@ -21,8 +21,7 @@ $flash = get_flash_message();
         <img src="/assets/images/copa-mundo.png" alt="Copa Fútbol Mundial GOMS 2026" class="copa-animada-img">
     </div>
         <div class="header-title">
-            <h1>CAMPEONATO MUNDIAL FÚTBOL GOMS</h1>
-            <h2>2026 ⚽</h2>
+            <h1>CAMPEONATO MUNDIAL FÚTBOL GOMS 2026 ⚽</h1>
         </div>
         <div class="header-badge">
             <span class="badge-text">FECHA <?= $fecha_actual['nro_fecha'] ?? '-' ?></span>
