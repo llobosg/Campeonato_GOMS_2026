@@ -1503,7 +1503,7 @@ body {
     }
 }
 /* ============================================
-   ANIMACIÓN DE LA COPA DEL MUNDO
+   COPA ANIMADA - TAMAÑO +50% Y SIN EFECTOS BORROSOS
    ============================================ */
 .copa-animada-container {
     display: flex;
@@ -1513,14 +1513,12 @@ body {
 }
 
 .copa-animada-img {
-    /* Tamaño original era ~60px/90px. Aumentamos 50% */
+    /* AUMENTO DEL 50%: De 90px a 135px */
     width: 135px; 
     height: auto;
     
-    /* TRUCO CSS PARA ELIMINAR FONDO BLANCO EN GRADIENTES */
-    mix-blend-mode: screen; 
-    
-    /* Sombra dorada sutil para integrarla mejor */
+    /* ELIMINAMOS mix-blend-mode PARA EVITAR EL DESLAVADO */
+    /* Solo mantenemos la sombra para integrarla */
     filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
     
     animation: flotarCopa 3s ease-in-out infinite;
@@ -1528,13 +1526,13 @@ body {
 
 @keyframes flotarCopa {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); } /* Movimiento un poco más amplio por el tamaño */
+    50% { transform: translateY(-15px); } /* Movimiento más amplio acorde al nuevo tamaño */
 }
 
-/* Ajuste móvil proporcional */
+/* Ajuste móvil proporcional (+50% respecto al anterior valor móvil de 60px) */
 @media (max-width: 768px) {
     .copa-animada-img {
-        width: 90px; /* También aumenta 50% respecto al anterior valor móvil */
+        width: 90px; 
     }
 }
 /* ============================================
