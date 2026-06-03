@@ -65,6 +65,10 @@ $current_page = $current_page ?? 'home';
                     <p>&copy; <?= date('Y') ?> Campeonato Fútbol GOMS 2026. Todos los derechos reservados.</p>
                     <p class="footer-developer" style="text-align: center; width: 100%;">Powered by <strong>GLT Sport</strong> </p>
                 </div>
+                <div class="stats-badge">
+                    <span class="icon">👁️</span>
+                    <span id="visit-count">Cargando...</span> visitantes hoy
+                </div>
             </div>
         </div>
     </footer>

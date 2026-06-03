@@ -585,6 +585,72 @@ async function actualizarGoleadoresVivo(fixtureId) {
         console.error('Error cargando goleadores vivo:', error);
     }
 }
+// ============================================
+// EVENTOS GOOGLE ANALYTICS - DATOS POTENCIADORES
+// ============================================
+
+// Rastrear cuando ven posiciones
+function trackVerPosiciones(grupo) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'ver_posiciones', {
+            'grupo': grupo,
+            'engagement_level': 'high'
+        });
+    }
+}
+
+// Rastrear cuando ingresan resultado (Admin)
+function trackIngresarResultado(fixtureId) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'ingresar_resultado', {
+            'fixture_id': fixtureId,
+            'user_role': 'admin'
+        });
+    }
+}
+
+// Rastrear apertura del modal En Vivo
+function trackModalVivo() {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'modal_vivo_abierto', {
+            'engagement_level': 'very_high'
+        });
+    }
+}
+
+// ============================================
+// CONTADOR DE VISITAS REALES (VÍA GOOGLE ANALYTICS)
+// ============================================
+async function actualizarContadorVisitas() {
+    const element = document.getElementById('visit-count');
+    if (!element) return;
+
+    // Nota: Para acceder a la API de GA4 necesitas credenciales de servidor.
+    // Como alternativa ligera y gratuita para mostrar "visitas públicas",
+    // usaremos un servicio externo simple como countapi o similar.
+    // Pero si quieres usar GA4 estrictamente, requeriría un endpoint PHP intermedio.
+    
+    // SOLUCIÓN PRÁCTICA INMEDIATA: Usar CountAPI (Gratuito, sin registro)
+    // Crea un namespace único para tu app
+    try {
+        const response = await fetch('https://api.counterapi.dev/v1/goms2026/visits/');
+        const data = await response.json();
+        
+        if (data.count) {
+            element.textContent = data.count.toLocaleString('es-CL');
+        } else {
+            element.textContent = '0';
+        }
+    } catch (error) {
+        console.error('Error cargando contador:', error);
+        element.textContent = '--';
+    }
+}
+
+// Llamar cuando cargue la página
+document.addEventListener('DOMContentLoaded', () => {
+    actualizarContadorVisitas();
+});
 
 // Exportar funciones globales
 window.openModalVivo = openModalVivo;

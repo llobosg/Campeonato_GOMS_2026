@@ -31,6 +31,20 @@ $page_title = $page_title ?? APP_NAME;
     <script>
         const BASE_URL = "https://campeonatogoms2026.up.railway.app";
     </script>
+
+    <!-- Google tag (gtag.js) - Campeonato GOMS 2026 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TU_ID_AQUI"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    // Configuración base
+    gtag('config', 'G-J7JJY6Z4QS', {
+        'page_title': document.title,
+        'send_page_view': true
+    });
+    </script>
 </head>
 <body class="page-<?= h($current_page) ?>">
     <!-- Contenedor principal donde se inyecta el contenido de las vistas -->
