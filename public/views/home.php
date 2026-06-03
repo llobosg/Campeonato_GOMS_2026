@@ -355,12 +355,6 @@ $flash = get_flash_message();
         <button class="btn-vivo" onclick="openModalVivo()">
             📺 RESULTADOS EN VIVO
         </button>
-        <!-- Botón Compartir por WhatsApp -->
-        <div class="vivo-share-section">
-            <button class="btn-share-wsp" onclick="compartirMarcadorWSP()">
-                📲 Compartir Marcador por WhatsApp
-            </button>
-        </div>
     </div>
 </div>
 
