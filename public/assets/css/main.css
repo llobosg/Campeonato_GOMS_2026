@@ -1514,7 +1514,7 @@ body {
 
 .copa-animada-img {
     /* AUMENTO DEL 50%: De 90px a 135px */
-    width: 135px; 
+    width: 270px; 
     height: auto;
     
     /* ELIMINAMOS mix-blend-mode PARA EVITAR EL DESLAVADO */
