@@ -81,13 +81,21 @@ $flash = get_flash_message();
                     <div class="grupo-matches grupo-a">
                         <h5 class="grupo-title">GRUPO A</h5>
                         <?php foreach ($partidosA as $partido): ?>
-                            <div class="match-card" data-id="<?= $partido['id_fixture'] ?>">
+                            <!-- Agregamos data-fecha, data-hora y data-estado aquí -->
+                            <div class="match-card" 
+                                data-id="<?= $partido['id_fixture'] ?>"
+                                data-fecha="<?= h($partido['fecha']) ?>" 
+                                data-hora="<?= h($partido['hora']) ?>"
+                                data-estado="<?= h($partido['estado']) ?>">
+                                
                                 <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                
                                 <div class="match-teams">
                                     <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
                                     <span class="vs">VS</span>
                                     <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
                                 </div>
+                                
                                 <div class="match-result">
                                     <?php if ($partido['estado'] === 'finalizado'): ?>
                                         <span class="score score-a"><?= $partido['goles_a'] ?></span>
@@ -97,6 +105,8 @@ $flash = get_flash_message();
                                         <span class="status-pendiente">Pendiente</span>
                                     <?php endif; ?>
                                 </div>
+                                
+                                <!-- El botón está oculto por CSS por defecto. JS le agregará la clase .btn-visible si cumple las condiciones -->
                                 <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
                                     📝 Resultado
                                 </button>
@@ -109,13 +119,21 @@ $flash = get_flash_message();
                     <div class="grupo-matches grupo-b">
                         <h5 class="grupo-title">GRUPO B</h5>
                         <?php foreach ($partidosB as $partido): ?>
-                            <div class="match-card" data-id="<?= $partido['id_fixture'] ?>">
+                            <!-- Agregamos data-fecha, data-hora y data-estado para la lógica JS -->
+                            <div class="match-card" 
+                                data-id="<?= $partido['id_fixture'] ?>"
+                                data-fecha="<?= h($partido['fecha']) ?>" 
+                                data-hora="<?= h($partido['hora']) ?>"
+                                data-estado="<?= h($partido['estado']) ?>">
+                                
                                 <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                
                                 <div class="match-teams">
                                     <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
                                     <span class="vs">VS</span>
                                     <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
                                 </div>
+                                
                                 <div class="match-result">
                                     <?php if ($partido['estado'] === 'finalizado'): ?>
                                         <span class="score score-a"><?= $partido['goles_a'] ?></span>
@@ -125,9 +143,12 @@ $flash = get_flash_message();
                                         <span class="status-pendiente">Pendiente</span>
                                     <?php endif; ?>
                                 </div>
+                                
+                                <!-- El botón está oculto por CSS por defecto. JS le agregará la clase .btn-visible si cumple las condiciones -->
                                 <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
                                     📝 Resultado
                                 </button>
+
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -657,5 +678,49 @@ document.getElementById('resultadoModal').addEventListener('click', function(e) 
     if (e.target === this) {
         closeResultadoModal();
     }
+});
+function verificarVisibilidadBotonesResultado() {
+    const ahora = new Date();
+    const fechaHoyStr = ahora.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    
+    const matchCards = document.querySelectorAll('.match-card');
+    
+    matchCards.forEach(card => {
+        const btn = card.querySelector('.btn-resultado');
+        if (!btn) return;
+
+        const fechaPartidoStr = card.getAttribute('data-fecha');
+        const horaPartidoStr = card.getAttribute('data-hora');
+        const estadoPartido = card.getAttribute('data-estado');
+        
+        if (!fechaPartidoStr || !horaPartidoStr) return;
+
+        // Crear objeto Date para el inicio del partido
+        const [horas, minutos] = horaPartidoStr.split(':').map(Number);
+        const inicioPartido = new Date(fechaPartidoStr);
+        inicioPartido.setHours(horas, minutos, 0, 0);
+
+        // Ventana: Desde 5 min antes hasta 2 horas después del inicio
+        const limiteApertura = new Date(inicioPartido.getTime() - 5 * 60 * 1000);
+        const limiteCierre = new Date(inicioPartido.getTime() + 120 * 60 * 1000);
+
+        const esFechaHoy = (fechaPartidoStr === fechaHoyStr);
+        const noEstaFinalizado = (estadoPartido !== 'finalizado');
+        const estaEnVentanaTiempo = (ahora >= limiteApertura && ahora <= limiteCierre);
+
+        if (esFechaHoy && noEstaFinalizado && estaEnVentanaTiempo) {
+            btn.classList.add('btn-visible');
+            btn.disabled = false;
+        } else {
+            btn.classList.remove('btn-visible');
+            btn.disabled = true;
+        }
+    });
+}
+
+// Llamar al cargar y cada minuto
+document.addEventListener('DOMContentLoaded', function() {
+    verificarVisibilidadBotonesResultado();
+    setInterval(verificarVisibilidadBotonesResultado, 60000);
 });
 </script>

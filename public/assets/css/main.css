@@ -1898,4 +1898,30 @@ body {
     .vivo-title { font-size: 2rem; }
 }
 
+/* Ocultar botón por defecto */
+.btn-resultado {
+    display: none; 
+}
+
+/* Clase auxiliar para mostrarlo vía JS */
+.btn-resultado.btn-visible {
+    display: inline-block; /* O block, según tu layout */
+    background: var(--gradient-button);
+    color: var(--color-dark);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    animation: pulseButton 2s infinite; /* Opcional: para destacar */
+}
+
+@keyframes pulseButton {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 255, 135, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0); }
+}
+
 /* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */
