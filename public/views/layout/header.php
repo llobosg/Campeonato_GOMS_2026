@@ -45,6 +45,9 @@ $page_title = $page_title ?? APP_NAME;
         'send_page_view': true
     });
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
 </head>
 <body class="page-<?= h($current_page) ?>">
     <!-- Contenedor principal donde se inyecta el contenido de las vistas -->
