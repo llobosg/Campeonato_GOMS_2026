@@ -1924,4 +1924,38 @@ body {
     100% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0); }
 }
 
+/* ============================================
+   BOTÓN COMPARTIR WHATSAPP (MODAL VIVO)
+   ============================================ */
+.vivo-share-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn-share-wsp {
+    background: #25D366; /* Verde oficial WhatsApp */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+.btn-share-wsp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+    background: #20bd5a;
+}
+
+.btn-share-wsp:active {
+    transform: scale(0.98);
+}
+
 /* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */

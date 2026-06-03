@@ -639,6 +639,54 @@ async function actualizarContadorVisitas() {
     }
 }
 
+// ============================================
+// COMPARTIR MARCADOR POR WHATSAPP
+// ============================================
+function compartirMarcadorWSP() {
+    // Obtener datos actuales del DOM del modal vivo
+    const equipoA = document.getElementById('vivo-team-a-name')?.textContent || 'Equipo A';
+    const equipoB = document.getElementById('vivo-team-b-name')?.textContent || 'Equipo B';
+    const scoreA = document.getElementById('vivo-score-a')?.textContent || '0';
+    const scoreB = document.getElementById('vivo-score-b')?.textContent || '0';
+    const fecha = document.getElementById('vivo-match-date')?.textContent || '';
+    
+    // Construir mensaje con formato WhatsApp (*negrita*, _cursiva_, ~tachado~)
+    let mensaje = `⚽ *CAMPEONATO GOMS 2026 - EN VIVO* ⚽\n\n`;
+    mensaje += `🏆 ${fecha}\n`;
+    mensaje += `━━━━━━━━━━━━━━━\n`;
+    mensaje += `*${equipoA.toUpperCase()}* ${scoreA} - ${scoreB} *${equipoB.toUpperCase()}*\n`;
+    mensaje += `━━━━━━━━━━━━━━━\n\n`;
+    
+    // Agregar goleadores si existen
+    const scorersList = document.getElementById('vivo-scorers-ul');
+    if (scorersList && scorersList.children.length > 0 && scorersList.children[0].textContent !== 'Cargando...') {
+        mensaje += `⚡ *Goleadores del Partido:*\n`;
+        Array.from(scorersList.children).forEach(li => {
+            mensaje += `• ${li.textContent.trim()}\n`;
+        });
+        mensaje += `\n`;
+    }
+    
+    mensaje += ` Sigue el resultado en tiempo real:\n`;
+    mensaje += `https://campeonatogoms2026.up.railway.app\n\n`;
+    mensaje += `_Enviado desde CanchaSport_ 📱`;
+    
+    // Codificar para URL
+    const textoCodificado = encodeURIComponent(mensaje);
+    const urlWhatsApp = `https://wa.me/?text=${textoCodificado}`;
+    
+    // Abrir WhatsApp (Web o App según dispositivo)
+    window.open(urlWhatsApp, '_blank');
+    
+    // Opcional: Rastrear evento en GA4
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'compartir_whatsapp', {
+            'match': `${equipoA} vs ${equipoB}`,
+            'score': `${scoreA}-${scoreB}`
+        });
+    }
+}
+
 // Llamar cuando cargue la página
 document.addEventListener('DOMContentLoaded', () => {
     actualizarContadorVisitas();
