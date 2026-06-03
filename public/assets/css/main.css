@@ -1512,24 +1512,29 @@ body {
     margin-bottom: 15px;
 }
 
-/* Copa Animada en el Header */
 .copa-animada-img {
-    width: 90px; /* Ajuste de tamaño */
+    /* Tamaño original era ~60px/90px. Aumentamos 50% */
+    width: 135px; 
     height: auto;
-    /* Eliminamos mix-blend-mode para evitar el efecto borroso/deslavado */
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)); /* Sombra dorada sutil */
+    
+    /* TRUCO CSS PARA ELIMINAR FONDO BLANCO EN GRADIENTES */
+    mix-blend-mode: screen; 
+    
+    /* Sombra dorada sutil para integrarla mejor */
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+    
     animation: flotarCopa 3s ease-in-out infinite;
 }
 
 @keyframes flotarCopa {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px); /* Sube 10px */
-    }
-    100% {
-        transform: translateY(0px);
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); } /* Movimiento un poco más amplio por el tamaño */
+}
+
+/* Ajuste móvil proporcional */
+@media (max-width: 768px) {
+    .copa-animada-img {
+        width: 90px; /* También aumenta 50% respecto al anterior valor móvil */
     }
 }
 /* ============================================

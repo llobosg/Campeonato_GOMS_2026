@@ -7,8 +7,15 @@
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     initTabs(); // Inicializa los tabs originales si existen
+    initTabsWithDefaultDate(2); //Inicializamos forzando la Fecha 2 como predeterminada
     initModalEvents();
     checkFlashMessages();
+    // Otras inicializaciones necesarias
+    verificarVisibilidadBotonesResultado();
+    actualizarContadorVisitas();
+    initModalEvents();
+    checkFlashMessages();
+    setInterval(verificarVisibilidadBotonesResultado, 60000); // Revisar cada minuto por si cambia la hora mientras el usuario está en la página
 });
 
 // ============================================
@@ -71,6 +78,38 @@ function filtrarFixturePorFecha(nroFecha) {
         }, 50);
     } else {
         console.warn("No se encontró el elemento con ID: fecha-" + nroFecha);
+    }
+}
+
+// ============================================
+// INICIALIZACIÓN CON FECHA 2 POR DEFECTO
+// ============================================
+function initTabsWithDefaultDate(defaultFecha = 2) {
+    const tabs = document.querySelectorAll('.fecha-tab-img');
+    let activeTabFound = false;
+
+    // Limpiamos cualquier estado activo previo
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    // Buscamos y activamos la pestaña deseada
+    tabs.forEach(tab => {
+        const fechaNum = parseInt(tab.getAttribute('data-fecha'));
+        
+        if (fechaNum === defaultFecha) {
+            tab.classList.add('active');
+            activeTabFound = true;
+            
+            // Disparamos la lógica de mostrar contenido inmediatamente
+            seleccionarFecha(fechaNum);
+        }
+    });
+
+    // Fallback de seguridad: si no existe la Fecha 2, activa la primera disponible
+    if (!activeTabFound && tabs.length > 0) {
+        const firstTab = tabs[0];
+        firstTab.classList.add('active');
+        const firstFecha = parseInt(firstTab.getAttribute('data-fecha'));
+        seleccionarFecha(firstFecha);
     }
 }
 
@@ -460,15 +499,6 @@ function verificarVisibilidadBotonesResultado() {
         }
     });
 }
-
-// Llamar a la función al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
-    // ... tus otras inicializaciones ...
-    verificarVisibilidadBotonesResultado();
-    
-    // Opcional: Revisar cada minuto por si cambia la hora mientras el usuario está en la página
-    setInterval(verificarVisibilidadBotonesResultado, 60000);
-});
 
 // ============================================
 // LÓGICA MODAL RESULTADOS EN VIVO (AUTO-REFRESH)
