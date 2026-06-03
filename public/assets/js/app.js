@@ -625,21 +625,13 @@ async function actualizarContadorVisitas() {
     const element = document.getElementById('visit-count');
     if (!element) return;
 
-    // Nota: Para acceder a la API de GA4 necesitas credenciales de servidor.
-    // Como alternativa ligera y gratuita para mostrar "visitas públicas",
-    // usaremos un servicio externo simple como countapi o similar.
-    // Pero si quieres usar GA4 estrictamente, requeriría un endpoint PHP intermedio.
-    
-    // SOLUCIÓN PRÁCTICA INMEDIATA: Usar CountAPI (Gratuito, sin registro)
-    // Crea un namespace único para tu app
     try {
-        const response = await fetch('https://api.counterapi.dev/v1/goms2026/visits/');
+        // Llamamos a nuestro propio backend que consulta GA4
+        const response = await fetch('/api/visitas.php');
         const data = await response.json();
         
-        if (data.count) {
+        if (data.count !== undefined) {
             element.textContent = data.count.toLocaleString('es-CL');
-        } else {
-            element.textContent = '0';
         }
     } catch (error) {
         console.error('Error cargando contador:', error);
