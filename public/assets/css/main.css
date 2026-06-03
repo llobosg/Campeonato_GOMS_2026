@@ -1964,4 +1964,16 @@ body {
     transform: scale(0.98);
 }
 
+.header-title h1 {
+    font-family: 'Chakra Petch', sans-serif; /* Estilo FIFA */
+    font-size: 3rem; /* Ajustable */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.header-title h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    color: var(--color-gold);
+}
+
 /* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */
