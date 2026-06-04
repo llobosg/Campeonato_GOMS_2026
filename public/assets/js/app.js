@@ -671,6 +671,74 @@ function compartirMarcadorWSP() {
     }
 }
 
+// ============================================
+// LÓGICA DEL MODAL DE RESULTADOS
+// ============================================
+
+// Función Global para abrir el modal
+window.openResultadoModal = function(fixtureId) {
+    console.log("Abriendo modal para el partido ID:", fixtureId); // Para debug
+    
+    const modal = document.getElementById('resultadoModal'); // Coincide con tu HTML
+    if (!modal) {
+        console.error("No se encontró el modal con ID 'resultadoModal'");
+        return;
+    }
+
+    // Mostrar el modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Bloquear scroll del fondo
+
+    // Cargar datos del partido
+    cargarDatosPartido(fixtureId);
+};
+
+// Función para cerrar el modal
+window.closeResultadoModal = function() {
+    const modal = document.getElementById('resultadoModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Restaurar scroll
+    }
+};
+
+// Función auxiliar para cargar datos desde la API
+async function cargarDatosPartido(fixtureId) {
+    try {
+        // Asumiendo que tienes una variable BASE_URL definida o usas ruta relativa
+        const url = typeof BASE_URL !== 'undefined' ? `${BASE_URL}/api/fixture/${fixtureId}` : `/api/fixture/${fixtureId}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            actualizarInfoPartido(data.data);
+        } else {
+            alert("Error al cargar los datos del partido.");
+        }
+    } catch (error) {
+        console.error("Error fetching fixture:", error);
+        alert("Error de conexión al cargar el partido.");
+    }
+}
+
+// Función auxiliar para cargar datos (asegúrate de que esta también exista)
+async function cargarDatosPartido(fixtureId) {
+    try {
+        const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            actualizarInfoPartido(data.data);
+            // Aquí podrías cargar también la lista de jugadores si es necesario
+        } else {
+            alert("Error al cargar datos del partido");
+        }
+    } catch (error) {
+        console.error("Error fetching fixture:", error);
+        alert("Error de conexión");
+    }
+}
 // Llamar cuando cargue la página
 document.addEventListener('DOMContentLoaded', () => {
     actualizarContadorVisitas();
