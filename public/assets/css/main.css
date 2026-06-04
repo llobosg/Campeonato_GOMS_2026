@@ -1665,7 +1665,7 @@ body {
 .goleador-item {
     display: grid;
     /* Columna 1: Ranking (fija) | Columna 2: Nombre (elástica) | Columna 3: Goles+Balón (fija a la derecha) */
-    grid-template-columns: 25px 1fr auto; 
+    grid-template-columns: 30px 2fr 80px;
     align-items: center;
     padding: 10px 5px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
