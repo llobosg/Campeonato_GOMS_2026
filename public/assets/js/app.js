@@ -1,22 +1,24 @@
 /**
  * app.js - JavaScript Principal Campeonato GOMS 2026
- * Versión Optimizada y Unificada
+ * Versión Final Limpia y Sin Conflictos
  */
 
-// Variables Globales
-let currentFixtureId = null;
-let currentPartidoData = null;
-let vivoIntervalId = null;
+// ============================================
+// VARIABLES GLOBALES (DECLARADAS UNA SOLA VEZ)
+// ============================================
+var currentFixtureId = null;
+var currentPartidoData = null;
+var vivoIntervalId = null;
 
 // ============================================
-// INICIALIZACIÓN GLOBAL (ÚNICO BLOQUE)
+// INICIALIZACIÓN GLOBAL
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log("🚀 Iniciando App GOMS 2026...");
     
     // 1. Inicializar Tabs y Fechas
-    initTabs(); // Para tabs de texto si existen
-    initTabsWithDefaultDate(2); // Forzar Fecha 2 por defecto
+    initTabs(); 
+    initTabsWithDefaultDate(2); 
     
     // 2. Inicializar Modales y Eventos
     initModalEvents();
@@ -25,25 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 3. Contador de Visitas
     actualizarContadorVisitas();
     
-    // 4. Listeners globales
-    document.addEventListener('click', function(e) {
-        const modal = document.getElementById('resultadoModal');
-        if (e.target === modal) closeResultadoModal();
-        
-        const modalVivo = document.getElementById('modalVivo');
-        if (e.target === modalVivo) closeModalVivo();
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeResultadoModal();
-            closeModalVivo();
-        }
-        if (e.key === 'Enter' && e.target.id === 'adminPassword') {
-            verificarPassword();
-        }
-    });
-
     console.log("✅ App iniciada correctamente");
 });
 
@@ -66,7 +49,7 @@ function initTabs() {
     }
 }
 
-function seleccionarFecha(nroFecha) {
+window.seleccionarFecha = function(nroFecha) {
     console.log("Seleccionando fecha:", nroFecha);
     const botones = document.querySelectorAll('.fecha-tab-img');
     botones.forEach(btn => btn.classList.remove('active'));
@@ -163,6 +146,7 @@ async function cargarDatosPartido(fixtureId) {
         const data = await response.json();
         
         if (data.success && data.data) {
+            currentPartidoData = data.data;
             actualizarInfoPartido(data.data);
         }
     } catch (error) {
@@ -287,7 +271,7 @@ async function cargarListaJugadores(equipoId, lado) {
     }
 }
 
-function sumarGol(jugadorId, lado) {
+window.sumarGol = function(jugadorId, lado) {
     const element = document.getElementById(`gol-${jugadorId}`);
     if (!element) return;
     let count = parseInt(element.textContent) || 0;
@@ -295,7 +279,7 @@ function sumarGol(jugadorId, lado) {
     actualizarMarcadorPreview();
 }
 
-function restarGol(jugadorId, lado) {
+window.restarGol = function(jugadorId, lado) {
     const element = document.getElementById(`gol-${jugadorId}`);
     if (!element) return;
     let count = parseInt(element.textContent) || 0;
@@ -319,7 +303,7 @@ function actualizarMarcadorPreview() {
     if (previewGolesB) previewGolesB.textContent = golesB;
 }
 
-async function finalizarPartido() {
+window.finalizarPartido = async function() {
     if (!currentFixtureId) {
         showToast('❌ Error: No hay partido seleccionado', 'error');
         return;
@@ -407,7 +391,7 @@ async function cargarDatosVivo() {
         
         if (data.success && data.data) {
             const partido = data.data;
-            actualizarMarcadorVivo('vivo-score-a', partido.goles_a || 0); // Ajustado a goles_a/b
+            actualizarMarcadorVivo('vivo-score-a', partido.goles_a || 0);
             actualizarMarcadorVivo('vivo-score-b', partido.goles_b || 0);
             
             document.getElementById('vivo-team-a-name').textContent = partido.nombre_equipo_a;
@@ -456,7 +440,7 @@ async function actualizarGoleadoresVivo(fixtureId) {
 // ============================================
 // UTILIDADES Y TOASTS
 // ============================================
-function showToast(message, type = 'success') {
+window.showToast = function(message, type = 'success') {
     const existingToasts = document.querySelectorAll('.toast');
     existingToasts.forEach(toast => toast.remove());
     
@@ -491,7 +475,7 @@ function formatDate(dateString) {
 }
 
 function initModalEvents() {
-    // Los listeners ya están en DOMContentLoaded para evitar duplicados
+    // Listeners globales ya manejados en DOMContentLoaded
 }
 
 function checkFlashMessages() {
@@ -519,7 +503,7 @@ async function actualizarContadorVisitas() {
     }
 }
 
-function compartirMarcadorWSP() {
+window.compartirMarcadorWSP = function() {
     const equipoA = document.getElementById('vivo-team-a-name')?.textContent || 'Equipo A';
     const equipoB = document.getElementById('vivo-team-b-name')?.textContent || 'Equipo B';
     const scoreA = document.getElementById('vivo-score-a')?.textContent || '0';
