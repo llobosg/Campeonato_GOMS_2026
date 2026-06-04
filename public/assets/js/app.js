@@ -1,63 +1,192 @@
 /**
  * app.js - JavaScript Principal Campeonato GOMS 2026
+ * Versión Optimizada y Unificada
  */
 
+// Variables Globales
+let currentFixtureId = null;
+let currentPartidoData = null;
+let vivoIntervalId = null;
+
 // ============================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN GLOBAL (ÚNICO BLOQUE)
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    initTabs(); // Inicializa los tabs originales si existen
-    initTabsWithDefaultDate(2); //Inicializamos forzando la Fecha 2 como predeterminada
+    console.log("🚀 Iniciando App GOMS 2026...");
+    
+    // 1. Inicializar Tabs y Fechas
+    initTabs(); // Para tabs de texto si existen
+    initTabsWithDefaultDate(2); // Forzar Fecha 2 por defecto
+    
+    // 2. Inicializar Modales y Eventos
     initModalEvents();
     checkFlashMessages();
-    // Otras inicializaciones necesarias
+    
+    // 3. Contador de Visitas
     actualizarContadorVisitas();
-    initModalEvents();
-    checkFlashMessages();
-    setInterval(verificarVisibilidadBotonesResultado, 60000); // Revisar cada minuto por si cambia la hora mientras el usuario está en la página
+    
+    // 4. Listeners globales
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('resultadoModal');
+        if (e.target === modal) closeResultadoModal();
+        
+        const modalVivo = document.getElementById('modalVivo');
+        if (e.target === modalVivo) closeModalVivo();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeResultadoModal();
+            closeModalVivo();
+        }
+        if (e.key === 'Enter' && e.target.id === 'adminPassword') {
+            verificarPassword();
+        }
+    });
+
+    console.log("✅ App iniciada correctamente");
 });
 
 // ============================================
-// TABS DE FECHAS ORIGINALES (Si usas texto)
+// NAVEGACIÓN DE FECHAS
 // ============================================
 function initTabs() {
-    const tabs = document.querySelectorAll('.fecha-tab'); // Clase original
+    const tabs = document.querySelectorAll('.fecha-tab');
     if (tabs.length > 0) {
         tabs.forEach(tab => {
             tab.addEventListener('click', function() {
                 document.querySelectorAll('.fecha-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.fecha-content').forEach(c => c.classList.remove('active'));
-                
                 this.classList.add('active');
                 const fechaNum = this.dataset.fecha;
                 const content = document.getElementById(`fecha-${fechaNum}`);
-                if (content) {
-                    content.classList.add('active');
-                }
+                if (content) content.classList.add('active');
             });
         });
     }
 }
 
-function showPasswordStep() {
-    const pasoPassword = document.getElementById('paso-password');
-    const pasoGoles = document.getElementById('paso-goles');
-    
-    if (pasoPassword) pasoPassword.style.display = 'block';
-    if (pasoGoles) pasoGoles.style.display = 'none';
-    
-    const passwordInput = document.getElementById('adminPassword');
-    const error_msg = document.getElementById('passwordError');
-    if (passwordInput) passwordInput.value = '';
-    if (error_msg) error_msg.style.display = 'none';
+function seleccionarFecha(nroFecha) {
+    console.log("Seleccionando fecha:", nroFecha);
+    const botones = document.querySelectorAll('.fecha-tab-img');
+    botones.forEach(btn => btn.classList.remove('active'));
+
+    const botonActivo = document.querySelector(`.fecha-tab-img[data-fecha="${nroFecha}"]`);
+    if (botonActivo) botonActivo.classList.add('active');
+
+    filtrarFixturePorFecha(nroFecha);
 }
 
-function showGolesStep() {
+function filtrarFixturePorFecha(nroFecha) {
+    const seccionesPartidos = document.querySelectorAll('.partidos-fecha, .fecha-content');
+    seccionesPartidos.forEach(sec => sec.style.display = 'none');
+
+    const seccionSeleccionada = document.getElementById(`fecha-${nroFecha}`);
+    if (seccionSeleccionada) {
+        seccionSeleccionada.style.display = 'block';
+        seccionSeleccionada.style.opacity = 0;
+        setTimeout(() => {
+            seccionSeleccionada.style.transition = 'opacity 0.3s';
+            seccionSeleccionada.style.opacity = 1;
+        }, 50);
+    }
+}
+
+function initTabsWithDefaultDate(defaultFecha = 2) {
+    const tabs = document.querySelectorAll('.fecha-tab-img');
+    let activeTabFound = false;
+
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    tabs.forEach(tab => {
+        const fechaNum = parseInt(tab.getAttribute('data-fecha'));
+        if (fechaNum === defaultFecha) {
+            tab.classList.add('active');
+            activeTabFound = true;
+            seleccionarFecha(fechaNum);
+        }
+    });
+
+    if (!activeTabFound && tabs.length > 0) {
+        const firstTab = tabs[0];
+        firstTab.classList.add('active');
+        const firstFecha = parseInt(firstTab.getAttribute('data-fecha'));
+        seleccionarFecha(firstFecha);
+    }
+}
+
+// ============================================
+// MODAL RESULTADOS (ADMIN)
+// ============================================
+
+window.openResultadoModal = function(fixtureId) {
+    console.log("🔴 DEBUG: Abriendo modal para ID:", fixtureId);
+    window.currentFixtureId = fixtureId;
+
+    const modal = document.getElementById('resultadoModal');
     const pasoPassword = document.getElementById('paso-password');
     const pasoGoles = document.getElementById('paso-goles');
+    const inputPass = document.getElementById('adminPassword');
+    const errorMsg = document.getElementById('passwordError');
+
+    if (!modal) {
+        alert("❌ Error crítico: El modal no existe en el HTML.");
+        return;
+    }
+
+    // Resetear estado
+    if (pasoPassword) pasoPassword.style.display = 'block';
+    if (pasoGoles) pasoGoles.style.display = 'none';
+    if (inputPass) inputPass.value = '';
+    if (errorMsg) errorMsg.style.display = 'none';
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    cargarDatosPartido(fixtureId);
+};
+
+window.closeResultadoModal = function() {
+    const modal = document.getElementById('resultadoModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+};
+
+async function cargarDatosPartido(fixtureId) {
+    try {
+        const baseUrl = typeof BASE_URL !== 'undefined' ? BASE_URL : '';
+        const url = `${baseUrl}/api/fixture/${fixtureId}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            actualizarInfoPartido(data.data);
+        }
+    } catch (error) {
+        console.error("Error fetching fixture:", error);
+    }
+}
+
+function actualizarInfoPartido(partido) {
+    const titulo = document.getElementById('modalPartidoTitulo');
+    if (titulo) {
+        const fechaFormateada = formatDate(partido.fecha);
+        const hora = partido.hora ? partido.hora.substring(0, 5) : 'HH:MM';
+        titulo.textContent = `Fecha ${partido.nro_fecha} - ${fechaFormateada} ${hora}`;
+    }
     
-    if (pasoPassword) pasoPassword.style.display = 'none';
-    if (pasoGoles) pasoGoles.style.display = 'block';
+    const previewEquipoA = document.getElementById('previewEquipoA');
+    const previewEquipoB = document.getElementById('previewEquipoB');
+    if (previewEquipoA) previewEquipoA.textContent = partido.nombre_equipo_a;
+    if (previewEquipoB) previewEquipoB.textContent = partido.nombre_equipo_b;
+    
+    const previewGolesA = document.getElementById('previewGolesA');
+    const previewGolesB = document.getElementById('previewGolesB');
+    if (previewGolesA) previewGolesA.textContent = '0';
+    if (previewGolesB) previewGolesB.textContent = '0';
 }
 
 async function verificarPassword() {
@@ -76,13 +205,9 @@ async function verificarPassword() {
     try {
         showToast('⏳ Verificando...', 'info');
         
-        // Usamos BASE_URL definida en header.php
         const response = await fetch(`${BASE_URL}/api/resultado/verificar`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
             body: JSON.stringify({ password: password })
         });
         
@@ -105,70 +230,26 @@ async function verificarPassword() {
     }
 }
 
-// Permitir Enter para verificar password
-document.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && e.target.id === 'adminPassword') {
-        verificarPassword();
-    }
-});
-
-// ============================================
-// CARGAR DATOS DEL PARTIDO
-// ============================================
-async function cargarJugadoresPartido(fixtureId) {
-    if (!fixtureId) return;
-    
-    try {
-        showToast('⏳ Cargando datos...', 'info');
-        
-        const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            currentPartidoData = data.data;
-            actualizarInfoPartido(currentPartidoData);
-            
-            await Promise.all([
-                cargarListaJugadores(currentPartidoData.equipo_a, 'A'),
-                cargarListaJugadores(currentPartidoData.equipo_b, 'B')
-            ]);
-            
-            showToast('✅ Datos cargados', 'success');
-        } else {
-            showToast('❌ Error al cargar datos', 'error');
-        }
-    } catch (error) {
-        console.error('Error cargando partido:', error);
-        showToast('❌ Error de conexión', 'error');
-    }
+function showGolesStep() {
+    const pasoPassword = document.getElementById('paso-password');
+    const pasoGoles = document.getElementById('paso-goles');
+    if (pasoPassword) pasoPassword.style.display = 'none';
+    if (pasoGoles) pasoGoles.style.display = 'block';
 }
 
-function actualizarInfoPartido(partido) {
-    // Título del modal
-    const titulo = document.getElementById('modalPartidoTitulo');
-    if (titulo) {
-        // Usamos la fecha del objeto partido que viene de la BD
-        // Si quieres forzar la fecha de HOY, descomenta la siguiente línea:
-        // const fechaUsar = new Date().toISOString().split('T')[0]; 
-        
-        const fechaUsar = partido.fecha; // Usa la fecha real del fixture
-        
-        const fechaFormateada = formatDate(fechaUsar);
-        const hora = partido.hora ? partido.hora.substring(0, 5) : 'HH:MM';
-        
-        // Formato: "Fecha X - DD/MM/YYYY HH:MM"
-        titulo.textContent = `Fecha ${partido.nro_fecha} - ${fechaFormateada} ${hora}`;
+async function cargarJugadoresPartido(fixtureId) {
+    if (!fixtureId || !currentPartidoData) return;
+    
+    try {
+        showToast('⏳ Cargando jugadores...', 'info');
+        await Promise.all([
+            cargarListaJugadores(currentPartidoData.equipo_a, 'A'),
+            cargarListaJugadores(currentPartidoData.equipo_b, 'B')
+        ]);
+        showToast('✅ Jugadores cargados', 'success');
+    } catch (error) {
+        console.error('Error cargando jugadores:', error);
     }
-    
-    const previewEquipoA = document.getElementById('previewEquipoA');
-    const previewEquipoB = document.getElementById('previewEquipoB');
-    if (previewEquipoA) previewEquipoA.textContent = partido.nombre_equipo_a;
-    if (previewEquipoB) previewEquipoB.textContent = partido.nombre_equipo_b;
-    
-    const previewGolesA = document.getElementById('previewGolesA');
-    const previewGolesB = document.getElementById('previewGolesB');
-    if (previewGolesA) previewGolesA.textContent = '0';
-    if (previewGolesB) previewGolesB.textContent = '0';
 }
 
 async function cargarListaJugadores(equipoId, lado) {
@@ -240,14 +321,14 @@ function actualizarMarcadorPreview() {
 
 async function finalizarPartido() {
     if (!currentFixtureId) {
-        showToast(' Error: No hay partido seleccionado', 'error');
+        showToast('❌ Error: No hay partido seleccionado', 'error');
         return;
     }
     
     if (!confirm('¿Estás seguro de finalizar este partido?')) return;
     
     try {
-        showToast('⏳ Procesando...', 'info');
+        showToast('⏳ Procesando resultado...', 'info');
         
         const goles = [];
         document.querySelectorAll('#listaJugadoresA .jugador-gol-item').forEach(item => {
@@ -288,6 +369,91 @@ async function finalizarPartido() {
 }
 
 // ============================================
+// MODAL RESULTADOS EN VIVO (AUTO-REFRESH)
+// ============================================
+
+window.openModalVivo = function() {
+    const modal = document.getElementById('modalVivo');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        cargarDatosVivo(); 
+        
+        if (!vivoIntervalId) {
+            vivoIntervalId = setInterval(cargarDatosVivo, 5000);
+            console.log("🔴 Auto-refresh iniciado para Modal Vivo");
+        }
+    }
+};
+
+window.closeModalVivo = function() {
+    const modal = document.getElementById('modalVivo');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        if (vivoIntervalId) {
+            clearInterval(vivoIntervalId);
+            vivoIntervalId = null;
+            console.log("⚪ Auto-refresh detenido");
+        }
+    }
+};
+
+async function cargarDatosVivo() {
+    try {
+        let fixtureId = window.currentFixtureId || 1; 
+        const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            const partido = data.data;
+            actualizarMarcadorVivo('vivo-score-a', partido.goles_a || 0); // Ajustado a goles_a/b
+            actualizarMarcadorVivo('vivo-score-b', partido.goles_b || 0);
+            
+            document.getElementById('vivo-team-a-name').textContent = partido.nombre_equipo_a;
+            document.getElementById('vivo-team-b-name').textContent = partido.nombre_equipo_b;
+            
+            actualizarGoleadoresVivo(partido.id_fixture);
+        }
+    } catch (error) {
+        console.error('Error refrescando vivo:', error);
+    }
+}
+
+function actualizarMarcadorVivo(elementId, nuevoValor) {
+    const element = document.getElementById(elementId);
+    if (element && parseInt(element.textContent) !== nuevoValor) {
+        element.style.transform = "scale(1.5)";
+        element.style.color = "#fff";
+        element.textContent = nuevoValor;
+        setTimeout(() => {
+            element.style.transform = "scale(1)";
+            element.style.color = "var(--color-primary)";
+        }, 300);
+    }
+}
+
+async function actualizarGoleadoresVivo(fixtureId) {
+    try {
+        const response = await fetch(`${BASE_URL}/api/goles?fixture=${fixtureId}`);
+        const data = await response.json();
+        const scorersUl = document.getElementById('vivo-scorers-ul');
+        
+        if (data.success && data.data && data.data.length > 0) {
+            let html = '';
+            data.data.forEach(gol => {
+                html += `<li> ${gol.nombre_jugador} <small>(${gol.minuto ? gol.minuto + "'" : ''})</small></li>`;
+            });
+            scorersUl.innerHTML = html;
+        } else {
+            scorersUl.innerHTML = '<li>Sin goles registrados aún</li>';
+        }
+    } catch (error) {
+        console.error('Error cargando goleadores vivo:', error);
+    }
+}
+
+// ============================================
 // UTILIDADES Y TOASTS
 // ============================================
 function showToast(message, type = 'success') {
@@ -317,29 +483,15 @@ function escapeHtml(text) {
 function formatDate(dateString) {
     if (!dateString) return '';
     try {
-        // Asumiendo formato YYYY-MM-DD
-        const date = new Date(dateString + 'T00:00:00'); // Forzar zona horaria local si es necesario
-        return date.toLocaleDateString('es-CL', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
+        const date = new Date(dateString + 'T00:00:00');
+        return date.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
     } catch (e) {
-        console.error("Error formateando fecha:", e);
-        return dateString; // Devolver original si falla
+        return dateString;
     }
 }
 
 function initModalEvents() {
-    const modal = document.getElementById('resultadoModal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) closeResultadoModal();
-        });
-    }
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeResultadoModal();
-    });
+    // Los listeners ya están en DOMContentLoaded para evitar duplicados
 }
 
 function checkFlashMessages() {
@@ -351,193 +503,34 @@ function checkFlashMessages() {
 }
 
 // ============================================
-// LÓGICA MODAL RESULTADOS EN VIVO (AUTO-REFRESH)
-// ============================================
-
-let vivoIntervalId = null; // Variable para guardar el ID del intervalo
-
-function openModalVivo() {
-    const modal = document.getElementById('modalVivo');
-    if (modal) {
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        
-        // Cargar datos inmediatamente
-        cargarDatosVivo(); 
-        
-        // Iniciar auto-refresh cada 5 segundos (5000 ms)
-        if (!vivoIntervalId) {
-            vivoIntervalId = setInterval(cargarDatosVivo, 5000);
-            console.log("🔴 Auto-refresh iniciado para Modal Vivo");
-        }
-    }
-}
-
-function closeModalVivo() {
-    const modal = document.getElementById('modalVivo');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-        
-        // Detener el auto-refresh para ahorrar recursos
-        if (vivoIntervalId) {
-            clearInterval(vivoIntervalId);
-            vivoIntervalId = null;
-            console.log("⚪ Auto-refresh detenido");
-        }
-    }
-}
-
-async function cargarDatosVivo() {
-    try {
-        // Usamos el currentFixtureId si existe, o buscamos el partido "activo"
-        // Para este ejemplo, asumimos que currentFixtureId se setea al abrir el modal de resultados
-        // O podrías pasar un ID específico de un partido "estrella"
-        
-        let fixtureId = currentFixtureId || 1; // Fallback
-        
-        // Fetch a la API de fixture para obtener marcadores y goles
-        const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
-        const data = await response.json();
-        
-        if (data.success && data.data) {
-            const partido = data.data;
-            
-            // 1. Actualizar Marcadores con animación si cambian
-            actualizarMarcadorVivo('vivo-score-a', partido.goles_equipo_a || 0);
-            actualizarMarcadorVivo('vivo-score-b', partido.goles_equipo_b || 0);
-            
-            // 2. Actualizar Nombres de Equipos (por si acaso)
-            document.getElementById('vivo-team-a-name').textContent = partido.nombre_equipo_a;
-            document.getElementById('vivo-team-b-name').textContent = partido.nombre_equipo_b;
-            
-            // 3. Actualizar Lista de Goleadores
-            actualizarGoleadoresVivo(partido.id_fixture);
-        }
-    } catch (error) {
-        console.error('Error refrescando vivo:', error);
-    }
-}
-
-// Función auxiliar para actualizar números con animación suave
-function actualizarMarcadorVivo(elementId, nuevoValor) {
-    const element = document.getElementById(elementId);
-    if (element && parseInt(element.textContent) !== nuevoValor) {
-        // Animación simple de "pop"
-        element.style.transform = "scale(1.5)";
-        element.style.color = "#fff";
-        element.textContent = nuevoValor;
-        
-        setTimeout(() => {
-            element.style.transform = "scale(1)";
-            element.style.color = "var(--color-primary)";
-        }, 300);
-    }
-}
-
-// Función para cargar y mostrar goleadores del partido
-async function actualizarGoleadoresVivo(fixtureId) {
-    try {
-        // Necesitas un endpoint que devuelva los goles de un partido específico
-        // Ejemplo: /api/goles/partido/{id}
-        // Si no tienes ese endpoint, puedes filtrar desde el array de jugadores si lo traes todo
-        
-        // Por ahora, simularemos que traemos los goles desde la misma respuesta del fixture 
-        // o haremos un fetch separado si tienes la tabla 'goles' accesible via API.
-        
-        // Supongamos que tienes una API /api/goles?fixture=ID
-        const response = await fetch(`${BASE_URL}/api/goles?fixture=${fixtureId}`);
-        const data = await response.json();
-        
-        const scorersUl = document.getElementById('vivo-scorers-ul');
-        
-        if (data.success && data.data && data.data.length > 0) {
-            let html = '';
-            data.data.forEach(gol => {
-                // Asumiendo que gol tiene: nombre_jugador, minuto, equipo
-                html += `<li> ${gol.nombre_jugador} <small>(${gol.minuto ? gol.minuto + "'" : ''})</small></li>`;
-            });
-            scorersUl.innerHTML = html;
-        } else {
-            scorersUl.innerHTML = '<li>Sin goles registrados aún</li>';
-        }
-    } catch (error) {
-        console.error('Error cargando goleadores vivo:', error);
-    }
-}
-// ============================================
-// EVENTOS GOOGLE ANALYTICS - DATOS POTENCIADORES
-// ============================================
-
-// Rastrear cuando ven posiciones
-function trackVerPosiciones(grupo) {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'ver_posiciones', {
-            'grupo': grupo,
-            'engagement_level': 'high'
-        });
-    }
-}
-
-// Rastrear cuando ingresan resultado (Admin)
-function trackIngresarResultado(fixtureId) {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'ingresar_resultado', {
-            'fixture_id': fixtureId,
-            'user_role': 'admin'
-        });
-    }
-}
-
-// Rastrear apertura del modal En Vivo
-function trackModalVivo() {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'modal_vivo_abierto', {
-            'engagement_level': 'very_high'
-        });
-    }
-}
-
-// ============================================
-// CONTADOR DE VISITAS REALES (VÍA GOOGLE ANALYTICS)
+// ANALYTICS Y COMPARTIR
 // ============================================
 async function actualizarContadorVisitas() {
     const element = document.getElementById('visit-count');
     if (!element) return;
-
     try {
-        // Llamamos a nuestro propio backend que consulta GA4
         const response = await fetch('/api/visitas.php');
         const data = await response.json();
-        
         if (data.count !== undefined) {
             element.textContent = data.count.toLocaleString('es-CL');
         }
     } catch (error) {
-        console.error('Error cargando contador:', error);
         element.textContent = '--';
     }
 }
 
-// ============================================
-// COMPARTIR MARCADOR POR WHATSAPP
-// ============================================
 function compartirMarcadorWSP() {
-    // Obtener datos actuales del DOM del modal vivo
     const equipoA = document.getElementById('vivo-team-a-name')?.textContent || 'Equipo A';
     const equipoB = document.getElementById('vivo-team-b-name')?.textContent || 'Equipo B';
     const scoreA = document.getElementById('vivo-score-a')?.textContent || '0';
     const scoreB = document.getElementById('vivo-score-b')?.textContent || '0';
     const fecha = document.getElementById('vivo-match-date')?.textContent || '';
     
-    // Construir mensaje con formato WhatsApp (*negrita*, _cursiva_, ~tachado~)
     let mensaje = `⚽ *CAMPEONATO GOMS 2026 - EN VIVO* ⚽\n\n`;
-    mensaje += `🏆 ${fecha}\n`;
-    mensaje += `━━━━━━━━━━━━━━━\n`;
+    mensaje += `🏆 ${fecha}\n━━━━━━━━━━━━━━━\n`;
     mensaje += `*${equipoA.toUpperCase()}* ${scoreA} - ${scoreB} *${equipoB.toUpperCase()}*\n`;
     mensaje += `━━━━━━━━━━━━━━━\n\n`;
     
-    // Agregar goleadores si existen
     const scorersList = document.getElementById('vivo-scorers-ul');
     if (scorersList && scorersList.children.length > 0 && scorersList.children[0].textContent !== 'Cargando...') {
         mensaje += `⚡ *Goleadores del Partido:*\n`;
@@ -547,192 +540,14 @@ function compartirMarcadorWSP() {
         mensaje += `\n`;
     }
     
-    mensaje += ` Sigue el resultado en tiempo real:\n`;
-    mensaje += `https://campeonatogoms2026.up.railway.app\n\n`;
-    mensaje += `_Enviado desde CanchaSport_ 📱`;
+    mensaje += `🔗 Sigue el resultado:\nhttps://campeonatogoms2026.up.railway.app\n\n_Enviado desde CanchaSport_ 📱`;
     
-    // Codificar para URL
-    const textoCodificado = encodeURIComponent(mensaje);
-    const urlWhatsApp = `https://wa.me/?text=${textoCodificado}`;
-    
-    // Abrir WhatsApp (Web o App según dispositivo)
+    const urlWhatsApp = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
     window.open(urlWhatsApp, '_blank');
     
-    // Opcional: Rastrear evento en GA4
     if (typeof gtag !== 'undefined') {
-        gtag('event', 'compartir_whatsapp', {
-            'match': `${equipoA} vs ${equipoB}`,
-            'score': `${scoreA}-${scoreB}`
-        });
+        gtag('event', 'compartir_whatsapp', { 'match': `${equipoA} vs ${equipoB}` });
     }
 }
-
-// ============================================
-// FUNCIONES DE NAVEGACIÓN DE FECHAS
-// ============================================
-
-// Función principal para cambiar de fecha
-function seleccionarFecha(nroFecha) {
-    console.log("Seleccionando fecha:", nroFecha);
-    
-    // 1. Quitar clase 'active' de todos los botones de imagen
-    const botones = document.querySelectorAll('.fecha-tab-img');
-    botones.forEach(btn => btn.classList.remove('active'));
-
-    // 2. Agregar clase 'active' al botón clickeado
-    const botonActivo = document.querySelector(`.fecha-tab-img[data-fecha="${nroFecha}"]`);
-    if (botonActivo) {
-        botonActivo.classList.add('active');
-    }
-
-    // 3. Filtrar el fixture visualmente
-    filtrarFixturePorFecha(nroFecha);
-}
-
-// Función auxiliar para mostrar/ocultar partidos
-function filtrarFixturePorFecha(nroFecha) {
-    // Ocultar todas las secciones de partidos
-    const seccionesPartidos = document.querySelectorAll('.partidos-fecha, .fecha-content');
-    seccionesPartidos.forEach(sec => sec.style.display = 'none');
-
-    // Mostrar solo la sección correspondiente a la fecha seleccionada
-    const seccionSeleccionada = document.getElementById(`fecha-${nroFecha}`);
-    if (seccionSeleccionada) {
-        seccionSeleccionada.style.display = 'block';
-        // Pequeña animación opcional
-        seccionSeleccionada.style.opacity = 0;
-        setTimeout(() => {
-            seccionSeleccionada.style.transition = 'opacity 0.3s';
-            seccionSeleccionada.style.opacity = 1;
-        }, 50);
-    } else {
-        console.warn("No se encontró el elemento con ID: fecha-" + nroFecha);
-    }
-}
-
-// Inicialización con Fecha 2 por defecto
-function initTabsWithDefaultDate(defaultFecha = 2) {
-    const tabs = document.querySelectorAll('.fecha-tab-img');
-    let activeTabFound = false;
-
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
-    tabs.forEach(tab => {
-        const fechaNum = parseInt(tab.getAttribute('data-fecha'));
-        if (fechaNum === defaultFecha) {
-            tab.classList.add('active');
-            activeTabFound = true;
-            seleccionarFecha(fechaNum);
-        }
-    });
-
-    if (!activeTabFound && tabs.length > 0) {
-        const firstTab = tabs[0];
-        firstTab.classList.add('active');
-        const firstFecha = parseInt(firstTab.getAttribute('data-fecha'));
-        seleccionarFecha(firstFecha);
-    }
-}
-
-// ============================================
-// LÓGICA DEL MODAL DE RESULTADOS (MAESTRA)
-// ============================================
-
-window.openResultadoModal = function(fixtureId) {
-    console.log("🔴 DEBUG: Abriendo modal para ID:", fixtureId);
-    window.currentFixtureId = fixtureId;
-
-    const modal = document.getElementById('resultadoModal');
-    const pasoPassword = document.getElementById('paso-password');
-    const pasoGoles = document.getElementById('paso-goles');
-    const inputPass = document.getElementById('adminPassword');
-    const errorMsg = document.getElementById('passwordError');
-
-    if (!modal) {
-        alert("❌ Error crítico: El modal no existe en el HTML.");
-        return;
-    }
-
-    if (pasoPassword) pasoPassword.style.display = 'block';
-    if (pasoGoles) pasoGoles.style.display = 'none';
-    if (inputPass) inputPass.value = '';
-    if (errorMsg) errorMsg.style.display = 'none';
-
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-
-    cargarDatosPartido(fixtureId);
-};
-
-window.closeResultadoModal = function() {
-    const modal = document.getElementById('resultadoModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-};
-
-async function cargarDatosPartido(fixtureId) {
-    try {
-        const baseUrl = typeof BASE_URL !== 'undefined' ? BASE_URL : '';
-        const url = `${baseUrl}/api/fixture/${fixtureId}`;
-        
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        if (data.success && data.data) {
-            actualizarInfoPartido(data.data);
-        }
-    } catch (error) {
-        console.error("Error fetching fixture:", error);
-    }
-}
-
-function actualizarInfoPartido(partido) {
-    const titulo = document.getElementById('modalPartidoTitulo');
-    if (titulo) {
-        titulo.textContent = `${partido.nombre_equipo_a} vs ${partido.nombre_equipo_b}`;
-    }
-}
-
-// Listener para cerrar al hacer click fuera
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('resultadoModal');
-    if (e.target === modal) {
-        closeResultadoModal();
-    }
-});
-
-// ============================================
-// INICIALIZACIÓN GLOBAL
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    initTabsWithDefaultDate(2); 
-    verificarVisibilidadBotonesResultado(); // Si decides volver a usarla
-    actualizarContadorVisitas();
-});
-
-// Llamar cuando cargue la página
-document.addEventListener('DOMContentLoaded', () => {
-    actualizarContadorVisitas();
-});
-
-// Exportar funciones globales
-window.openModalVivo = openModalVivo;
-window.closeModalVivo = closeModalVivo;
-
-// ============================================
-// EXPORTAR FUNCIONES AL WINDOW (CRUCIAL PARA ONCLICK)
-// ============================================
-window.seleccionarFecha = seleccionarFecha;
-window.filtrarFixturePorFecha = filtrarFixturePorFecha;
-window.openResultadoModal = openResultadoModal;
-window.closeResultadoModal = closeResultadoModal;
-window.verificarPassword = verificarPassword;
-window.sumarGol = sumarGol;
-window.restarGol = restarGol;
-window.finalizarPartido = finalizarPartido;
-window.showToast = showToast;
 
 console.log('✅ app.js cargado correctamente | Campeonato GOMS 2026');
-
