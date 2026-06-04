@@ -372,6 +372,7 @@ body {
     font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;
+    display: inline-block !important; /* <--- AGREGA ESTO PARA FORZARLO */
 }
 
 .btn-resultado:hover {
@@ -1280,10 +1281,6 @@ body {
         gap: var(--spacing-sm);
     }
     
-    .btn-resultado {
-        display: none;
-    }
-    
     .equipos-grid {
         grid-template-columns: 1fr;
     }
@@ -1902,11 +1899,6 @@ body {
     .vivo-score { font-size: 4rem; min-width: 100px; padding: 10px 20px; }
     .vivo-team h3 { font-size: 1.5rem; }
     .vivo-title { font-size: 2rem; }
-}
-
-/* Ocultar botón por defecto */
-.btn-resultado {
-    display: none; 
 }
 
 /* Clase auxiliar para mostrarlo vía JS */
