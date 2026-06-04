@@ -352,8 +352,8 @@ $flash = get_flash_message();
         </section>
         
         <!-- BOTÓN MARCADOR EN VIVO -->
-        <button class="btn-vivo" onclick="openModalVivo()">
-            📺 RESULTADOS EN VIVO
+        <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+            📝 Resultado
         </button>
     </div>
 </div>
@@ -402,8 +402,8 @@ $flash = get_flash_message();
                     </div>
                 </div>
                 
-                <button class="btn btn-success btn-finalizar" onclick="finalizarPartido()">
-                    ✅ Finalizar Partido
+                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                    📝 Resultado
                 </button>
             </div>
         </div>

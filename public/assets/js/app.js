@@ -672,33 +672,31 @@ function compartirMarcadorWSP() {
 }
 
 // ============================================
-// LÓGICA DEL MODAL DE RESULTADOS
+// APERTURA DEL MODAL DE RESULTADOS
 // ============================================
-
-// Función Global para abrir el modal
 window.openResultadoModal = function(fixtureId) {
-    console.log("Abriendo modal para el partido ID:", fixtureId); // Para debug
+    console.log("🔍 Intentando abrir modal para ID:", fixtureId); // Debug
     
-    const modal = document.getElementById('resultadoModal'); // Coincide con tu HTML
+    const modal = document.getElementById('resultadoModal'); // Debe coincidir con el ID del HTML
+    
     if (!modal) {
-        console.error("No se encontró el modal con ID 'resultadoModal'");
+        console.error("❌ Error: No se encontró el elemento con ID 'resultadoModal'");
         return;
     }
 
-    // Mostrar el modal
     modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Bloquear scroll del fondo
-
+    document.body.style.overflow = 'hidden'; // Bloquear scroll
+    
     // Cargar datos del partido
     cargarDatosPartido(fixtureId);
 };
 
-// Función para cerrar el modal
+// Función para cerrar
 window.closeResultadoModal = function() {
     const modal = document.getElementById('resultadoModal');
     if (modal) {
         modal.style.display = 'none';
-        document.body.style.overflow = ''; // Restaurar scroll
+        document.body.style.overflow = '';
     }
 };
 
