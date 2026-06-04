@@ -39,110 +39,6 @@ function initTabs() {
     }
 }
 
-// ============================================
-// NUEVA FUNCIÓN PARA IMÁGENES DE FECHAS
-// ============================================
-function seleccionarFecha(nroFecha) {
-    console.log("Seleccionando fecha:", nroFecha);
-    
-    // 1. Quitar clase 'active' de todos los botones de imagen
-    const botones = document.querySelectorAll('.fecha-tab-img');
-    botones.forEach(btn => btn.classList.remove('active'));
-
-    // 2. Agregar clase 'active' al botón clickeado
-    const botonActivo = document.querySelector(`.fecha-tab-img[data-fecha="${nroFecha}"]`);
-    if (botonActivo) {
-        botonActivo.classList.add('active');
-    }
-
-    // 3. Filtrar el fixture visualmente
-    filtrarFixturePorFecha(nroFecha);
-}
-
-function filtrarFixturePorFecha(nroFecha) {
-    // Ocultar todas las secciones de partidos
-    const seccionesPartidos = document.querySelectorAll('.partidos-fecha, .fecha-content');
-    seccionesPartidos.forEach(sec => sec.style.display = 'none');
-
-    // Mostrar solo la sección correspondiente a la fecha seleccionada
-    // Nota: Asegúrate que tus divs de contenido tengan id="fecha-1", id="fecha-2", etc.
-    const seccionSeleccionada = document.getElementById(`fecha-${nroFecha}`);
-    if (seccionSeleccionada) {
-        seccionSeleccionada.style.display = 'block';
-        // Pequeña animación opcional
-        seccionSeleccionada.style.opacity = 0;
-        setTimeout(() => {
-            seccionSeleccionada.style.transition = 'opacity 0.3s';
-            seccionSeleccionada.style.opacity = 1;
-        }, 50);
-    } else {
-        console.warn("No se encontró el elemento con ID: fecha-" + nroFecha);
-    }
-}
-
-// ============================================
-// INICIALIZACIÓN CON FECHA 2 POR DEFECTO
-// ============================================
-function initTabsWithDefaultDate(defaultFecha = 2) {
-    const tabs = document.querySelectorAll('.fecha-tab-img');
-    let activeTabFound = false;
-
-    // Limpiamos cualquier estado activo previo
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
-    // Buscamos y activamos la pestaña deseada
-    tabs.forEach(tab => {
-        const fechaNum = parseInt(tab.getAttribute('data-fecha'));
-        
-        if (fechaNum === defaultFecha) {
-            tab.classList.add('active');
-            activeTabFound = true;
-            
-            // Disparamos la lógica de mostrar contenido inmediatamente
-            seleccionarFecha(fechaNum);
-        }
-    });
-
-    // Fallback de seguridad: si no existe la Fecha 2, activa la primera disponible
-    if (!activeTabFound && tabs.length > 0) {
-        const firstTab = tabs[0];
-        firstTab.classList.add('active');
-        const firstFecha = parseInt(firstTab.getAttribute('data-fecha'));
-        seleccionarFecha(firstFecha);
-    }
-}
-
-// ============================================
-// MODAL DE RESULTADO Y CONTRASEÑA
-// ============================================
-function openResultadoModal(fixtureId) {
-    currentFixtureId = fixtureId;
-    const modal = document.getElementById('resultadoModal');
-    
-    if (modal) {
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        showPasswordStep();
-        
-        // Animación entrada
-        const content = modal.querySelector('.modal-content');
-        if(content) {
-            content.style.animation = 'none';
-            setTimeout(() => content.style.animation = 'slideUp 0.3s ease', 10);
-        }
-    }
-}
-
-function closeResultadoModal() {
-    const modal = document.getElementById('resultadoModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-        currentFixtureId = null;
-        currentPartidoData = null;
-    }
-}
-
 function showPasswordStep() {
     const pasoPassword = document.getElementById('paso-password');
     const pasoGoles = document.getElementById('paso-goles');
@@ -671,6 +567,151 @@ function compartirMarcadorWSP() {
     }
 }
 
+// ============================================
+// FUNCIONES DE NAVEGACIÓN DE FECHAS
+// ============================================
+
+// Función principal para cambiar de fecha
+function seleccionarFecha(nroFecha) {
+    console.log("Seleccionando fecha:", nroFecha);
+    
+    // 1. Quitar clase 'active' de todos los botones de imagen
+    const botones = document.querySelectorAll('.fecha-tab-img');
+    botones.forEach(btn => btn.classList.remove('active'));
+
+    // 2. Agregar clase 'active' al botón clickeado
+    const botonActivo = document.querySelector(`.fecha-tab-img[data-fecha="${nroFecha}"]`);
+    if (botonActivo) {
+        botonActivo.classList.add('active');
+    }
+
+    // 3. Filtrar el fixture visualmente
+    filtrarFixturePorFecha(nroFecha);
+}
+
+// Función auxiliar para mostrar/ocultar partidos
+function filtrarFixturePorFecha(nroFecha) {
+    // Ocultar todas las secciones de partidos
+    const seccionesPartidos = document.querySelectorAll('.partidos-fecha, .fecha-content');
+    seccionesPartidos.forEach(sec => sec.style.display = 'none');
+
+    // Mostrar solo la sección correspondiente a la fecha seleccionada
+    const seccionSeleccionada = document.getElementById(`fecha-${nroFecha}`);
+    if (seccionSeleccionada) {
+        seccionSeleccionada.style.display = 'block';
+        // Pequeña animación opcional
+        seccionSeleccionada.style.opacity = 0;
+        setTimeout(() => {
+            seccionSeleccionada.style.transition = 'opacity 0.3s';
+            seccionSeleccionada.style.opacity = 1;
+        }, 50);
+    } else {
+        console.warn("No se encontró el elemento con ID: fecha-" + nroFecha);
+    }
+}
+
+// Inicialización con Fecha 2 por defecto
+function initTabsWithDefaultDate(defaultFecha = 2) {
+    const tabs = document.querySelectorAll('.fecha-tab-img');
+    let activeTabFound = false;
+
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    tabs.forEach(tab => {
+        const fechaNum = parseInt(tab.getAttribute('data-fecha'));
+        if (fechaNum === defaultFecha) {
+            tab.classList.add('active');
+            activeTabFound = true;
+            seleccionarFecha(fechaNum);
+        }
+    });
+
+    if (!activeTabFound && tabs.length > 0) {
+        const firstTab = tabs[0];
+        firstTab.classList.add('active');
+        const firstFecha = parseInt(firstTab.getAttribute('data-fecha'));
+        seleccionarFecha(firstFecha);
+    }
+}
+
+// ============================================
+// LÓGICA DEL MODAL DE RESULTADOS (MAESTRA)
+// ============================================
+
+window.openResultadoModal = function(fixtureId) {
+    console.log("🔴 DEBUG: Abriendo modal para ID:", fixtureId);
+    window.currentFixtureId = fixtureId;
+
+    const modal = document.getElementById('resultadoModal');
+    const pasoPassword = document.getElementById('paso-password');
+    const pasoGoles = document.getElementById('paso-goles');
+    const inputPass = document.getElementById('adminPassword');
+    const errorMsg = document.getElementById('passwordError');
+
+    if (!modal) {
+        alert("❌ Error crítico: El modal no existe en el HTML.");
+        return;
+    }
+
+    if (pasoPassword) pasoPassword.style.display = 'block';
+    if (pasoGoles) pasoGoles.style.display = 'none';
+    if (inputPass) inputPass.value = '';
+    if (errorMsg) errorMsg.style.display = 'none';
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    cargarDatosPartido(fixtureId);
+};
+
+window.closeResultadoModal = function() {
+    const modal = document.getElementById('resultadoModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+};
+
+async function cargarDatosPartido(fixtureId) {
+    try {
+        const baseUrl = typeof BASE_URL !== 'undefined' ? BASE_URL : '';
+        const url = `${baseUrl}/api/fixture/${fixtureId}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            actualizarInfoPartido(data.data);
+        }
+    } catch (error) {
+        console.error("Error fetching fixture:", error);
+    }
+}
+
+function actualizarInfoPartido(partido) {
+    const titulo = document.getElementById('modalPartidoTitulo');
+    if (titulo) {
+        titulo.textContent = `${partido.nombre_equipo_a} vs ${partido.nombre_equipo_b}`;
+    }
+}
+
+// Listener para cerrar al hacer click fuera
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('resultadoModal');
+    if (e.target === modal) {
+        closeResultadoModal();
+    }
+});
+
+// ============================================
+// INICIALIZACIÓN GLOBAL
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    initTabsWithDefaultDate(2); 
+    verificarVisibilidadBotonesResultado(); // Si decides volver a usarla
+    actualizarContadorVisitas();
+});
+
 // Llamar cuando cargue la página
 document.addEventListener('DOMContentLoaded', () => {
     actualizarContadorVisitas();
@@ -695,89 +736,3 @@ window.showToast = showToast;
 
 console.log('✅ app.js cargado correctamente | Campeonato GOMS 2026');
 
-// ============================================
-// LÓGICA COMPLETA DEL MODAL DE RESULTADOS
-// ============================================
-
-// 1. Función Global para Abrir el Modal
-window.openResultadoModal = function(fixtureId) {
-    console.log("🔴 DEBUG: Abriendo modal para ID:", fixtureId);
-    
-    // Guardar ID globalmente
-    window.currentFixtureId = fixtureId;
-
-    // Obtener elementos
-    const modal = document.getElementById('resultadoModal');
-    const pasoPassword = document.getElementById('paso-password');
-    const pasoGoles = document.getElementById('paso-goles');
-    const inputPass = document.getElementById('adminPassword');
-    const errorMsg = document.getElementById('passwordError');
-
-    if (!modal) {
-        alert("❌ Error crítico: El modal no existe en el HTML.");
-        return;
-    }
-
-    // Resetear vistas
-    if (pasoPassword) pasoPassword.style.display = 'block';
-    if (pasoGoles) pasoGoles.style.display = 'none';
-    if (inputPass) inputPass.value = '';
-    if (errorMsg) errorMsg.style.display = 'none';
-
-    // Mostrar Modal
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-
-    // Cargar datos del partido
-    cargarDatosPartido(fixtureId);
-};
-
-// 2. Función para Cerrar el Modal
-window.closeResultadoModal = function() {
-    const modal = document.getElementById('resultadoModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-};
-
-// 3. Función Auxiliar para Cargar Datos (LA CORRECTA)
-async function cargarDatosPartido(fixtureId) {
-    try {
-        // Manejo seguro de BASE_URL
-        const baseUrl = typeof BASE_URL !== 'undefined' ? BASE_URL : '';
-        const url = `${baseUrl}/api/fixture/${fixtureId}`;
-        
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        if (data.success && data.data) {
-            actualizarInfoPartido(data.data);
-        } else {
-            console.warn("No se pudieron cargar los datos del partido");
-        }
-    } catch (error) {
-        console.error("Error fetching fixture:", error);
-    }
-}
-
-// 4. Función para Actualizar la UI del Modal
-function actualizarInfoPartido(partido) {
-    const titulo = document.getElementById('modalPartidoTitulo');
-    if (titulo) {
-        titulo.textContent = `${partido.nombre_equipo_a} vs ${partido.nombre_equipo_b}`;
-    }
-    
-    // Si tienes previews de marcadores en el paso de goles, actualízalos aquí
-    // Ejemplo:
-    // document.getElementById('previewEquipoA').textContent = partido.nombre_equipo_a;
-    // document.getElementById('previewEquipoB').textContent = partido.nombre_equipo_b;
-}
-
-// 5. Listener para cerrar al hacer click fuera del modal
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('resultadoModal');
-    if (e.target === modal) {
-        closeResultadoModal();
-    }
-});
