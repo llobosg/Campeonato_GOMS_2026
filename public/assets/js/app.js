@@ -671,35 +671,6 @@ function compartirMarcadorWSP() {
     }
 }
 
-// ============================================
-// APERTURA DEL MODAL DE RESULTADOS
-// ============================================
-window.openResultadoModal = function(fixtureId) {
-    console.log("🔍 Intentando abrir modal para ID:", fixtureId); // Debug
-    
-    const modal = document.getElementById('resultadoModal'); // Debe coincidir con el ID del HTML
-    
-    if (!modal) {
-        console.error("❌ Error: No se encontró el elemento con ID 'resultadoModal'");
-        return;
-    }
-
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Bloquear scroll
-    
-    // Cargar datos del partido
-    cargarDatosPartido(fixtureId);
-};
-
-// Función para cerrar
-window.closeResultadoModal = function() {
-    const modal = document.getElementById('resultadoModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-};
-
 // Función auxiliar para cargar datos desde la API
 async function cargarDatosPartido(fixtureId) {
     try {
@@ -760,3 +731,40 @@ window.finalizarPartido = finalizarPartido;
 window.showToast = showToast;
 
 console.log('✅ app.js cargado correctamente | Campeonato GOMS 2026');
+
+// ============================================
+// FUNCIONES GLOBALES DEL MODAL DE RESULTADO
+// ============================================
+
+// Aseguramos que esté disponible globalmente
+window.openResultadoModal = function(id) {
+    console.log("🔴 DEBUG: Función ejecutada con ID:", id);
+    
+    var modal = document.getElementById('resultadoModal');
+    
+    if (!modal) {
+        console.error("❌ ERROR CRÍTICO: No existe ningún elemento con id='resultadoModal' en el HTML");
+        alert("Error de sistema: Modal no encontrado.");
+        return;
+    }
+
+    // Mostrar modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Cargar datos
+    cargarDatosPartido(id);
+};
+
+window.closeResultadoModal = function() {
+    var modal = document.getElementById('resultadoModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+};
+
+async function cargarDatosPartido(id) {
+    console.log("Cargando datos para fixture:", id);
+    // Aquí va tu lógica de fetch...
+}
