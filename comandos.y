@@ -25,7 +25,7 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "clave resultados, litueche"
+git commit -m "fix: ajustes menores"
 git push origin main
 
 

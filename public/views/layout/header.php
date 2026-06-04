@@ -33,7 +33,7 @@ $page_title = $page_title ?? APP_NAME;
     </script>
 
     <!-- Google tag (gtag.js) - Campeonato GOMS 2026 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TU_ID_AQUI"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J7JJY6Z4QS"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}

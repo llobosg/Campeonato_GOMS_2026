@@ -1535,6 +1535,50 @@ body {
         width: 90px; 
     }
 }
+
+/* ============================================
+   BALÓN FIFA 2026 ANIMADO EN HEADER
+   ============================================ */
+
+.header-text-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Espacio entre el texto y el balón */
+}
+
+.balon-container {
+    display: flex;
+    align-items: center;
+}
+
+.balon-animado-img {
+    width: 50px; /* Tamaño ajustado para equilibrar con el título */
+    height: auto;
+    
+    /* Animación de giro continuo */
+    animation: girarBalon 4s linear infinite;
+    
+    /* Sombra sutil para dar profundidad */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+@keyframes girarBalon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Ajuste Responsive para móviles */
+@media (max-width: 768px) {
+    .header-text-group {
+        flex-direction: column; /* En móvil, poner el balón bajo el título si falta espacio */
+        gap: 5px;
+    }
+    
+    .balon-animado-img {
+        width: 35px; /* Más pequeño en móvil */
+    }
+}
 /* ============================================
    TABLAS DE POSICIONES SIMÉTRICAS (GRUPO A y B)
    ============================================ */

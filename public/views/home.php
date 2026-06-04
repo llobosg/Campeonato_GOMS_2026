@@ -8,16 +8,28 @@ $flash = get_flash_message();
 ?>
 
 <!-- ============================================ -->
-<!-- HEADER -->
+<!-- HEADER CON LOGO, TÍTULO Y BALÓN -->
 <!-- ============================================ -->
 <div class="championship-header">
     <div class="header-content">
+        
+        <!-- Copa a la izquierda -->
         <div class="copa-animada-container">
-            <img src="/assets/images/copa-mundo.png" alt="Copa" class="copa-animada-img">
+            <img src="/assets/images/copa-mundo.png" alt="Copa Fútbol Mundial GOMS 2026" class="copa-animada-img">
         </div>
-        <div class="header-title">
-            <h1>CAMPEONATO MUNDIAL FÚTBOL GOMS 2026 ⚽</h1>
+
+        <!-- Grupo Central: Título + Balón -->
+        <div class="header-text-group">
+            <div class="header-title">
+                <h1>CAMPEONATO MUNDIAL FÚTBOL GOMS 2026</h1>
+            </div>
+            
+            <!-- Balón FIFA 2026 Giratorio -->
+            <div class="balon-container">
+                <img src="/assets/images/balonfifa2026.png" alt="Balón FIFA 2026" class="balon-animado-img">
+            </div>
         </div>
+
         <div class="header-badge">
             <span class="badge-text">FECHA <?= $fecha_actual['nro_fecha'] ?? '-' ?></span>
         </div>
