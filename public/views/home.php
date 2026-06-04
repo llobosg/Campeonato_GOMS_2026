@@ -466,9 +466,6 @@ $flash = get_flash_message();
 <!-- JAVASCRIPT INLINE (Se moverá a app.js después) -->
 <!-- ============================================ -->
 <script>
-let currentFixtureId = null;
-let currentPartidoData = null;
-
 // Tabs de fechas
 document.querySelectorAll('.fecha-tab').forEach(tab => {
     tab.addEventListener('click', function() {
