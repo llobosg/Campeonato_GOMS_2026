@@ -42,12 +42,25 @@ class HomeController {
     
     private function getFechaActual(PDO $pdo): ?array {
         $hoy = date('Y-m-d');
-        $sql = "SELECT nro_fecha, fecha, MIN(hora) as hora_inicio FROM fixture WHERE fecha = :hoy GROUP BY nro_fecha, fecha";
+        
+        // 1. Intentar buscar si hay partidos HOY
+        $sql = "SELECT nro_fecha, fecha, MIN(hora) as hora_inicio 
+                FROM fixture 
+                WHERE fecha = :hoy 
+                GROUP BY nro_fecha, fecha"; // Agregamos nro_fecha al GROUP BY
+        
         $resultado = db_fetch_one($pdo, $sql, ['hoy' => $hoy]);
         
         if ($resultado) return $resultado;
         
-        $sql = "SELECT nro_fecha, fecha, MIN(hora) as hora_inicio FROM fixture WHERE fecha > :hoy ORDER BY fecha ASC LIMIT 1";
+        // 2. Si no hay hoy, buscar la PRÓXIMA fecha con partidos
+        $sql = "SELECT nro_fecha, fecha, MIN(hora) as hora_inicio 
+                FROM fixture 
+                WHERE fecha > :hoy 
+                GROUP BY nro_fecha, fecha 
+                ORDER BY fecha ASC 
+                LIMIT 1"; // También agregamos GROUP BY aquí por seguridad
+        
         return db_fetch_one($pdo, $sql, ['hoy' => $hoy]);
     }
 }
