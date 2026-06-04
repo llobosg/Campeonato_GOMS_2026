@@ -107,7 +107,7 @@ $flash = get_flash_message();
                                 </div>
                                 
                                 <!-- El botón está oculto por CSS por defecto. JS le agregará la clase .btn-visible si cumple las condiciones -->
-                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                <button onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
                                     📝 Resultado
                                 </button>
 
@@ -145,7 +145,7 @@ $flash = get_flash_message();
                                 </div>
                                 
                                 <!-- El botón está oculto por CSS por defecto. JS le agregará la clase .btn-visible si cumple las condiciones -->
-                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                <button onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
                                     📝 Resultado
                                 </button>
 
