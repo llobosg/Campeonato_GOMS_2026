@@ -487,7 +487,7 @@ body {
     border-radius: 12px;
     padding: 20px;
     margin: 20px auto;
-    width: 95%; /* Mismo ancho que el contenedor de posiciones */
+    width: 100%; /* Mismo ancho que el contenedor de posiciones */
     max-width: 100%;
     box-sizing: border-box;
 }
@@ -515,7 +515,8 @@ body {
 
 .tabla-grupo,
 .goleadores-grupo {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .tabla-grupo:last-child,
@@ -596,16 +597,13 @@ body {
     padding: var(--spacing-xs);
 }
 
-/* Goleadores */
 .goleador-item {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm);
-    background: var(--color-gray);
-    border-radius: var(--border-radius);
-    margin-bottom: var(--spacing-xs);
-    transition: all 0.3s ease;
+    justify-content: space-between;
+    padding: 8px 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 10px; /* Espacio entre número, nombre y goles */
 }
 
 .goleador-item:hover {
@@ -626,20 +624,35 @@ body {
     text-align: center;
 }
 
-.goleador-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+/* 3. Evitar que los nombres se partan en varias líneas */
+.goleador-nombre {
+    white-space: nowrap; /* Fuerza una sola línea */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Agrega ... si es extremadamente largo */
+    font-weight: 600;
+    flex-grow: 1; /* Toma todo el espacio disponible */
+    min-width: 0; /* Necesario para que el ellipsis funcione en flex */
 }
 
-.goleador-nombre {
-    font-weight: 600;
-    color: var(--color-light);
+/* 4. Ajustar el contenedor de info para que el equipo baje un poco si es necesario */
+.goleador-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-right: 10px;
 }
 
 .goleador-equipo {
-    font-size: var(--font-size-sm);
-    color: var(--color-light);
+    font-size: 0.85em;
+    opacity: 0.8;
+    white-space: nowrap;
+}
+
+/* 5. Asegurar que la tabla de posiciones y los goleadores tengan el mismo "peso" visual */
+.tabla-posiciones, .goleadores-grupo {
+    background: rgba(255, 255, 255, 0.05); /* Mismo fondo sutil si lo tienes */
+    border-radius: var(--border-radius);
+    padding: 10px;
 }
 
 .goleador-goles {
