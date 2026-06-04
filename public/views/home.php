@@ -301,8 +301,8 @@ $flash = get_flash_message();
         
         <!-- GOLEADORES ⚽-->
         <section class="goleadores-section">
-            <h3 class="section-title"><span class="goleador-goles">
-                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Gol">
+            <h3 class="section-title"><span class="balon-container">
+                <img src="/assets/images/balonfifa2026.png" alt="Balón FIFA 2026" class="balon-animado-img">
             </span> Goleadores</h3>
             
             <!-- GRUPO A -->
