@@ -1579,6 +1579,26 @@ body {
         width: 35px; /* Más pequeño en móvil */
     }
 }
+
+/* ============================================
+   MINI BALÓN GIRATORIO EN LISTA DE JUGADORES
+   ============================================ */
+.mini-balon-giratorio {
+    width: 18px; /* Tamaño similar a una letra mayúscula */
+    height: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle; /* Alineación perfecta con el texto */
+    
+    /* Animación de giro */
+    animation: girarBalon 3s linear infinite;
+}
+
+/* Reutilizamos la animación que ya creamos para el header */
+@keyframes girarBalon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 /* ============================================
    TABLAS DE POSICIONES SIMÉTRICAS (GRUPO A y B)
    ============================================ */

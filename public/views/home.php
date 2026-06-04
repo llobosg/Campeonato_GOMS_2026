@@ -141,10 +141,23 @@ $flash = get_flash_message();
         <section class="equipos-section">
             <h3 class="section-title"><span class="icon">👥</span> Equipos Participantes</h3>
             <div class="equipos-grid">
+                
                 <!-- GRUPO A -->
                 <div class="equipo-column grupo-a">
                     <h4 class="grupo-header">GRUPO A</h4>
+                    
                     <?php
+                    // Obtenemos los IDs de los top 3 goleadores del Grupo A
+                    $topScorersA = [];
+                    if (!empty($goleadoresA)) {
+                        foreach (array_slice($goleadoresA, 0, 3) as $gol) {
+                            // Necesitamos buscar el ID del jugador por su nombre para compararlo
+                            // Nota: Lo ideal sería que $goleadoresA ya traiga id_jugador, 
+                            // pero si no, comparamos por nombre exacto.
+                            $topScorersA[] = $gol['jugador']; 
+                        }
+                    }
+
                     $equiposA = db_fetch_all($pdo, "SELECT * FROM equipos WHERE grupo = 'A' ORDER BY nombre ASC");
                     foreach ($equiposA as $equipo):
                         $jugadores = db_fetch_all($pdo, "SELECT * FROM jugadores WHERE id_equipo = ? ORDER BY nombre ASC", [$equipo['id_equipo']]);
@@ -155,9 +168,18 @@ $flash = get_flash_message();
                                 <?php if (empty($jugadores)): ?>
                                     <small class="no-jugadores">Sin jugadores registrados</small>
                                 <?php else: ?>
-                                    <?php foreach ($jugadores as $jugador): ?>
+                                    <?php foreach ($jugadores as $jugador): 
+                                        // Verificamos si este jugador es un goleador destacado
+                                        $esGoleador = in_array($jugador['nombre'], $topScorersA);
+                                    ?>
                                         <div class="jugador-item">
                                             <span class="jugador-nombre"><?= h($jugador['nombre']) ?></span>
+                                            
+                                            <!-- BALÓN GIF SI ES GOLEADOR -->
+                                            <?php if ($esGoleador): ?>
+                                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Goleador">
+                                            <?php endif; ?>
+                                            
                                             <span class="jugador-area"><?= h($jugador['area'] ?? '-') ?></span>
                                         </div>
                                     <?php endforeach; ?>
@@ -170,7 +192,16 @@ $flash = get_flash_message();
                 <!-- GRUPO B -->
                 <div class="equipo-column grupo-b">
                     <h4 class="grupo-header">GRUPO B</h4>
+                    
                     <?php
+                    // Obtenemos los IDs de los top 3 goleadores del Grupo B
+                    $topScorersB = [];
+                    if (!empty($goleadoresB)) {
+                        foreach (array_slice($goleadoresB, 0, 3) as $gol) {
+                            $topScorersB[] = $gol['jugador'];
+                        }
+                    }
+
                     $equiposB = db_fetch_all($pdo, "SELECT * FROM equipos WHERE grupo = 'B' ORDER BY nombre ASC");
                     foreach ($equiposB as $equipo):
                         $jugadores = db_fetch_all($pdo, "SELECT * FROM jugadores WHERE id_equipo = ? ORDER BY nombre ASC", [$equipo['id_equipo']]);
@@ -181,9 +212,17 @@ $flash = get_flash_message();
                                 <?php if (empty($jugadores)): ?>
                                     <small class="no-jugadores">Sin jugadores registrados</small>
                                 <?php else: ?>
-                                    <?php foreach ($jugadores as $jugador): ?>
+                                    <?php foreach ($jugadores as $jugador): 
+                                        $esGoleador = in_array($jugador['nombre'], $topScorersB);
+                                    ?>
                                         <div class="jugador-item">
                                             <span class="jugador-nombre"><?= h($jugador['nombre']) ?></span>
+                                            
+                                            <!-- BALÓN GIF SI ES GOLEADOR -->
+                                            <?php if ($esGoleador): ?>
+                                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Goleador">
+                                            <?php endif; ?>
+                                            
                                             <span class="jugador-area"><?= h($jugador['area'] ?? '-') ?></span>
                                         </div>
                                     <?php endforeach; ?>
