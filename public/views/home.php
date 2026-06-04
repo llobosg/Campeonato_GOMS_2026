@@ -1,13 +1,15 @@
 <?php
 /**
- * home.php - Vista Principal
+ * home.php - Vista Principal Completa
  */
 global $pdo;
 if (!isset($pdo)) die("Error crítico: No hay conexión a BD.");
 $flash = get_flash_message();
 ?>
 
+<!-- ============================================ -->
 <!-- HEADER -->
+<!-- ============================================ -->
 <div class="championship-header">
     <div class="header-content">
         <div class="copa-animada-container">
@@ -22,11 +24,16 @@ $flash = get_flash_message();
     </div>
 </div>
 
+<!-- ============================================ -->
 <!-- CONTENIDO PRINCIPAL -->
+<!-- ============================================ -->
 <div class="main-container">
+    
+    <!-- SECCIÓN IZQUIERDA (FIXTURE Y EQUIPOS) -->
     <div class="content-left">
         <?php if ($flash): ?><?= render_toast($flash['message'], $flash['type']) ?><?php endif; ?>
         
+        <!-- FIXTURE -->
         <section class="fixture-section">
             <h3 class="section-title"><span class="icon"></span> Fixture del Campeonato</h3>
             
@@ -118,20 +125,189 @@ $flash = get_flash_message();
             <?php endforeach; ?>
         </section>
         
-        <!-- EQUIPOS (Simplificado para brevedad, mantén tu código original de equipos aquí) -->
+        <!-- EQUIPOS PARTICIPANTES -->
         <section class="equipos-section">
-             <!-- ... Tu código original de equipos ... -->
+            <h3 class="section-title"><span class="icon">👥</span> Equipos Participantes</h3>
+            <div class="equipos-grid">
+                <!-- GRUPO A -->
+                <div class="equipo-column grupo-a">
+                    <h4 class="grupo-header">GRUPO A</h4>
+                    <?php
+                    $equiposA = db_fetch_all($pdo, "SELECT * FROM equipos WHERE grupo = 'A' ORDER BY nombre ASC");
+                    foreach ($equiposA as $equipo):
+                        $jugadores = db_fetch_all($pdo, "SELECT * FROM jugadores WHERE id_equipo = ? ORDER BY nombre ASC", [$equipo['id_equipo']]);
+                    ?>
+                        <div class="equipo-card">
+                            <div class="equipo-name"><?= h($equipo['nombre']) ?></div>
+                            <div class="jugadores-list">
+                                <?php if (empty($jugadores)): ?>
+                                    <small class="no-jugadores">Sin jugadores registrados</small>
+                                <?php else: ?>
+                                    <?php foreach ($jugadores as $jugador): ?>
+                                        <div class="jugador-item">
+                                            <span class="jugador-nombre"><?= h($jugador['nombre']) ?></span>
+                                            <span class="jugador-area"><?= h($jugador['area'] ?? '-') ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                
+                <!-- GRUPO B -->
+                <div class="equipo-column grupo-b">
+                    <h4 class="grupo-header">GRUPO B</h4>
+                    <?php
+                    $equiposB = db_fetch_all($pdo, "SELECT * FROM equipos WHERE grupo = 'B' ORDER BY nombre ASC");
+                    foreach ($equiposB as $equipo):
+                        $jugadores = db_fetch_all($pdo, "SELECT * FROM jugadores WHERE id_equipo = ? ORDER BY nombre ASC", [$equipo['id_equipo']]);
+                    ?>
+                        <div class="equipo-card">
+                            <div class="equipo-name"><?= h($equipo['nombre']) ?></div>
+                            <div class="jugadores-list">
+                                <?php if (empty($jugadores)): ?>
+                                    <small class="no-jugadores">Sin jugadores registrados</small>
+                                <?php else: ?>
+                                    <?php foreach ($jugadores as $jugador): ?>
+                                        <div class="jugador-item">
+                                            <span class="jugador-nombre"><?= h($jugador['nombre']) ?></span>
+                                            <span class="jugador-area"><?= h($jugador['area'] ?? '-') ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </section>
     </div>
     
+    <!-- SECCIÓN DERECHA (ESTADÍSTICAS) -->
     <div class="content-right">
-        <!-- POSICIONES Y GOLEADORES (Mantén tu código original aquí) -->
-         <!-- ... Tu código original de posiciones y goleadores ... -->
+        
+        <!-- POSICIONES -->
+        <section class="posiciones-section">
+            <h3 class="section-title"><span class="icon">🏆</span> Posiciones</h3>
+            
+            <!-- GRUPO A -->
+            <div class="tabla-grupo">
+                <h4 class="grupo-mini-header grupo-a">GRUPO A</h4>
+                <table class="tabla-posiciones">
+                    <thead>
+                        <tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($posicionesA as $idx => $equipo): ?>
+                            <tr class="<?= $idx === 0 ? 'first-place' : '' ?>">
+                                <td class="position"><?= $idx + 1 ?></td>
+                                <td class="team-name"><?= h($equipo['equipo']) ?></td>
+                                <td><?= $equipo['ganados'] + $equipo['empatados'] + $equipo['perdidos'] ?></td>
+                                <td><?= $equipo['ganados'] ?></td>
+                                <td><?= $equipo['empatados'] ?></td>
+                                <td><?= $equipo['perdidos'] ?></td>
+                                <td><?= $equipo['goles_favor'] ?></td>
+                                <td><?= $equipo['goles_contra'] ?></td>
+                                <td style="color: <?= $equipo['dg'] > 0 ? '#00ff87' : ($equipo['dg'] < 0 ? '#ff006e' : '#ffffff') ?>; font-weight: bold;">
+                                    <?= $equipo['dg'] > 0 ? '+' . $equipo['dg'] : $equipo['dg'] ?>
+                                </td>
+                                <td class="puntos"><?= $equipo['puntos'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- GRUPO B -->
+            <div class="tabla-grupo">
+                <h4 class="grupo-mini-header grupo-b">GRUPO B</h4>
+                <table class="tabla-posiciones">
+                    <thead>
+                        <tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($posicionesB as $idx => $equipo): ?>
+                            <tr class="<?= $idx === 0 ? 'first-place' : '' ?>">
+                                <td class="position"><?= $idx + 1 ?></td>
+                                <td class="team-name"><?= h($equipo['equipo']) ?></td>
+                                <td><?= $equipo['ganados'] + $equipo['empatados'] + $equipo['perdidos'] ?></td>
+                                <td><?= $equipo['ganados'] ?></td>
+                                <td><?= $equipo['empatados'] ?></td>
+                                <td><?= $equipo['perdidos'] ?></td>
+                                <td><?= $equipo['goles_favor'] ?></td>
+                                <td><?= $equipo['goles_contra'] ?></td>
+                                <td style="color: <?= $equipo['dg'] > 0 ? '#00ff87' : ($equipo['dg'] < 0 ? '#ff006e' : '#ffffff') ?>; font-weight: bold;">
+                                    <?= $equipo['dg'] > 0 ? '+' . $equipo['dg'] : $equipo['dg'] ?>
+                                </td>
+                                <td class="puntos"><?= $equipo['puntos'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- GOLEADORES -->
+        <section class="goleadores-section">
+            <h3 class="section-title"><span class="icon">⚽</span> Goleadores</h3>
+            
+            <!-- GRUPO A -->
+            <div class="goleadores-grupo">
+                <h4 class="grupo-mini-header grupo-a">GRUPO A</h4>
+                <?php if (empty($goleadoresA)): ?>
+                    <p class="no-data">Aún no hay goles registrados</p>
+                <?php else: ?>
+                    <?php foreach ($goleadoresA as $idx => $goleador): ?>
+                        <div class="goleador-item <?= $idx === 0 ? 'top-scorer' : '' ?>">
+                            <span class="goleador-rank"><?= $idx + 1 ?>.</span>
+                            <div class="goleador-info">
+                                <span class="goleador-nombre"><?= h($goleador['jugador']) ?></span>
+                                <span class="goleador-equipo"><?= h($goleador['equipo']) ?></span>
+                            </div>
+                            <span class="goleador-goles"><?= $goleador['goles'] ?> ⚽</span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            
+            <!-- GRUPO B -->
+            <div class="goleadores-grupo">
+                <h4 class="grupo-mini-header grupo-b">GRUPO B</h4>
+                <?php if (empty($goleadoresB)): ?>
+                    <p class="no-data">Aún no hay goles registrados</p>
+                <?php else: ?>
+                    <?php foreach ($goleadoresB as $idx => $goleador): ?>
+                        <div class="goleador-item <?= $idx === 0 ? 'top-scorer' : '' ?>">
+                            <span class="goleador-rank"><?= $idx + 1 ?>.</span>
+                            <div class="goleador-info">
+                                <span class="goleador-nombre"><?= h($goleador['jugador']) ?></span>
+                                <span class="goleador-equipo"><?= h($goleador['equipo']) ?></span>
+                            </div>
+                            <span class="goleador-goles"><?= $goleador['goles'] ?> ⚽</span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </section>
+        
+        <!-- FOOTER CON CONTADOR -->
+        <div class="footer-bottom" style="margin-top: 20px; text-align: center;">
+            <div class="stats-badge">
+                <span class="icon">👁️</span>
+                <span id="visit-count">Cargando...</span> visitantes hoy
+            </div>
+            <p style="font-size: 10px; color: #aaa; margin-top: 5px;">&copy; 2026 CanchaSport</p>
+        </div>
     </div>
 </div>
 
+<!-- ============================================ -->
+<!-- MODALES (RESULTADO Y VIVO) -->
+<!-- ============================================ -->
+
 <!-- MODAL RESULTADO -->
-<div id="resultadoModal" class="modal-overlay" style="display: none;">
+<div id="resultadoModal" class="modal-overlay" style="display: none; z-index: 99999;">
     <div class="modal-content modal-resultado">
         <div class="modal-header">
             <h3>Ingresar Resultado</h3>
@@ -173,7 +349,7 @@ $flash = get_flash_message();
 </div>
 
 <!-- MODAL VIVO -->
-<div id="modalVivo" class="modal-overlay modal-vivo-overlay" style="display: none;">
+<div id="modalVivo" class="modal-overlay modal-vivo-overlay" style="display: none; z-index: 99999;">
     <div class="modal-content modal-vivo-content">
         <button class="btn-close-vivo" onclick="closeModalVivo()"><span class="close-icon">×</span></button>
         <div class="vivo-header">
@@ -199,6 +375,10 @@ $flash = get_flash_message();
             <div class="vivo-scorers-list">
                 <h4>Goleadores:</h4>
                 <ul id="vivo-scorers-ul"><li>Cargando...</li></ul>
+            </div>
+            <!-- Botón Compartir WhatsApp -->
+            <div class="vivo-share-section" style="margin-top:20px; text-align:center;">
+                <button class="btn-share-wsp" onclick="compartirMarcadorWSP()">📲 Compartir por WhatsApp</button>
             </div>
         </div>
     </div>
