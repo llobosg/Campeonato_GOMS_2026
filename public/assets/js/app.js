@@ -671,43 +671,6 @@ function compartirMarcadorWSP() {
     }
 }
 
-// Función auxiliar para cargar datos desde la API
-async function cargarDatosPartido(fixtureId) {
-    try {
-        // Asumiendo que tienes una variable BASE_URL definida o usas ruta relativa
-        const url = typeof BASE_URL !== 'undefined' ? `${BASE_URL}/api/fixture/${fixtureId}` : `/api/fixture/${fixtureId}`;
-        
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        if (data.success && data.data) {
-            actualizarInfoPartido(data.data);
-        } else {
-            alert("Error al cargar los datos del partido.");
-        }
-    } catch (error) {
-        console.error("Error fetching fixture:", error);
-        alert("Error de conexión al cargar el partido.");
-    }
-}
-
-// Función auxiliar para cargar datos (asegúrate de que esta también exista)
-async function cargarDatosPartido(fixtureId) {
-    try {
-        const response = await fetch(`${BASE_URL}/api/fixture/${fixtureId}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            actualizarInfoPartido(data.data);
-            // Aquí podrías cargar también la lista de jugadores si es necesario
-        } else {
-            alert("Error al cargar datos del partido");
-        }
-    } catch (error) {
-        console.error("Error fetching fixture:", error);
-        alert("Error de conexión");
-    }
-}
 // Llamar cuando cargue la página
 document.addEventListener('DOMContentLoaded', () => {
     actualizarContadorVisitas();
@@ -733,38 +696,88 @@ window.showToast = showToast;
 console.log('✅ app.js cargado correctamente | Campeonato GOMS 2026');
 
 // ============================================
-// FUNCIONES GLOBALES DEL MODAL DE RESULTADO
+// LÓGICA COMPLETA DEL MODAL DE RESULTADOS
 // ============================================
 
-// Aseguramos que esté disponible globalmente
-window.openResultadoModal = function(id) {
-    console.log("🔴 DEBUG: Función ejecutada con ID:", id);
+// 1. Función Global para Abrir el Modal
+window.openResultadoModal = function(fixtureId) {
+    console.log("🔴 DEBUG: Abriendo modal para ID:", fixtureId);
     
-    var modal = document.getElementById('resultadoModal');
-    
+    // Guardar ID globalmente
+    window.currentFixtureId = fixtureId;
+
+    // Obtener elementos
+    const modal = document.getElementById('resultadoModal');
+    const pasoPassword = document.getElementById('paso-password');
+    const pasoGoles = document.getElementById('paso-goles');
+    const inputPass = document.getElementById('adminPassword');
+    const errorMsg = document.getElementById('passwordError');
+
     if (!modal) {
-        console.error("❌ ERROR CRÍTICO: No existe ningún elemento con id='resultadoModal' en el HTML");
-        alert("Error de sistema: Modal no encontrado.");
+        alert("❌ Error crítico: El modal no existe en el HTML.");
         return;
     }
 
-    // Mostrar modal
+    // Resetear vistas
+    if (pasoPassword) pasoPassword.style.display = 'block';
+    if (pasoGoles) pasoGoles.style.display = 'none';
+    if (inputPass) inputPass.value = '';
+    if (errorMsg) errorMsg.style.display = 'none';
+
+    // Mostrar Modal
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
-    
-    // Cargar datos
-    cargarDatosPartido(id);
+
+    // Cargar datos del partido
+    cargarDatosPartido(fixtureId);
 };
 
+// 2. Función para Cerrar el Modal
 window.closeResultadoModal = function() {
-    var modal = document.getElementById('resultadoModal');
+    const modal = document.getElementById('resultadoModal');
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = '';
     }
 };
 
-async function cargarDatosPartido(id) {
-    console.log("Cargando datos para fixture:", id);
-    // Aquí va tu lógica de fetch...
+// 3. Función Auxiliar para Cargar Datos (LA CORRECTA)
+async function cargarDatosPartido(fixtureId) {
+    try {
+        // Manejo seguro de BASE_URL
+        const baseUrl = typeof BASE_URL !== 'undefined' ? BASE_URL : '';
+        const url = `${baseUrl}/api/fixture/${fixtureId}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+            actualizarInfoPartido(data.data);
+        } else {
+            console.warn("No se pudieron cargar los datos del partido");
+        }
+    } catch (error) {
+        console.error("Error fetching fixture:", error);
+    }
 }
+
+// 4. Función para Actualizar la UI del Modal
+function actualizarInfoPartido(partido) {
+    const titulo = document.getElementById('modalPartidoTitulo');
+    if (titulo) {
+        titulo.textContent = `${partido.nombre_equipo_a} vs ${partido.nombre_equipo_b}`;
+    }
+    
+    // Si tienes previews de marcadores en el paso de goles, actualízalos aquí
+    // Ejemplo:
+    // document.getElementById('previewEquipoA').textContent = partido.nombre_equipo_a;
+    // document.getElementById('previewEquipoB').textContent = partido.nombre_equipo_b;
+}
+
+// 5. Listener para cerrar al hacer click fuera del modal
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('resultadoModal');
+    if (e.target === modal) {
+        closeResultadoModal();
+    }
+});
