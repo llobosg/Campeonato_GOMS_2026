@@ -1967,5 +1967,11 @@ body {
     font-size: 2.5rem;
     color: var(--color-gold);
 }
+.btn-resultado {
+    position: relative;
+    z-index: 9999; /* Asegura que esté por encima de todo */
+    pointer-events: auto !important; /* Fuerza la recepción de clicks */
+    cursor: pointer !important;
+}
 
 /* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */
