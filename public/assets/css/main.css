@@ -1665,11 +1665,12 @@ body {
 .goleador-item {
     display: grid;
     /* Columna 1: Ranking (fija) | Columna 2: Nombre (elástica) | Columna 3: Goles+Balón (fija a la derecha) */
-    grid-template-columns: 30px 2fr 80px;
+    grid-template-columns: 35px 2fr 70px;
     align-items: center;
     padding: 10px 5px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 10px;
+    gap: 12px;
+    width: 100%;
 }
 
 /* El ranking (#1, #2...) */
@@ -1688,15 +1689,15 @@ body {
 }
 
 .goleador-nombre {
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis; /* Si es MUY largo, pone ... al final */
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
 }
 
 .goleador-equipo {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     opacity: 0.7;
     white-space: nowrap;
     overflow: hidden;
