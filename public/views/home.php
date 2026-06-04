@@ -299,9 +299,11 @@ $flash = get_flash_message();
             </div>
         </section>
         
-        <!-- GOLEADORES -->
+        <!-- GOLEADORES ⚽-->
         <section class="goleadores-section">
-            <h3 class="section-title"><span class="icon">⚽</span> Goleadores</h3>
+            <h3 class="section-title"><span class="goleador-goles">
+                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Gol">
+            </span> Goleadores</h3>
             
             <!-- GRUPO A -->
             <div class="goleadores-grupo">
@@ -316,7 +318,13 @@ $flash = get_flash_message();
                                 <span class="goleador-nombre"><?= h($goleador['jugador']) ?></span>
                                 <span class="goleador-equipo"><?= h($goleador['equipo']) ?></span>
                             </div>
-                            <span class="goleador-goles"><?= $goleador['goles'] ?> ⚽</span>
+                            
+                            <!-- CAMBIO AQUÍ: Usamos la imagen animada en lugar del emoji -->
+                            <span class="goleador-goles">
+                                <?= $goleador['goles'] ?> 
+                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Gol">
+                            </span>
+                            
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -335,7 +343,13 @@ $flash = get_flash_message();
                                 <span class="goleador-nombre"><?= h($goleador['jugador']) ?></span>
                                 <span class="goleador-equipo"><?= h($goleador['equipo']) ?></span>
                             </div>
-                            <span class="goleador-goles"><?= $goleador['goles'] ?> ⚽</span>
+                            
+                            <!-- CAMBIO AQUÍ: Usamos la imagen animada en lugar del emoji -->
+                            <span class="goleador-goles">
+                                <?= $goleador['goles'] ?> 
+                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Gol">
+                            </span>
+
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>

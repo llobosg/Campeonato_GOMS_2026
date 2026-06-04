@@ -1599,6 +1599,13 @@ body {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
+/* Ajuste específico para el balón en la tabla de goleadores */
+.goleador-goles .mini-balon-giratorio {
+    width: 20px; /* Un poquito más grande que en la lista de nombres para destacar */
+    margin-left: 4px;
+    vertical-align: middle;
+}
 /* ============================================
    TABLAS DE POSICIONES SIMÉTRICAS (GRUPO A y B)
    ============================================ */
