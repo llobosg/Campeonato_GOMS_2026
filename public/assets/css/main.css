@@ -597,14 +597,7 @@ body {
     padding: var(--spacing-xs);
 }
 
-.goleador-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 10px; /* Espacio entre número, nombre y goles */
-}
+
 
 .goleador-item:hover {
     transform: translateX(5px);
@@ -616,37 +609,6 @@ body {
     border-left: 4px solid var(--color-gold);
 }
 
-.goleador-rank {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-bold);
-    color: var(--color-gold);
-    min-width: 30px;
-    text-align: center;
-}
-
-/* 3. Evitar que los nombres se partan en varias líneas */
-.goleador-nombre {
-    white-space: nowrap; /* Fuerza una sola línea */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Agrega ... si es extremadamente largo */
-    font-weight: 600;
-    flex-grow: 1; /* Toma todo el espacio disponible */
-    min-width: 0; /* Necesario para que el ellipsis funcione en flex */
-}
-
-/* 4. Ajustar el contenedor de info para que el equipo baje un poco si es necesario */
-.goleador-info {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    margin-right: 10px;
-}
-
-.goleador-equipo {
-    font-size: 0.85em;
-    opacity: 0.8;
-    white-space: nowrap;
-}
 
 /* 5. Asegurar que la tabla de posiciones y los goleadores tengan el mismo "peso" visual */
 .tabla-posiciones, .goleadores-grupo {
@@ -655,14 +617,6 @@ body {
     padding: 10px;
 }
 
-.goleador-goles {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-bold);
-    color: var(--color-primary);
-    background: rgba(0, 255, 135, 0.2);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
-}
 
 .no-data {
     color: var(--color-light);
@@ -1622,7 +1576,6 @@ body {
 /* ============================================
    TABLAS DE POSICIONES SIMÉTRICAS (GRUPO A y B)
    ============================================ */
-
 .posiciones-section {
     display: flex;
     gap: 20px;
@@ -1704,6 +1657,61 @@ body {
         font-size: 0.8rem;
     }
 }
+
+/* ============================================
+   ALINEACIÓN PERFECTA DE GOLEADORES (GRID)
+   ============================================ */
+
+.goleador-item {
+    display: grid;
+    /* Columna 1: Ranking (fija) | Columna 2: Nombre (elástica) | Columna 3: Goles+Balón (fija a la derecha) */
+    grid-template-columns: 25px 1fr auto; 
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 10px;
+}
+
+/* El ranking (#1, #2...) */
+.goleador-rank {
+    font-weight: bold;
+    color: var(--color-gold);
+    text-align: center;
+}
+
+/* El contenedor de info (Nombre y Equipo) */
+.goleador-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0; /* Importante para que el texto no desborde */
+}
+
+.goleador-nombre {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si es MUY largo, pone ... al final */
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.goleador-equipo {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* La columna de goles y balón */
+.goleador-goles {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinea todo a la derecha */
+    gap: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
 /* ============================================
    HEADER COMPACTO Y RESPONSIVE
    ============================================ */
@@ -1782,7 +1790,6 @@ body {
 /* ============================================
    COLOR DE POSICIÓN DE JUGADORES
    ============================================ */
-
 .jugador-posicion, 
 .equipo-jugadores-lista li span:last-child { /* Selector genérico si no tienes clase específica */
     color: #FFC107 !important; /* Amarillo Ocre / Ámbar brillante */

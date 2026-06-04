@@ -240,7 +240,11 @@ $flash = get_flash_message();
         
         <!-- POSICIONES -->
         <section class="posiciones-section">
-            <h3 class="section-title"><span class="icon">🏆</span> Posiciones</h3>
+            <h3 class="section-title">
+                <span class="copa-animada-container">
+                    <img src="/assets/images/copa-mundo.png" alt="Copa Fútbol Mundial GOMS 2026" class="copa-animada-img">  
+                </span> Posiciones
+            </h3>
             
             <!-- GRUPO A -->
             <div class="tabla-grupo">
@@ -301,9 +305,11 @@ $flash = get_flash_message();
         
         <!-- GOLEADORES ⚽-->
         <section class="goleadores-section">
-            <h3 class="section-title"><span class="balon-container">
-                <img src="/assets/images/balonfifa2026.png" alt="Balón FIFA 2026" class="balon-animado-img">
-            </span> Goleadores</h3>
+            <h3 class="section-title">
+                <span class="balon-container">
+                    <img src="/assets/images/balonfifa2026.png" alt="Balón FIFA 2026" class="balon-animado-img">
+                </span> Goleadores
+            </h3>
             
             <!-- GRUPO A -->
             <div class="goleadores-grupo">
