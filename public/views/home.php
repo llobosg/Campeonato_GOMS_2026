@@ -290,15 +290,6 @@ $flash = get_flash_message();
                 <?php endif; ?>
             </div>
         </section>
-        
-        <!-- FOOTER CON CONTADOR -->
-        <div class="footer-bottom" style="margin-top: 20px; text-align: center;">
-            <div class="stats-badge">
-                <span class="icon">👁️</span>
-                <span id="visit-count">Cargando...</span> visitantes hoy
-            </div>
-            <p style="font-size: 10px; color: #aaa; margin-top: 5px;">&copy; 2026 CanchaSport</p>
-        </div>
     </div>
 </div>
 
