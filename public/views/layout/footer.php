@@ -18,9 +18,11 @@ $current_page = $current_page ?? 'home';
             <!-- Sección Superior del Footer -->
             <div class="footer-top">
                 <div class="footer-brand">
-                    <!-- Usamos ruta relativa /assets/... -->
-                    <img src="/assets/images/logo-footer.png" alt="Mundial Futbol GOMS 2026" class="footer-logo">
-                    <h3>MUNDIAL FUTBOL GOMS 2026</h3>
+                    <!-- Copa a la izquierda -->
+                    <div class="copa-animada-container">
+                        <img src="/assets/images/copa-mundo.png" alt="Copa Fútbol Mundial GOMS 2026" class="copa-animada-img">
+                    </div>
+                    <h3>CAMPEONATO MUNDIAL FUTBOL GOMS 2026</h3>
                     <p>El campeonato de fútbol más emocionante del año</p>
                 </div>
                 
@@ -48,9 +50,7 @@ $current_page = $current_page ?? 'home';
                     <div class="footer-column">
                         <h4>Información</h4>
                         <ul>
-                            <li><a href="#">Reglamento</a></li>
-                            <li><a href="#">Contacto</a></li>
-                            <li><a href="#">Acerca de</a></li>
+                            <li><a href="https://canchasport.com">Contacto</a></li>
                         </ul>
                     </div>
                 </div>
@@ -63,7 +63,7 @@ $current_page = $current_page ?? 'home';
             <div class="footer-bottom">
                 <div class="footer-copyright" style="text-align: center; width: 100%;">
                     <p>&copy; <?= date('Y') ?> Campeonato Fútbol GOMS 2026. Todos los derechos reservados.</p>
-                    <p class="footer-developer" style="text-align: center; width: 100%;">Powered by <strong>GLT Sport</strong> </p>
+                    <p class="footer-developer" style="text-align: center; width: 100%;">Powered by <strong><CanchaSport class="com"></CanchaSport></strong> </p>
                 </div>
             </div>
         </div>
