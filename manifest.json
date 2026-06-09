@@ -1,0 +1,24 @@
+{
+  "name": "Campeonato Mundial Fútbol GOMS 2026",
+  "short_name": "GOMS 2026",
+  "description": "App oficial del campeonato de fútbol GOMS 2026. Resultados, posiciones y estadísticas en vivo.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/images/icon-fifa2026-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icon-fifa2026-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

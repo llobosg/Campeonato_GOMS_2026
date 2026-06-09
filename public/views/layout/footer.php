@@ -63,7 +63,7 @@ $current_page = $current_page ?? 'home';
             <div class="footer-bottom">
                 <div class="footer-copyright" style="text-align: center; width: 100%;">
                     <p>&copy; <?= date('Y') ?> Campeonato Fútbol GOMS 2026. Todos los derechos reservados.</p>
-                    <p class="footer-developer" style="text-align: center; width: 100%;">Powered by <strong><CanchaSport class="com"></CanchaSport></strong> </p>
+                    <p class="footer-developer" style="text-align: center; width: 100%;">Powered by <strong>CanchaSport</strong> </p>
                 </div>
             </div>
         </div>

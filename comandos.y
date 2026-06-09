@@ -25,7 +25,7 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "fix: balón fifa al lado de goleadores, 8"
+git commit -m "fix: contacto, 1"
 git push origin main
 
 

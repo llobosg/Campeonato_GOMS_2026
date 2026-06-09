@@ -534,4 +534,48 @@ window.compartirMarcadorWSP = function() {
     }
 }
 
+// ============================================
+// INSTALADOR PWA (INSTALL PROMPT)
+// ============================================
+let deferredPrompt;
+const installButton = document.createElement('button');
+installButton.innerHTML = '📲 Instalar App';
+installButton.className = 'btn-install-pwa'; // Puedes darle estilo en CSS
+installButton.style.display = 'none'; // Oculto por defecto
+
+// Agregar el botón al header o footer (ajusta el selector según donde quieras verlo)
+document.querySelector('.championship-header').appendChild(installButton);
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevenir que Chrome muestre el prompt automático
+    e.preventDefault();
+    // Guardar el evento para dispararlo después
+    deferredPrompt = e;
+    // Mostrar nuestro botón personalizado
+    installButton.style.display = 'block';
+});
+
+installButton.addEventListener('click', (e) => {
+    // Ocultar el botón
+    installButton.style.display = 'none';
+    // Mostrar el prompt de instalación
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        // Esperar la elección del usuario
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('Usuario aceptó la instalación');
+            } else {
+                console.log('Usuario rechazó la instalación');
+            }
+            deferredPrompt = null;
+        });
+    }
+});
+
+// Detectar si ya está instalada
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('La app ya está instalada en modo standalone.');
+    installButton.style.display = 'none';
+}
 console.log('✅ app.js cargado correctamente | Campeonato GOMS 2026');

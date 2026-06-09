@@ -2065,5 +2065,16 @@ body {
     pointer-events: auto !important; /* Fuerza la recepción de clicks */
     cursor: pointer !important;
 }
+.btn-install-pwa {
+    background: var(--color-gold);
+    color: black;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    animation: pulseButton 2s infinite;
+}
 
 /* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */

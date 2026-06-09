@@ -23,6 +23,15 @@ $page_title = $page_title ?? APP_NAME;
     
     <!-- CSS Principal (RUTA ABSOLUTA DESDE LA RAÍZ) -->
     <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#8b5cf6">
+
+    <!-- Iconos para iOS (Apple) -->
+    <link rel="apple-touch-icon" href="/assets/images/icon-fifa2026-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
