@@ -2,6 +2,20 @@
  * app.js - JavaScript Principal Campeonato GOMS 2026
  * Versión Final Limpia y Sin Conflictos
  */
+// ============================================
+// REGISTRO DE SERVICE WORKER (PARA PWA)
+// ============================================
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registrado con éxito:', registration.scope);
+            })
+            .catch(error => {
+                console.log('Fallo en registro de SW:', error);
+            });
+    });
+}
 
 // ============================================
 // VARIABLES GLOBALES (DECLARADAS UNA SOLA VEZ)
@@ -18,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Inicializar Tabs y Fechas
     initTabs(); 
-    initTabsWithDefaultDate(2); 
+    initTabsWithDefaultDate(3); 
     
     // 2. Inicializar Modales y Eventos
     initModalEvents();
