@@ -17,7 +17,11 @@ git checkout -b main
   --user=root \
   --password=bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH \
   --database=railway \
-  -e "DESCRIBE fixture;"
+  -e "INSERT INTO fixture (nro_fecha, fecha, hora, equipo_a, equipo_b, estado) VALUES
+(6, '2026-06-24', '20:00', 11, 11, 'pendiente'),
+(7, '2026-07-01', '20:00', 1, 11, 'pendiente'),
+(8, '2026-07-08', '20:00', 11, 11, 'pendiente'),
+(9, '2026-07-15', '20:00', 11, 11, 'pendiente');"
 
     < database/schema.sql
 
