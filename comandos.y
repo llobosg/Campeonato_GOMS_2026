@@ -17,7 +17,7 @@ git checkout -b main
   --user=root \
   --password=bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH \
   --database=railway \
-  -e "DESCRIBE jugadores;"
+  -e "DESCRIBE fixture;"
 
     < database/schema.sql
 
@@ -25,7 +25,7 @@ mysql://root:bEPuLqZTUMZclzfaaBMQxkvMyNGVHcaH@zephyr.proxy.rlwy.net:55231/railwa
 
 
 git add .
-git commit -m "fix: contacto, 1"
+git commit -m "fix: instalador, 1"
 git push origin main
 
 
