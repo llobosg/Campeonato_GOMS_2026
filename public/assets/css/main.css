@@ -2072,6 +2072,47 @@ body {
 }
 
 /* ============================================
+   PESTAÑAS PLAYOFFS - TEXTO LEGIBLE
+   ============================================ */
+.fecha-tab-img.playoff-tab {
+    background: linear-gradient(135deg, #FFD700, #B8860B);
+    border: 2px solid #fff;
+    color: #FFFFFF !important; /* Texto blanco forzado */
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 25px;
+    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease;
+    
+    /* Sombra de texto para garantizar lectura sobre cualquier fondo */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.fecha-tab-img.playoff-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6);
+    color: #FFFFFF !important;
+}
+
+.fecha-tab-img.playoff-tab.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #FFD700;
+    border-color: #FFD700;
+    color: #FFFFFF !important;
+    background: linear-gradient(135deg, #FFF8DC, #DAA520); /* Fondo más claro al estar activo */
+}
+
+/* Asegurar que los iconos también sean visibles */
+.playoff-tab span {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+}
+
+/* ============================================
    BOTÓN COMPARTIR WHATSAPP (MODAL VIVO)
    ============================================ */
 .vivo-share-section {
@@ -2133,45 +2174,3 @@ body {
     margin-left: 10px;
     animation: pulseButton 2s infinite;
 }
-/* ============================================
-   PESTAÑAS PLAYOFFS - TEXTO LEGIBLE
-   ============================================ */
-.fecha-tab-img.playoff-tab {
-    background: linear-gradient(135deg, #FFD700, #B8860B);
-    border: 2px solid #fff;
-    color: #FFFFFF !important; /* Texto blanco forzado */
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 25px;
-    margin-right: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
-    transition: all 0.3s ease;
-    
-    /* Sombra de texto para garantizar lectura sobre cualquier fondo */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-.fecha-tab-img.playoff-tab:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6);
-    color: #FFFFFF !important;
-}
-
-.fecha-tab-img.playoff-tab.active {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #FFD700;
-    border-color: #FFD700;
-    color: #FFFFFF !important;
-    background: linear-gradient(135deg, #FFF8DC, #DAA520); /* Fondo más claro al estar activo */
-}
-
-/* Asegurar que los iconos también sean visibles */
-.playoff-tab span {
-    color: #FFFFFF;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
-}
-
-/* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */

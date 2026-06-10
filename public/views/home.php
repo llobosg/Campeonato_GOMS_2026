@@ -42,94 +42,178 @@ $flash = get_flash_message();
         <?php if ($flash): ?><?= render_toast($flash['message'], $flash['type']) ?><?php endif; ?>
         
         <!-- FIXTURE -->
-        <section class="fixture-section">
-            <h3 class="section-title"><span class="icon"></span> Fixture del Campeonato</h3>
+        <!-- ============================================ -->
+        <!-- SECCIÓN FASE FINAL (PLAYOFFS) - NUEVA -->
+        <!-- ============================================ -->
+        <section class="playoffs-section">
+            <div class="playoffs-title-group">
+                <h3 class="section-title-playoffs">PLAYOFFS</h3>
+            </div>
             
-            <div class="fechas-tabs">
-                <?php foreach ($fechas as $index => $fecha): ?>
-                    <button class="fecha-tab-img <?= $index === 0 ? 'active' : '' ?>" 
-                            data-fecha="<?= $fecha['nro_fecha'] ?>"
-                            onclick="seleccionarFecha(<?= $fecha['nro_fecha'] ?>)">
-                        <img src="/assets/images/fecha<?= $fecha['nro_fecha'] ?>.png" alt="Fecha <?= $fecha['nro_fecha'] ?>" class="fecha-img">
+            <div class="fechas-tabs playoffs-tabs">
+                <?php 
+                $playoffs = [
+                    6 => ['nombre' => 'SEMI FINAL 1', 'icono' => '⚔️'],
+                    7 => ['nombre' => 'SEMI FINAL 2', 'icono' => '⚔️'],
+                    8 => ['nombre' => '3er LUGAR', 'icono' => '🥉'],
+                    9 => ['nombre' => 'GRAN FINAL', 'icono' => '🏆']
+                ];
+                foreach ($playoffs as $nro => $info): ?>
+                    <button class="fecha-tab-img playoff-tab" data-fecha="<?= $nro ?>" onclick="seleccionarFecha(<?= $nro ?>)">
+                        <span><?= $info['icono'] ?></span> <?= $info['nombre'] ?>
                     </button>
                 <?php endforeach; ?>
             </div>
             
+            <?php foreach ($fechas as $fecha): ?>
+                <?php if ($fecha['nro_fecha'] >= 6): 
+                    $partidosPlayoff = get_fixture_fecha($pdo, $fecha['nro_fecha']);
+                    $placeholderId = 11; // AJUSTA ESTE ID AL REAL DE TU BD
+                    
+                    $getNombre = function($idEquipo) use ($pdo, $placeholderId) {
+                        if ($idEquipo == $placeholderId) return 'Por Definir';
+                        $stmt = $pdo->prepare("SELECT nombre FROM equipos WHERE id_equipo = ?");
+                        $stmt->execute([$idEquipo]);
+                        return $stmt->fetchColumn() ?: 'Desconocido';
+                    };
+                ?>
+                    <div class="fecha-content" id="fecha-<?= $fecha['nro_fecha'] ?>" style="display:none;">
+                        <div class="fecha-header">
+                            <h4><?= $playoffs[$fecha['nro_fecha']]['nombre'] ?> - <?= format_date($fecha['fecha']) ?></h4>
+                            <span class="hora-range"><?= format_time($fecha['hora_inicio']) ?></span>
+                        </div>
+                        
+                        <div class="grupo-matches grupo-playoff">
+                            <?php foreach ($partidosPlayoff as $partido): ?>
+                                <div class="match-card match-card-playoff" 
+                                    data-id="<?= $partido['id_fixture'] ?>"
+                                    data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
+                                    data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
+                                    data-estado="<?= h($partido['estado']) ?>">
+                                    
+                                    <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                    <div class="match-teams">
+                                        <span class="team team-home"><?= h($getNombre($partido['equipo_a'])) ?></span>
+                                        <span class="vs">VS</span>
+                                        <span class="team team-away"><?= h($getNombre($partido['equipo_b'])) ?></span>
+                                    </div>
+                                    <div class="match-result">
+                                        <?php if ($partido['estado'] === 'finalizado'): ?>
+                                            <span class="score score-a"><?= $partido['goles_a'] ?></span>
+                                            <span class="score-divider">-</span>
+                                            <span class="score score-b"><?= $partido['goles_b'] ?></span>
+                                        <?php else: ?>
+                                            <span class="status-pendiente">Pendiente</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                        Resultado
+                                    </button>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECCIÓN FASE DE GRUPOS (FECHAS 1-5) - ORIGINAL INTACTA -->
+        <!-- ============================================ -->
+        <section class="groups-section">
+            <h3 class="section-title-groups">FASE DE GRUPOS</h3>
+            
+            <div class="fechas-tabs">
+                <?php foreach ($fechas as $index => $fecha): ?>
+                    <?php if ($fecha['nro_fecha'] <= 5): ?>
+                        <button class="fecha-tab-img <?= $index === 0 ? 'active' : '' ?>" 
+                                data-fecha="<?= $fecha['nro_fecha'] ?>"
+                                onclick="seleccionarFecha(<?= $fecha['nro_fecha'] ?>)">
+                            <img src="/assets/images/fecha<?= $fecha['nro_fecha'] ?>.png" 
+                                alt="Fecha <?= $fecha['nro_fecha'] ?>" class="fecha-img">
+                        </button>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            
             <?php foreach ($fechas as $index => $fecha): ?>
-                <div class="fecha-content <?= $index === 0 ? 'active' : '' ?>" id="fecha-<?= $fecha['nro_fecha'] ?>">
-                    <div class="fecha-header">
-                        <h4>Fecha <?= $fecha['nro_fecha'] ?> - <?= format_date($fecha['fecha']) ?></h4>
-                        <span class="hora-range"><?= format_time($fecha['hora_inicio']) ?> - <?= format_time($fecha['hora_fin']) ?></span>
+                <?php if ($fecha['nro_fecha'] <= 5): ?>
+                    <div class="fecha-content <?= $index === 0 ? 'active' : '' ?>" id="fecha-<?= $fecha['nro_fecha'] ?>">
+                        <div class="fecha-header">
+                            <h4>Fecha <?= $fecha['nro_fecha'] ?> - <?= format_date($fecha['fecha']) ?></h4>
+                            <span class="hora-range"><?= format_time($fecha['hora_inicio']) ?> - <?= format_time($fecha['hora_fin']) ?></span>
+                        </div>
+                        
+                        <?php
+                        $partidos = get_fixture_fecha($pdo, $fecha['nro_fecha']);
+                        // Filtramos SOLO partidos con grupo A o B válido
+                        $partidosA = array_filter($partidos, fn($p) => isset($p['grupo_a']) && $p['grupo_a'] === 'A');
+                        $partidosB = array_filter($partidos, fn($p) => isset($p['grupo_b']) && $p['grupo_b'] === 'B');
+                        ?>
+                        
+                        <!-- GRUPO A -->
+                        <div class="grupo-matches grupo-a">
+                            <h5 class="grupo-title">GRUPO A</h5>
+                            <?php foreach ($partidosA as $partido): ?>
+                                <div class="match-card" 
+                                    data-id="<?= $partido['id_fixture'] ?>"
+                                    data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
+                                    data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
+                                    data-estado="<?= h($partido['estado']) ?>">
+                                    <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                    <div class="match-teams">
+                                        <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
+                                        <span class="vs">VS</span>
+                                        <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
+                                    </div>
+                                    <div class="match-result">
+                                        <?php if ($partido['estado'] === 'finalizado'): ?>
+                                            <span class="score score-a"><?= $partido['goles_a'] ?></span>
+                                            <span class="score-divider">-</span>
+                                            <span class="score score-b"><?= $partido['goles_b'] ?></span>
+                                        <?php else: ?>
+                                            <span class="status-pendiente">Pendiente</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                        📝 Resultado
+                                    </button>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        
+                        <!-- GRUPO B -->
+                        <div class="grupo-matches grupo-b">
+                            <h5 class="grupo-title">GRUPO B</h5>
+                            <?php foreach ($partidosB as $partido): ?>
+                                <div class="match-card" 
+                                    data-id="<?= $partido['id_fixture'] ?>"
+                                    data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
+                                    data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
+                                    data-estado="<?= h($partido['estado']) ?>">
+                                    <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                    <div class="match-teams">
+                                        <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
+                                        <span class="vs">VS</span>
+                                        <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
+                                    </div>
+                                    <div class="match-result">
+                                        <?php if ($partido['estado'] === 'finalizado'): ?>
+                                            <span class="score score-a"><?= $partido['goles_a'] ?></span>
+                                            <span class="score-divider">-</span>
+                                            <span class="score score-b"><?= $partido['goles_b'] ?></span>
+                                        <?php else: ?>
+                                            <span class="status-pendiente">Pendiente</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                        📝 Resultado
+                                    </button>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                    
-                    <?php
-                    $partidos = get_fixture_fecha($pdo, $fecha['nro_fecha']);
-                    $partidosA = array_filter($partidos, fn($p) => $p['grupo_a'] === 'A');
-                    $partidosB = array_filter($partidos, fn($p) => $p['grupo_b'] === 'B');
-                    ?>
-                    
-                    <!-- GRUPO A -->
-                    <div class="grupo-matches grupo-a">
-                        <h5 class="grupo-title">GRUPO A</h5>
-                        <?php foreach ($partidosA as $partido): ?>
-                            <div class="match-card" 
-                                data-id="<?= $partido['id_fixture'] ?>"
-                                data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
-                                data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
-                                data-estado="<?= h($partido['estado']) ?>">
-                                <div class="match-time"><?= format_time($partido['hora']) ?></div>
-                                <div class="match-teams">
-                                    <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
-                                    <span class="vs">VS</span>
-                                    <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
-                                </div>
-                                <div class="match-result">
-                                    <?php if ($partido['estado'] === 'finalizado'): ?>
-                                        <span class="score score-a"><?= $partido['goles_a'] ?></span>
-                                        <span class="score-divider">-</span>
-                                        <span class="score score-b"><?= $partido['goles_b'] ?></span>
-                                    <?php else: ?>
-                                        <span class="status-pendiente">Pendiente</span>
-                                    <?php endif; ?>
-                                </div>
-                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
-                                    📝 Resultado
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    
-                    <!-- GRUPO B -->
-                    <div class="grupo-matches grupo-b">
-                        <h5 class="grupo-title">GRUPO B</h5>
-                        <?php foreach ($partidosB as $partido): ?>
-                            <div class="match-card" 
-                                data-id="<?= $partido['id_fixture'] ?>"
-                                data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
-                                data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
-                                data-estado="<?= h($partido['estado']) ?>">
-                                <div class="match-time"><?= format_time($partido['hora']) ?></div>
-                                <div class="match-teams">
-                                    <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
-                                    <span class="vs">VS</span>
-                                    <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
-                                </div>
-                                <div class="match-result">
-                                    <?php if ($partido['estado'] === 'finalizado'): ?>
-                                        <span class="score score-a"><?= $partido['goles_a'] ?></span>
-                                        <span class="score-divider">-</span>
-                                        <span class="score score-b"><?= $partido['goles_b'] ?></span>
-                                    <?php else: ?>
-                                        <span class="status-pendiente">Pendiente</span>
-                                    <?php endif; ?>
-                                </div>
-                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
-                                    📝 Resultado
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+                <?php endif; ?>
             <?php endforeach; ?>
         </section>
         
