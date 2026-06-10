@@ -3,17 +3,30 @@
  * Versión Final Limpia y Sin Conflictos
  */
 // ============================================
-// REGISTRO DE SERVICE WORKER (PARA PWA)
+// AUTO-UPDATE FORZADO PARA USUARIOS FINALES
 // ============================================
 if ('serviceWorker' in navigator) {
+    let refreshing;
+    
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (refreshing) return;
+        refreshing = true;
+        // Recarga la página automáticamente sin preguntar
+        window.location.reload(); 
+    });
+
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registrado con éxito:', registration.scope);
-            })
-            .catch(error => {
-                console.log('Fallo en registro de SW:', error);
+        navigator.serviceWorker.register('/sw.js').then(reg => {
+            reg.addEventListener('updatefound', () => {
+                const newWorker = reg.installing;
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        // Si hay nuevo SW y ya había uno antes, forzamos la activación
+                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    }
+                });
             });
+        });
     });
 }
 
