@@ -1,5 +1,27 @@
 // sw.js - Service Worker Básico para PWA
-const CACHE_NAME = 'goms-2026-v3';
+// sw.js
+const CACHE_NAME = 'goms-2026-v3'; // DEBE SER v3 O SUPERIOR
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(name => {
+          if (name !== CACHE_NAME) {
+            console.log('🗑️ Borrando caché obsoleta:', name);
+            return caches.delete(name);
+          }
+        })
+      );
+    })
+  );
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
 const urlsToCache = [
   '/',
   '/assets/css/main.css',

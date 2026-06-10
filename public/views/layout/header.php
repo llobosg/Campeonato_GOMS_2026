@@ -14,6 +14,9 @@ $page_title = $page_title ?? APP_NAME;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title><?= h($page_title) ?></title>
+
+    <link rel="stylesheet" href="/assets/css/main.css?v=3">
+    <script src="/assets/js/app.js?v=3"></script>
     
     <!-- Meta tags SEO -->
     <meta name="description" content="Campeonato de Fútbol GOMS 2026">
