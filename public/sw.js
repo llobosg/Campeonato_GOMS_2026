@@ -1,5 +1,5 @@
 // sw.js - Service Worker Básico para PWA
-const CACHE_NAME = 'goms-2026-v1';
+const CACHE_NAME = 'goms-2026-v3';
 const urlsToCache = [
   '/',
   '/assets/css/main.css',
