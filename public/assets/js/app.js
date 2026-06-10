@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Inicializar Tabs y Fechas
     initTabs(); 
-    initTabsWithDefaultDate(3); 
+    initTabsWithDefaultDate(4); 
     
     // 2. Inicializar Modales y Eventos
     initModalEvents();
