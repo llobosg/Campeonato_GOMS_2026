@@ -2174,3 +2174,18 @@ body {
     margin-left: 10px;
     animation: pulseButton 2s infinite;
 }
+@media (max-width: 768px) {
+    .playoffs-tabs {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        padding: 10px 0 !important;
+    }
+    
+    .fecha-tab-img.playoff-tab {
+        font-size: 0.8rem !important;
+        padding: 6px 12px !important;
+        min-width: auto !important;
+        white-space: nowrap !important;
+    }
+}
