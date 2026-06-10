@@ -47,8 +47,7 @@ $flash = get_flash_message();
         <!-- ============================================ -->
         <section class="playoffs-section">
             <div class="playoffs-title-group">
-                <img src="/assets/images/copa-mundo.png" alt="Copa" class="copa-playoff-img">
-                <h3 class="section-title-playoffs">FASE FINAL</h3>
+                <h3 class="section-title-playoffs">PLAYOFFS</h3>
             </div>
             
             <div class="fechas-tabs playoffs-tabs">
