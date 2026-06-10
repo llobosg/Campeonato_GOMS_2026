@@ -444,6 +444,13 @@ $flash = get_flash_message();
     </div>
 </div>
 
+<?php if (!isset($_COOKIE['app_updated_v3'])): ?>
+<div style="background:#FFD700;color:black;padding:10px;text-align:center;font-weight:bold;">
+    🔄 Por favor recarga la página si no ves las semifinales.
+</div>
+<script>document.cookie="app_updated_v3=1;max-age=86400";</script>
+<?php endif; ?>
+
 <!-- ============================================ -->
 <!-- MODALES (RESULTADO Y VIVO) -->
 <!-- ============================================ -->

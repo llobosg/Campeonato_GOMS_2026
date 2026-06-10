@@ -2,31 +2,36 @@
  * app.js - JavaScript Principal Campeonato GOMS 2026
  * Versión Final Limpia y Sin Conflictos
  */
-// ============================================
-// AUTO-UPDATE FORZADO PARA USUARIOS FINALES
-// ============================================
+// app.js - Al principio, después de registrar SW
 if ('serviceWorker' in navigator) {
-    let refreshing;
-    
-    navigator.serviceWorker.addEventListener('controllerchange', function () {
+    let refreshing = false;
+
+    // Escuchar cambios de controlador (nuevo SW activo)
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (refreshing) return;
         refreshing = true;
-        // Recarga la página automáticamente sin preguntar
-        window.location.reload(); 
+        window.location.reload();
     });
 
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(reg => {
+        navigator.serviceWorker.register('/sw.js?v=3').then(reg => {
+            // Verificar si hay actualización pendiente
+            reg.update().then(() => {
+                const newWorker = reg.installing || reg.waiting;
+                if (newWorker) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
+            });
+
             reg.addEventListener('updatefound', () => {
                 const newWorker = reg.installing;
                 newWorker.addEventListener('statechange', () => {
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        // Si hay nuevo SW y ya había uno antes, forzamos la activación
                         newWorker.postMessage({ type: 'SKIP_WAITING' });
                     }
                 });
             });
-        });
+        }).catch(err => console.error('SW Error:', err));
     });
 }
 
