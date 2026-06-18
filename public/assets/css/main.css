@@ -2374,75 +2374,77 @@ body {
     animation: flotarCopa 2s ease-in-out infinite;
 }
 /* ============================================
-   FORZAR LAYOUT 80/20 Y BRACKET RESPONSIVE
+   LAYOUT 80/20 CORREGIDO Y SEGURO
    ============================================ */
 
 .main-container {
-    display: flex !important;
-    gap: 20px;
-    align-items: flex-start;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start; /* Evita que las columnas se estiren verticalmente */
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
 }
 
+/* Columna Izquierda: Contenido Principal */
 .content-left {
-    flex: 0 0 75% !important; /* Forzar ancho fijo */
-    min-width: 0 !important;   /* CRUCIAL: permite que flex items se encojan */
-    overflow-x: hidden;        /* Evita desbordamiento horizontal */
+    flex: 3; /* Ocupa 3 partes del espacio disponible */
+    min-width: 0; /* CRÍTICO: Permite que el contenido se ajuste sin desbordar */
+    overflow-wrap: break-word; /* Evita que textos largos rompan el ancho */
 }
 
+/* Columna Derecha: Estadísticas */
 .content-right {
-    flex: 0 0 25% !important;  /* Forzar ancho fijo */
-    min-width: 280px !important; /* Ancho mínimo para tablas */
+    flex: 1; /* Ocupa 1 parte del espacio disponible */
+    min-width: 280px; /* Ancho mínimo seguro para tablas */
     position: sticky;
     top: 20px;
 }
 
-/* BRACKET: Hacerlo fluido dentro del 75% */
+/* BRACKET: Adaptarse al contenedor padre sin romperlo */
 .bracket-container {
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: auto;          /* Scroll horizontal si es necesario en móvil */
-    padding-bottom: 10px;
+    gap: 16px;
+    width: 100%;
+    overflow-x: auto; /* Scroll suave si es necesario en pantallas pequeñas */
+    padding-bottom: 8px;
 }
 
 .bracket-round {
-    flex: 1 1 auto !important;
-    min-width: 200px !important;
-    max-width: 300px !important;
+    flex: 1;
+    min-width: 220px; /* Ancho mínimo legible para cada ronda */
 }
 
 .bracket-connector {
-    flex: 0 0 40px !important;
-    min-width: 40px !important;
+    flex: 0 0 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Responsive: En móvil todo a una columna */
-@media (max-width: 900px) {
+/* RESPONSIVE: Solo en móviles reales se apila */
+@media (max-width: 992px) {
     .main-container {
-        flex-direction: column !important;
+        flex-direction: column;
+        gap: 32px;
     }
     
     .content-left, 
     .content-right {
-        flex: 1 1 100% !important;
-        width: 100% !important;
-        min-width: 100% !important;
+        flex: none;
+        width: 100%;
+        min-width: 100%;
     }
     
     .bracket-container {
-        flex-direction: column !important;
-        align-items: stretch !important;
+        flex-direction: column;
+        align-items: stretch;
     }
     
     .bracket-connector {
         transform: rotate(90deg);
-        margin: 15px 0;
-        height: 40px;
+        margin: 20px 0;
+        height: 50px;
     }
 }
