@@ -42,6 +42,63 @@ $flash = get_flash_message();
         <?php if ($flash): ?><?= render_toast($flash['message'], $flash['type']) ?><?php endif; ?>
         
         <!-- FIXTURE -->
+         <!-- BRACKET ANIMADO PLAYOFFS -->
+        <section class="bracket-section">
+            <h3 class="section-title-playoffs">CUADRO DE ELIMINACIÓN DIRECTA</h3>
+            
+            <div class="bracket-container">
+                <!-- SEMIFINALES -->
+                <div class="bracket-round semifinal">
+                    <div class="bracket-match">
+                        <div class="team-slot winner-glow">
+                            <span class="team-name">Mas Menos 1 Metro FC</span>
+                            <span class="seed">1ºA</span>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="team-slot">
+                            <span class="team-name">Jacque Boys</span>
+                            <span class="seed">2ºB</span>
+                        </div>
+                        <div class="match-date">24 JUN</div>
+                    </div>
+                    
+                    <div class="bracket-match">
+                        <div class="team-slot">
+                            <span class="team-name">Calidad Prime</span>
+                            <span class="seed">1ºB</span>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="team-slot winner-glow">
+                            <span class="team-name">Pem-K-Zo</span>
+                            <span class="seed">2ºA</span>
+                        </div>
+                        <div class="match-date">01 JUL</div>
+                    </div>
+                </div>
+                
+                <!-- CONECTOR VISUAL -->
+                <div class="bracket-connector">
+                    <div class="line-horizontal"></div>
+                    <div class="line-vertical"></div>
+                    <div class="line-horizontal"></div>
+                </div>
+                
+                <!-- FINAL -->
+                <div class="bracket-round final">
+                    <div class="bracket-match final-match">
+                        <div class="trophy-icon"></div>
+                        <div class="team-slot placeholder">
+                            <span class="team-name">GANADOR SF1</span>
+                        </div>
+                        <div class="vs-badge final-vs">FINAL</div>
+                        <div class="team-slot placeholder">
+                            <span class="team-name">GANADOR SF2</span>
+                        </div>
+                        <div class="match-date">15 JUL</div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- ============================================ -->
         <!-- SECCIÓN FASE FINAL (PLAYOFFS) - NUEVA -->
         <!-- ============================================ -->
@@ -313,6 +370,15 @@ $flash = get_flash_message();
                 </div>
             </div>
         </section>
+        <!-- MENSAJE DE ÁNIMO POST-FASE DE GRUPOS -->
+        <div class="fifa-inspiration-card">
+            <div class="copa-float">🏆</div>
+            <h3>¡GRACIAS POR SER PARTE DE ESTA HISTORIA!</h3>
+            <p>El fútbol se juega con el corazón, y ustedes lo han demostrado en cada partido. 
+            Aunque esta etapa termina, su legado permanece. ¡Sigan entrenando, sigan soñando! 
+            La próxima copa los espera. ⚽✨</p>
+            <div class="sparkles">✨  💚 ✨</div>
+        </div>
     </div>
     
     <!-- SECCIÓN DERECHA (ESTADÍSTICAS) -->
