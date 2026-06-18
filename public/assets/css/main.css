@@ -2374,77 +2374,73 @@ body {
     animation: flotarCopa 2s ease-in-out infinite;
 }
 /* ============================================
-   LAYOUT 80/20 CORREGIDO Y SEGURO
+   LAYOUT FORZADO 80/20 - SOLUCIÓN DEFINITIVA
    ============================================ */
 
+/* 1. Forzar Flexbox en el contenedor principal */
 .main-container {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start; /* Evita que las columnas se estiren verticalmente */
-    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
 }
 
-/* Columna Izquierda: Contenido Principal */
+/* 2. Columna Izquierda: Ocupa el espacio restante pero NO más del 75% */
 .content-left {
-    flex: 3; /* Ocupa 3 partes del espacio disponible */
-    min-width: 0; /* CRÍTICO: Permite que el contenido se ajuste sin desbordar */
-    overflow-wrap: break-word; /* Evita que textos largos rompan el ancho */
+    flex: 1 1 70% !important; /* Crece, se encoge, base 70% */
+    min-width: 0 !important;   /* CRÍTICO: Permite encogerse ante contenido ancho */
+    max-width: 75% !important; /* Límite duro para dejar espacio a la derecha */
+    overflow: hidden !important; /* Corta cualquier desbordamiento interno */
 }
 
-/* Columna Derecha: Estadísticas */
+/* 3. Columna Derecha: Ancho fijo mínimo garantizado */
 .content-right {
-    flex: 1; /* Ocupa 1 parte del espacio disponible */
-    min-width: 280px; /* Ancho mínimo seguro para tablas */
-    position: sticky;
-    top: 20px;
+    flex: 0 0 280px !important; /* NO crece, NO se encoge, base 280px */
+    min-width: 280px !important;
+    max-width: 300px !important;
+    position: sticky !important;
+    top: 20px !important;
+    z-index: 10 !important;
 }
 
-/* BRACKET: Adaptarse al contenedor padre sin romperlo */
+/* 4. Bracket: Debe ser fluido DENTRO de la columna izquierda */
+.bracket-section {
+    width: 100% !important;
+    overflow-x: auto !important; /* Scroll horizontal si el bracket es muy ancho */
+    padding-bottom: 10px !important;
+}
+
 .bracket-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    width: 100%;
-    overflow-x: auto; /* Scroll suave si es necesario en pantallas pequeñas */
-    padding-bottom: 8px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 15px !important;
+    min-width: 600px !important; /* Ancho mínimo para que el bracket se vea bien */
 }
 
-.bracket-round {
-    flex: 1;
-    min-width: 220px; /* Ancho mínimo legible para cada ronda */
-}
-
-.bracket-connector {
-    flex: 0 0 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-/* RESPONSIVE: Solo en móviles reales se apila */
+/* 5. Responsive: Solo en tablets/móviles se apila */
 @media (max-width: 992px) {
     .main-container {
-        flex-direction: column;
-        gap: 32px;
+        flex-direction: column !important;
+        gap: 30px !important;
     }
     
     .content-left, 
     .content-right {
-        flex: none;
-        width: 100%;
-        min-width: 100%;
+        flex: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        position: static !important;
     }
     
     .bracket-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .bracket-connector {
-        transform: rotate(90deg);
-        margin: 20px 0;
-        height: 50px;
+        flex-direction: column !important;
+        min-width: auto !important;
     }
 }
