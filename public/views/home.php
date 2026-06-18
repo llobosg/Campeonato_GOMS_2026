@@ -8,16 +8,24 @@ $flash = get_flash_message();
 ?>
 
 <!-- ============================================ -->
-<!-- HEADER -->
+<!-- HEADER COMPACTO Y RESPONSIVE -->
 <!-- ============================================ -->
 <div class="championship-header">
     <div class="header-content">
-        <div class="copa-animada-container">
-            <img src="/assets/images/copa-mundo.png" alt="Copa" class="copa-animada-img">
+        
+        <!-- Grupo Central: Balón + Título -->
+        <div class="header-main-group">
+            <!-- Balón FIFA 2026 Giratorio (Ahora va primero) -->
+            <div class="balon-container">
+                <img src="/assets/images/balonfifa2026.png" alt="Balón FIFA 2026" class="balon-animado-img">
+            </div>
+            
+            <div class="header-title">
+                <h1>GOMS 2026</h1>
+            </div>
         </div>
-        <div class="header-title">
-            <h1>CAMPEONATO MUNDIAL FÚTBOL GOMS 2026 ⚽</h1>
-        </div>
+
+        <!-- Badge de Fecha (Más discreto) -->
         <div class="header-badge">
             <span class="badge-text">FECHA <?= $fecha_actual['nro_fecha'] ?? '-' ?></span>
         </div>
@@ -34,94 +42,250 @@ $flash = get_flash_message();
         <?php if ($flash): ?><?= render_toast($flash['message'], $flash['type']) ?><?php endif; ?>
         
         <!-- FIXTURE -->
-        <section class="fixture-section">
-            <h3 class="section-title"><span class="icon"></span> Fixture del Campeonato</h3>
+        <!-- BRACKET ANIMADO PLAYOFFS -->
+        <section class="bracket-section">
+            <h3 class="section-title-playoffs">CUADRO DE ELIMINACIÓN DIRECTA</h3>
             
-            <div class="fechas-tabs">
-                <?php foreach ($fechas as $index => $fecha): ?>
-                    <button class="fecha-tab-img <?= $index === 0 ? 'active' : '' ?>" 
-                            data-fecha="<?= $fecha['nro_fecha'] ?>"
-                            onclick="seleccionarFecha(<?= $fecha['nro_fecha'] ?>)">
-                        <img src="/assets/images/fecha<?= $fecha['nro_fecha'] ?>.png" alt="Fecha <?= $fecha['nro_fecha'] ?>" class="fecha-img">
+            <div class="bracket-container">
+                <!-- SEMIFINALES CON TÍTULOS -->
+                <div class="bracket-round semifinal">
+                    <div class="match-label">SEMI FINAL 1 • 24 JUN</div>
+                    <div class="bracket-match">
+                        <div class="team-slot winner-glow">
+                            <span class="team-name">Mas Menos 1 Metro FC</span>
+                            <span class="seed">1ºA</span>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="team-slot">
+                            <span class="team-name">Jacque Boys</span>
+                            <span class="seed">2ºB</span>
+                        </div>
+                    </div>
+                    
+                    <div class="match-label">SEMI FINAL 2 • 01 JUL</div>
+                    <div class="bracket-match">
+                        <div class="team-slot">
+                            <span class="team-name">Calidad Prime</span>
+                            <span class="seed">1ºB</span>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="team-slot winner-glow">
+                            <span class="team-name">Pem-K-Zo</span>
+                            <span class="seed">2ºA</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CONECTOR VISUAL -->
+                <div class="bracket-connector">
+                    <div class="line-horizontal"></div>
+                    <div class="line-vertical"></div>
+                    <div class="line-horizontal"></div>
+                </div>
+                
+                <!-- TERCER LUGAR -->
+                <div class="bracket-round third-place">
+                    <div class="match-label">3er LUGAR • 08 JUL</div>
+                    <div class="bracket-match">
+                        <div class="team-slot placeholder">
+                            <span class="team-name">PERDEDOR SF1</span>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="team-slot placeholder">
+                            <span class="team-name">PERDEDOR SF2</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- GRAN FINAL -->
+                <div class="bracket-round final">
+                    <div class="match-label">GRAN FINAL • 15 JUL</div>
+                    <div class="bracket-match final-match">
+                        <div class="trophy-icon">🏆</div>
+                        <div class="team-slot placeholder">
+                            <span class="team-name">GANADOR SF1</span>
+                        </div>
+                        <div class="vs-badge final-vs">FINAL</div>
+                        <div class="team-slot placeholder">
+                            <span class="team-name">GANADOR SF2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================ -->
+        <!-- SECCIÓN FASE FINAL (PLAYOFFS) - NUEVA -->
+        <!-- ============================================ -->
+        <section class="playoffs-section">
+            <div class="playoffs-title-group">
+                <img src="/assets/images/copa-mundo.png" alt="Copa" class="copa-playoff-img">
+                <h3 class="section-title-playoffs">FASE FINAL</h3>
+            </div>
+            
+            <div class="fechas-tabs playoffs-tabs">
+                <?php 
+                $playoffs = [
+                    6 => ['nombre' => 'SEMI FINAL 1', 'icono' => '⚔️'],
+                    7 => ['nombre' => 'SEMI FINAL 2', 'icono' => '⚔️'],
+                    8 => ['nombre' => '3er LUGAR', 'icono' => '🥉'],
+                    9 => ['nombre' => 'GRAN FINAL', 'icono' => '🏆']
+                ];
+                foreach ($playoffs as $nro => $info): ?>
+                    <button class="fecha-tab-img playoff-tab" data-fecha="<?= $nro ?>" onclick="seleccionarFecha(<?= $nro ?>)">
+                        <span><?= $info['icono'] ?></span> <?= $info['nombre'] ?>
                     </button>
                 <?php endforeach; ?>
             </div>
             
+            <?php foreach ($fechas as $fecha): ?>
+                <?php if ($fecha['nro_fecha'] >= 6): 
+                    $partidosPlayoff = get_fixture_fecha($pdo, $fecha['nro_fecha']);
+                    $placeholderId = 99; // AJUSTA ESTE ID AL REAL DE TU BD
+                    
+                    $getNombre = function($idEquipo) use ($pdo, $placeholderId) {
+                        if ($idEquipo == $placeholderId) return 'Por Definir';
+                        $stmt = $pdo->prepare("SELECT nombre FROM equipos WHERE id_equipo = ?");
+                        $stmt->execute([$idEquipo]);
+                        return $stmt->fetchColumn() ?: 'Desconocido';
+                    };
+                ?>
+                    <div class="fecha-content" id="fecha-<?= $fecha['nro_fecha'] ?>" style="display:none;">
+                        <div class="fecha-header">
+                            <h4><?= $playoffs[$fecha['nro_fecha']]['nombre'] ?> - <?= format_date($fecha['fecha']) ?></h4>
+                            <span class="hora-range"><?= format_time($fecha['hora_inicio']) ?></span>
+                        </div>
+                        
+                        <div class="grupo-matches grupo-playoff">
+                            <?php foreach ($partidosPlayoff as $partido): ?>
+                                <div class="match-card match-card-playoff" 
+                                    data-id="<?= $partido['id_fixture'] ?>"
+                                    data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
+                                    data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
+                                    data-estado="<?= h($partido['estado']) ?>">
+                                    
+                                    <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                    <div class="match-teams">
+                                        <span class="team team-home"><?= h($getNombre($partido['equipo_a'])) ?></span>
+                                        <span class="vs">VS</span>
+                                        <span class="team team-away"><?= h($getNombre($partido['equipo_b'])) ?></span>
+                                    </div>
+                                    <div class="match-result">
+                                        <?php if ($partido['estado'] === 'finalizado'): ?>
+                                            <span class="score score-a"><?= $partido['goles_a'] ?></span>
+                                            <span class="score-divider">-</span>
+                                            <span class="score score-b"><?= $partido['goles_b'] ?></span>
+                                        <?php else: ?>
+                                            <span class="status-pendiente">Pendiente</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                        Resultado
+                                    </button>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SECCIÓN FASE DE GRUPOS (FECHAS 1-5) - ORIGINAL INTACTA -->
+        <!-- ============================================ -->
+        <section class="groups-section">
+            <h3 class="section-title-groups">FASE DE GRUPOS</h3>
+            
+            <div class="fechas-tabs">
+                <?php foreach ($fechas as $index => $fecha): ?>
+                    <?php if ($fecha['nro_fecha'] <= 5): ?>
+                        <button class="fecha-tab-img <?= $index === 0 ? 'active' : '' ?>" 
+                                data-fecha="<?= $fecha['nro_fecha'] ?>"
+                                onclick="seleccionarFecha(<?= $fecha['nro_fecha'] ?>)">
+                            <img src="/assets/images/fecha<?= $fecha['nro_fecha'] ?>.png" 
+                                alt="Fecha <?= $fecha['nro_fecha'] ?>" class="fecha-img">
+                        </button>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            
             <?php foreach ($fechas as $index => $fecha): ?>
-                <div class="fecha-content <?= $index === 0 ? 'active' : '' ?>" id="fecha-<?= $fecha['nro_fecha'] ?>">
-                    <div class="fecha-header">
-                        <h4>Fecha <?= $fecha['nro_fecha'] ?> - <?= format_date($fecha['fecha']) ?></h4>
-                        <span class="hora-range"><?= format_time($fecha['hora_inicio']) ?> - <?= format_time($fecha['hora_fin']) ?></span>
+                <?php if ($fecha['nro_fecha'] <= 5): ?>
+                    <div class="fecha-content <?= $index === 0 ? 'active' : '' ?>" id="fecha-<?= $fecha['nro_fecha'] ?>">
+                        <div class="fecha-header">
+                            <h4>Fecha <?= $fecha['nro_fecha'] ?> - <?= format_date($fecha['fecha']) ?></h4>
+                            <span class="hora-range"><?= format_time($fecha['hora_inicio']) ?> - <?= format_time($fecha['hora_fin']) ?></span>
+                        </div>
+                        
+                        <?php
+                        $partidos = get_fixture_fecha($pdo, $fecha['nro_fecha']);
+                        // Filtramos SOLO partidos con grupo A o B válido
+                        $partidosA = array_filter($partidos, fn($p) => isset($p['grupo_a']) && $p['grupo_a'] === 'A');
+                        $partidosB = array_filter($partidos, fn($p) => isset($p['grupo_b']) && $p['grupo_b'] === 'B');
+                        ?>
+                        
+                        <!-- GRUPO A -->
+                        <div class="grupo-matches grupo-a">
+                            <h5 class="grupo-title">GRUPO A</h5>
+                            <?php foreach ($partidosA as $partido): ?>
+                                <div class="match-card" 
+                                    data-id="<?= $partido['id_fixture'] ?>"
+                                    data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
+                                    data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
+                                    data-estado="<?= h($partido['estado']) ?>">
+                                    <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                    <div class="match-teams">
+                                        <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
+                                        <span class="vs">VS</span>
+                                        <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
+                                    </div>
+                                    <div class="match-result">
+                                        <?php if ($partido['estado'] === 'finalizado'): ?>
+                                            <span class="score score-a"><?= $partido['goles_a'] ?></span>
+                                            <span class="score-divider">-</span>
+                                            <span class="score score-b"><?= $partido['goles_b'] ?></span>
+                                        <?php else: ?>
+                                            <span class="status-pendiente">Pendiente</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                        📝 Resultado
+                                    </button>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        
+                        <!-- GRUPO B -->
+                        <div class="grupo-matches grupo-b">
+                            <h5 class="grupo-title">GRUPO B</h5>
+                            <?php foreach ($partidosB as $partido): ?>
+                                <div class="match-card" 
+                                    data-id="<?= $partido['id_fixture'] ?>"
+                                    data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
+                                    data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
+                                    data-estado="<?= h($partido['estado']) ?>">
+                                    <div class="match-time"><?= format_time($partido['hora']) ?></div>
+                                    <div class="match-teams">
+                                        <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
+                                        <span class="vs">VS</span>
+                                        <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
+                                    </div>
+                                    <div class="match-result">
+                                        <?php if ($partido['estado'] === 'finalizado'): ?>
+                                            <span class="score score-a"><?= $partido['goles_a'] ?></span>
+                                            <span class="score-divider">-</span>
+                                            <span class="score score-b"><?= $partido['goles_b'] ?></span>
+                                        <?php else: ?>
+                                            <span class="status-pendiente">Pendiente</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
+                                        📝 Resultado
+                                    </button>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                    
-                    <?php
-                    $partidos = get_fixture_fecha($pdo, $fecha['nro_fecha']);
-                    $partidosA = array_filter($partidos, fn($p) => $p['grupo_a'] === 'A');
-                    $partidosB = array_filter($partidos, fn($p) => $p['grupo_b'] === 'B');
-                    ?>
-                    
-                    <!-- GRUPO A -->
-                    <div class="grupo-matches grupo-a">
-                        <h5 class="grupo-title">GRUPO A</h5>
-                        <?php foreach ($partidosA as $partido): ?>
-                            <div class="match-card" 
-                                data-id="<?= $partido['id_fixture'] ?>"
-                                data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
-                                data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
-                                data-estado="<?= h($partido['estado']) ?>">
-                                <div class="match-time"><?= format_time($partido['hora']) ?></div>
-                                <div class="match-teams">
-                                    <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
-                                    <span class="vs">VS</span>
-                                    <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
-                                </div>
-                                <div class="match-result">
-                                    <?php if ($partido['estado'] === 'finalizado'): ?>
-                                        <span class="score score-a"><?= $partido['goles_a'] ?></span>
-                                        <span class="score-divider">-</span>
-                                        <span class="score score-b"><?= $partido['goles_b'] ?></span>
-                                    <?php else: ?>
-                                        <span class="status-pendiente">Pendiente</span>
-                                    <?php endif; ?>
-                                </div>
-                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
-                                    📝 Resultado
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    
-                    <!-- GRUPO B -->
-                    <div class="grupo-matches grupo-b">
-                        <h5 class="grupo-title">GRUPO B</h5>
-                        <?php foreach ($partidosB as $partido): ?>
-                            <div class="match-card" 
-                                data-id="<?= $partido['id_fixture'] ?>"
-                                data-fecha="<?= date('Y-m-d', strtotime($partido['fecha'])) ?>" 
-                                data-hora="<?= date('H:i:s', strtotime($partido['hora'])) ?>"
-                                data-estado="<?= h($partido['estado']) ?>">
-                                <div class="match-time"><?= format_time($partido['hora']) ?></div>
-                                <div class="match-teams">
-                                    <span class="team team-home"><?= h($partido['nombre_equipo_a']) ?></span>
-                                    <span class="vs">VS</span>
-                                    <span class="team team-away"><?= h($partido['nombre_equipo_b']) ?></span>
-                                </div>
-                                <div class="match-result">
-                                    <?php if ($partido['estado'] === 'finalizado'): ?>
-                                        <span class="score score-a"><?= $partido['goles_a'] ?></span>
-                                        <span class="score-divider">-</span>
-                                        <span class="score score-b"><?= $partido['goles_b'] ?></span>
-                                    <?php else: ?>
-                                        <span class="status-pendiente">Pendiente</span>
-                                    <?php endif; ?>
-                                </div>
-                                <button class="btn-resultado" onclick="openResultadoModal(<?= $partido['id_fixture'] ?>)">
-                                    📝 Resultado
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+                <?php endif; ?>
             <?php endforeach; ?>
         </section>
         
@@ -129,10 +293,23 @@ $flash = get_flash_message();
         <section class="equipos-section">
             <h3 class="section-title"><span class="icon">👥</span> Equipos Participantes</h3>
             <div class="equipos-grid">
+                
                 <!-- GRUPO A -->
                 <div class="equipo-column grupo-a">
                     <h4 class="grupo-header">GRUPO A</h4>
+                    
                     <?php
+                    // Obtenemos los IDs de los top 3 goleadores del Grupo A
+                    $topScorersA = [];
+                    if (!empty($goleadoresA)) {
+                        foreach (array_slice($goleadoresA, 0, 3) as $gol) {
+                            // Necesitamos buscar el ID del jugador por su nombre para compararlo
+                            // Nota: Lo ideal sería que $goleadoresA ya traiga id_jugador, 
+                            // pero si no, comparamos por nombre exacto.
+                            $topScorersA[] = $gol['jugador']; 
+                        }
+                    }
+
                     $equiposA = db_fetch_all($pdo, "SELECT * FROM equipos WHERE grupo = 'A' ORDER BY nombre ASC");
                     foreach ($equiposA as $equipo):
                         $jugadores = db_fetch_all($pdo, "SELECT * FROM jugadores WHERE id_equipo = ? ORDER BY nombre ASC", [$equipo['id_equipo']]);
@@ -143,9 +320,18 @@ $flash = get_flash_message();
                                 <?php if (empty($jugadores)): ?>
                                     <small class="no-jugadores">Sin jugadores registrados</small>
                                 <?php else: ?>
-                                    <?php foreach ($jugadores as $jugador): ?>
+                                    <?php foreach ($jugadores as $jugador): 
+                                        // Verificamos si este jugador es un goleador destacado
+                                        $esGoleador = in_array($jugador['nombre'], $topScorersA);
+                                    ?>
                                         <div class="jugador-item">
                                             <span class="jugador-nombre"><?= h($jugador['nombre']) ?></span>
+                                            
+                                            <!-- BALÓN GIF SI ES GOLEADOR -->
+                                            <?php if ($esGoleador): ?>
+                                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Goleador">
+                                            <?php endif; ?>
+                                            
                                             <span class="jugador-area"><?= h($jugador['area'] ?? '-') ?></span>
                                         </div>
                                     <?php endforeach; ?>
@@ -158,7 +344,16 @@ $flash = get_flash_message();
                 <!-- GRUPO B -->
                 <div class="equipo-column grupo-b">
                     <h4 class="grupo-header">GRUPO B</h4>
+                    
                     <?php
+                    // Obtenemos los IDs de los top 3 goleadores del Grupo B
+                    $topScorersB = [];
+                    if (!empty($goleadoresB)) {
+                        foreach (array_slice($goleadoresB, 0, 3) as $gol) {
+                            $topScorersB[] = $gol['jugador'];
+                        }
+                    }
+
                     $equiposB = db_fetch_all($pdo, "SELECT * FROM equipos WHERE grupo = 'B' ORDER BY nombre ASC");
                     foreach ($equiposB as $equipo):
                         $jugadores = db_fetch_all($pdo, "SELECT * FROM jugadores WHERE id_equipo = ? ORDER BY nombre ASC", [$equipo['id_equipo']]);
@@ -169,9 +364,17 @@ $flash = get_flash_message();
                                 <?php if (empty($jugadores)): ?>
                                     <small class="no-jugadores">Sin jugadores registrados</small>
                                 <?php else: ?>
-                                    <?php foreach ($jugadores as $jugador): ?>
+                                    <?php foreach ($jugadores as $jugador): 
+                                        $esGoleador = in_array($jugador['nombre'], $topScorersB);
+                                    ?>
                                         <div class="jugador-item">
                                             <span class="jugador-nombre"><?= h($jugador['nombre']) ?></span>
+                                            
+                                            <!-- BALÓN GIF SI ES GOLEADOR -->
+                                            <?php if ($esGoleador): ?>
+                                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Goleador">
+                                            <?php endif; ?>
+                                            
                                             <span class="jugador-area"><?= h($jugador['area'] ?? '-') ?></span>
                                         </div>
                                     <?php endforeach; ?>
@@ -182,6 +385,15 @@ $flash = get_flash_message();
                 </div>
             </div>
         </section>
+        <!-- MENSAJE DE ÁNIMO POST-FASE DE GRUPOS -->
+        <div class="fifa-inspiration-card">
+            <div class="copa-float">🏆</div>
+            <h3>¡GRACIAS POR SER PARTE DE ESTA HISTORIA!</h3>
+            <p>El fútbol se juega con el corazón, y ustedes lo han demostrado en cada partido. 
+            Aunque esta etapa termina, su legado permanece. ¡Sigan entrenando, sigan soñando! 
+            La próxima copa los espera. ⚽✨</p>
+            <div class="sparkles">✨  💚 ✨</div>
+        </div>
     </div>
     
     <!-- SECCIÓN DERECHA (ESTADÍSTICAS) -->
@@ -189,7 +401,11 @@ $flash = get_flash_message();
         
         <!-- POSICIONES -->
         <section class="posiciones-section">
-            <h3 class="section-title"><span class="icon">🏆</span> Posiciones</h3>
+            <h3 class="section-title">
+                <span class="copa-animada-container">
+                    <img src="/assets/images/copa-mundo.png" alt="Copa Fútbol Mundial GOMS 2026" class="copa-animada-img">  
+                </span> Posiciones
+            </h3>
             
             <!-- GRUPO A -->
             <div class="tabla-grupo">
@@ -248,9 +464,13 @@ $flash = get_flash_message();
             </div>
         </section>
         
-        <!-- GOLEADORES -->
+        <!-- GOLEADORES ⚽-->
         <section class="goleadores-section">
-            <h3 class="section-title"><span class="icon">⚽</span> Goleadores</h3>
+            <h3 class="section-title">
+                <span class="balon-container">
+                    <img src="/assets/images/balonfifa2026.png" alt="Balón FIFA 2026" class="balon-animado-img">
+                </span> Goleadores
+            </h3>
             
             <!-- GRUPO A -->
             <div class="goleadores-grupo">
@@ -265,7 +485,13 @@ $flash = get_flash_message();
                                 <span class="goleador-nombre"><?= h($goleador['jugador']) ?></span>
                                 <span class="goleador-equipo"><?= h($goleador['equipo']) ?></span>
                             </div>
-                            <span class="goleador-goles"><?= $goleador['goles'] ?> ⚽</span>
+                            
+                            <!-- CAMBIO AQUÍ: Usamos la imagen animada en lugar del emoji -->
+                            <span class="goleador-goles">
+                                <?= $goleador['goles'] ?> 
+                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Gol">
+                            </span>
+                            
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -284,23 +510,27 @@ $flash = get_flash_message();
                                 <span class="goleador-nombre"><?= h($goleador['jugador']) ?></span>
                                 <span class="goleador-equipo"><?= h($goleador['equipo']) ?></span>
                             </div>
-                            <span class="goleador-goles"><?= $goleador['goles'] ?> ⚽</span>
+                            
+                            <!-- CAMBIO AQUÍ: Usamos la imagen animada en lugar del emoji -->
+                            <span class="goleador-goles">
+                                <?= $goleador['goles'] ?> 
+                                <img src="/assets/images/balonfifa2026.png" class="mini-balon-giratorio" alt="Gol">
+                            </span>
+
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </section>
-        
-        <!-- FOOTER CON CONTADOR -->
-        <div class="footer-bottom" style="margin-top: 20px; text-align: center;">
-            <div class="stats-badge">
-                <span class="icon">👁️</span>
-                <span id="visit-count">Cargando...</span> visitantes hoy
-            </div>
-            <p style="font-size: 10px; color: #aaa; margin-top: 5px;">&copy; 2026 CanchaSport</p>
-        </div>
     </div>
 </div>
+
+<?php if (!isset($_COOKIE['app_updated_v3'])): ?>
+<div style="background:#FFD700;color:black;padding:10px;text-align:center;font-weight:bold;">
+    🔄 Por favor recarga la página si no ves las semifinales.
+</div>
+<script>document.cookie="app_updated_v3=1;max-age=86400";</script>
+<?php endif; ?>
 
 <!-- ============================================ -->
 <!-- MODALES (RESULTADO Y VIVO) -->
