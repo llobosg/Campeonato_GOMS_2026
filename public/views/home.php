@@ -42,13 +42,14 @@ $flash = get_flash_message();
         <?php if ($flash): ?><?= render_toast($flash['message'], $flash['type']) ?><?php endif; ?>
         
         <!-- FIXTURE -->
-         <!-- BRACKET ANIMADO PLAYOFFS -->
+        <!-- BRACKET ANIMADO PLAYOFFS -->
         <section class="bracket-section">
             <h3 class="section-title-playoffs">CUADRO DE ELIMINACIÓN DIRECTA</h3>
             
             <div class="bracket-container">
-                <!-- SEMIFINALES -->
+                <!-- SEMIFINALES CON TÍTULOS -->
                 <div class="bracket-round semifinal">
+                    <div class="match-label">SEMI FINAL 1 • 24 JUN</div>
                     <div class="bracket-match">
                         <div class="team-slot winner-glow">
                             <span class="team-name">Mas Menos 1 Metro FC</span>
@@ -59,9 +60,9 @@ $flash = get_flash_message();
                             <span class="team-name">Jacque Boys</span>
                             <span class="seed">2ºB</span>
                         </div>
-                        <div class="match-date">24 JUN</div>
                     </div>
                     
+                    <div class="match-label">SEMI FINAL 2 • 01 JUL</div>
                     <div class="bracket-match">
                         <div class="team-slot">
                             <span class="team-name">Calidad Prime</span>
@@ -72,7 +73,6 @@ $flash = get_flash_message();
                             <span class="team-name">Pem-K-Zo</span>
                             <span class="seed">2ºA</span>
                         </div>
-                        <div class="match-date">01 JUL</div>
                     </div>
                 </div>
                 
@@ -83,10 +83,25 @@ $flash = get_flash_message();
                     <div class="line-horizontal"></div>
                 </div>
                 
-                <!-- FINAL -->
+                <!-- TERCER LUGAR -->
+                <div class="bracket-round third-place">
+                    <div class="match-label">3er LUGAR • 08 JUL</div>
+                    <div class="bracket-match">
+                        <div class="team-slot placeholder">
+                            <span class="team-name">PERDEDOR SF1</span>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="team-slot placeholder">
+                            <span class="team-name">PERDEDOR SF2</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- GRAN FINAL -->
                 <div class="bracket-round final">
+                    <div class="match-label">GRAN FINAL • 15 JUL</div>
                     <div class="bracket-match final-match">
-                        <div class="trophy-icon"></div>
+                        <div class="trophy-icon">🏆</div>
                         <div class="team-slot placeholder">
                             <span class="team-name">GANADOR SF1</span>
                         </div>
@@ -94,7 +109,6 @@ $flash = get_flash_message();
                         <div class="team-slot placeholder">
                             <span class="team-name">GANADOR SF2</span>
                         </div>
-                        <div class="match-date">15 JUL</div>
                     </div>
                 </div>
             </div>
@@ -149,7 +163,6 @@ $flash = get_flash_message();
                                     data-estado="<?= h($partido['estado']) ?>">
                                     
                                     <div class="match-time"><?= format_time($partido['hora']) ?></div>
-                                    <div class="match-teams">
                                         <span class="team team-home"><?= h($getNombre($partido['equipo_a'])) ?></span>
                                         <span class="vs">VS</span>
                                         <span class="team team-away"><?= h($getNombre($partido['equipo_b'])) ?></span>

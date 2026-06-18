@@ -2351,3 +2351,25 @@ body {
         margin: 20px 0;
     }
 }
+.match-label {
+    font-size: 0.75rem;
+    color: #FFD700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.third-place .bracket-match {
+    border-color: #CD7F32; /* Bronce */
+    background: rgba(205, 127, 50, 0.1);
+}
+
+.final-match .trophy-icon {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8rem;
+    animation: flotarCopa 2s ease-in-out infinite;
+}
