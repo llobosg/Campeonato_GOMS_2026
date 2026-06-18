@@ -66,27 +66,24 @@ body {
 }
 
 /* ============================================
-   HEADER COMPACTO ESTÁNDAR
+   HEADER PRINCIPAL
    ============================================ */
-
 .championship-header {
-    background: var(--gradient-header); /* Tu degradado actual */
-    padding: 10px 15px; /* Padding reducido */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    background: var(--gradient-header);
+    padding: var(--spacing-lg) var(--spacing-md);
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .header-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-.header-main-group {
+    max-width: 1400px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: var(--spacing-md);
 }
 
 .logo-container {
@@ -110,25 +107,13 @@ body {
     text-align: center;
 }
 
-/* Título Principal */
 .header-title h1 {
-    font-family: 'FIFA2026', sans-serif;
-    margin: 0;
-    line-height: 1;
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-bold);
     text-transform: uppercase;
-    color: white;
+    letter-spacing: 2px;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-/* Badge de Fecha */
-.header-badge {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #fff;
-    margin-top: 5px;
+    margin-bottom: var(--spacing-xs);
 }
 
 .header-title h2 {
@@ -136,6 +121,15 @@ body {
     font-weight: var(--font-bold);
     color: var(--color-gold);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.header-badge {
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    border: 2px solid var(--color-gold);
 }
 
 .badge-text {
@@ -493,7 +487,7 @@ body {
     border-radius: 12px;
     padding: 20px;
     margin: 20px auto;
-    width: 100%; /* Mismo ancho que el contenedor de posiciones */
+    width: 95%; /* Mismo ancho que el contenedor de posiciones */
     max-width: 100%;
     box-sizing: border-box;
 }
@@ -521,8 +515,7 @@ body {
 
 .tabla-grupo,
 .goleadores-grupo {
-    margin-bottom: 20px;
-    width: 100%;
+    margin-bottom: var(--spacing-lg);
 }
 
 .tabla-grupo:last-child,
@@ -603,7 +596,17 @@ body {
     padding: var(--spacing-xs);
 }
 
-
+/* Goleadores */
+.goleador-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: var(--color-gray);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-xs);
+    transition: all 0.3s ease;
+}
 
 .goleador-item:hover {
     transform: translateX(5px);
@@ -615,14 +618,38 @@ body {
     border-left: 4px solid var(--color-gold);
 }
 
-
-/* 5. Asegurar que la tabla de posiciones y los goleadores tengan el mismo "peso" visual */
-.tabla-posiciones, .goleadores-grupo {
-    background: rgba(255, 255, 255, 0.05); /* Mismo fondo sutil si lo tienes */
-    border-radius: var(--border-radius);
-    padding: 10px;
+.goleador-rank {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-gold);
+    min-width: 30px;
+    text-align: center;
 }
 
+.goleador-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.goleador-nombre {
+    font-weight: 600;
+    color: var(--color-light);
+}
+
+.goleador-equipo {
+    font-size: var(--font-size-sm);
+    color: var(--color-light);
+}
+
+.goleador-goles {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    background: rgba(0, 255, 135, 0.2);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+}
 
 .no-data {
     color: var(--color-light);
@@ -1173,57 +1200,6 @@ body {
     }
 }
 /* ============================================
-   AJUSTES ESPECÍFICOS PARA MÓVIL (STANDARD APP LOOK)
-   ============================================ */
-@media (max-width: 768px) {
-    .championship-header {
-        padding: 8px 10px; /* Aún más compacto */
-    }
-
-    .header-title h1 {
-        font-size: 1.5rem; /* Tamaño estándar de app móvil */
-    }
-
-    .balon-animado-img {
-        width: 30px; /* Balón pequeño pero visible */
-        height: auto;
-    }
-
-    .header-badge {
-        font-size: 0.7rem;
-        padding: 2px 8px;
-    }
-    
-    /* Si decidiste ocultar la copa en móvil, asegúrate de esto: */
-    .copa-animada-container {
-        display: none; 
-    }
-}
-/* Ajustes para Escritorio (Para que no se vea raro en PC) */
-@media (min-width: 769px) {
-    .header-title h1 {
-        font-size: 2.5rem;
-    }
-    
-    .balon-animado-img {
-        width: 60px;
-    }
-    
-    .header-content {
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    
-    .header-main-group {
-        flex-grow: 1;
-        justify-content: flex-start;
-        margin-left: 20px;
-    }
-}
-/* ============================================
    CORRECCIONES DE CONTRASTE PARA EQUIPO_DETALLE
    ============================================ */
 
@@ -1559,80 +1535,10 @@ body {
         width: 90px; 
     }
 }
-
-/* ============================================
-   BALÓN FIFA 2026 ANIMADO EN HEADER
-   ============================================ */
-
-.header-text-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px; /* Espacio entre el texto y el balón */
-}
-
-.balon-container {
-    display: flex;
-    align-items: center;
-}
-
-.balon-animado-img {
-    width: 50px; /* Tamaño ajustado para equilibrar con el título */
-    height: auto;
-    
-    /* Animación de giro continuo */
-    animation: girarBalon 4s linear infinite;
-    
-    /* Sombra sutil para dar profundidad */
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
-}
-
-@keyframes girarBalon {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* Ajuste Responsive para móviles */
-@media (max-width: 768px) {
-    .header-text-group {
-        flex-direction: column; /* En móvil, poner el balón bajo el título si falta espacio */
-        gap: 5px;
-    }
-    
-    .balon-animado-img {
-        width: 35px; /* Más pequeño en móvil */
-    }
-}
-
-/* ============================================
-   MINI BALÓN GIRATORIO EN LISTA DE JUGADORES
-   ============================================ */
-.mini-balon-giratorio {
-    width: 18px; /* Tamaño similar a una letra mayúscula */
-    height: auto;
-    margin-left: 5px;
-    margin-right: 5px;
-    vertical-align: middle; /* Alineación perfecta con el texto */
-    
-    /* Animación de giro */
-    animation: girarBalon 3s linear infinite;
-}
-
-/* Reutilizamos la animación que ya creamos para el header */
-@keyframes girarBalon {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* Ajuste específico para el balón en la tabla de goleadores */
-.goleador-goles .mini-balon-giratorio {
-    width: 20px; /* Un poquito más grande que en la lista de nombres para destacar */
-    margin-left: 4px;
-    vertical-align: middle;
-}
 /* ============================================
    TABLAS DE POSICIONES SIMÉTRICAS (GRUPO A y B)
    ============================================ */
+
 .posiciones-section {
     display: flex;
     gap: 20px;
@@ -1714,62 +1620,6 @@ body {
         font-size: 0.8rem;
     }
 }
-
-/* ============================================
-   ALINEACIÓN PERFECTA DE GOLEADORES (GRID)
-   ============================================ */
-
-.goleador-item {
-    display: grid;
-    /* Columna 1: Ranking (fija) | Columna 2: Nombre (elástica) | Columna 3: Goles+Balón (fija a la derecha) */
-    grid-template-columns: 35px 2fr 70px;
-    align-items: center;
-    padding: 10px 5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 12px;
-    width: 100%;
-}
-
-/* El ranking (#1, #2...) */
-.goleador-rank {
-    font-weight: bold;
-    color: var(--color-gold);
-    text-align: center;
-}
-
-/* El contenedor de info (Nombre y Equipo) */
-.goleador-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 0; /* Importante para que el texto no desborde */
-}
-
-.goleador-nombre {
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Si es MUY largo, pone ... al final */
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.goleador-equipo {
-    font-size: 0.85rem;
-    opacity: 0.7;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* La columna de goles y balón */
-.goleador-goles {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Alinea todo a la derecha */
-    gap: 5px;
-    font-weight: bold;
-    white-space: nowrap;
-}
 /* ============================================
    HEADER COMPACTO Y RESPONSIVE
    ============================================ */
@@ -1848,6 +1698,7 @@ body {
 /* ============================================
    COLOR DE POSICIÓN DE JUGADORES
    ============================================ */
+
 .jugador-posicion, 
 .equipo-jugadores-lista li span:last-child { /* Selector genérico si no tienes clase específica */
     color: #FFC107 !important; /* Amarillo Ocre / Ámbar brillante */
@@ -2072,47 +1923,6 @@ body {
 }
 
 /* ============================================
-   PESTAÑAS PLAYOFFS - TEXTO LEGIBLE
-   ============================================ */
-.fecha-tab-img.playoff-tab {
-    background: linear-gradient(135deg, #FFD700, #B8860B);
-    border: 2px solid #fff;
-    color: #FFFFFF !important; /* Texto blanco forzado */
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 25px;
-    margin-right: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
-    transition: all 0.3s ease;
-    
-    /* Sombra de texto para garantizar lectura sobre cualquier fondo */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-.fecha-tab-img.playoff-tab:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6);
-    color: #FFFFFF !important;
-}
-
-.fecha-tab-img.playoff-tab.active {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #FFD700;
-    border-color: #FFD700;
-    color: #FFFFFF !important;
-    background: linear-gradient(135deg, #FFF8DC, #DAA520); /* Fondo más claro al estar activo */
-}
-
-/* Asegurar que los iconos también sean visibles */
-.playoff-tab span {
-    color: #FFFFFF;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
-}
-
-/* ============================================
    BOTÓN COMPARTIR WHATSAPP (MODAL VIVO)
    ============================================ */
 .vivo-share-section {
@@ -2163,284 +1973,5 @@ body {
     pointer-events: auto !important; /* Fuerza la recepción de clicks */
     cursor: pointer !important;
 }
-.btn-install-pwa {
-    background: var(--color-gold);
-    color: black;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 10px;
-    animation: pulseButton 2s infinite;
-}
-@media (max-width: 768px) {
-    .playoffs-tabs {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-        padding: 10px 0 !important;
-    }
-    
-    .fecha-tab-img.playoff-tab {
-        font-size: 0.8rem !important;
-        padding: 6px 12px !important;
-        min-width: auto !important;
-        white-space: nowrap !important;
-    }
-}
 
-.fifa-inspiration-card {
-    background: linear-gradient(135deg, #00ff87, #ab47bc);
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    color: white;
-    margin: 20px 0;
-    position: relative;
-    overflow: hidden;
-    animation: slideUp 0.8s ease-out;
-}
-
-.copa-float {
-    font-size: 3rem;
-    animation: flotarCopa 3s ease-in-out infinite;
-    margin-bottom: 10px;
-}
-
-.sparkles {
-    font-size: 1.5rem;
-    margin-top: 15px;
-    animation: pulse 2s infinite;
-}
-
-@keyframes flotarCopa {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-}
-
-.bracket-section {
-    padding: 20px;
-    margin: 20px 0;
-}
-
-.bracket-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.bracket-round {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.bracket-match {
-    background: rgba(255,255,255,0.1);
-    border: 2px solid #FFD700;
-    border-radius: 15px;
-    padding: 15px;
-    min-width: 250px;
-    position: relative;
-    animation: fadeInScale 0.6s ease-out forwards;
-    opacity: 0;
-}
-
-.bracket-match:nth-child(1) { animation-delay: 0.2s; }
-.bracket-match:nth-child(2) { animation-delay: 0.4s; }
-
-.team-slot {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    border-radius: 8px;
-    transition: all 0.3s;
-}
-
-.winner-glow {
-    background: rgba(255, 215, 0, 0.2);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.seed {
-    font-size: 0.7rem;
-    opacity: 0.7;
-    background: rgba(0,0,0,0.3);
-    padding: 2px 6px;
-    border-radius: 10px;
-}
-
-.vs-badge {
-    text-align: center;
-    font-weight: bold;
-    color: #FFD700;
-    margin: 5px 0;
-}
-
-.match-date {
-    text-align: center;
-    font-size: 0.8rem;
-    opacity: 0.8;
-    margin-top: 5px;
-}
-
-/* Conectores animados */
-.bracket-connector {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50px;
-}
-
-.line-horizontal {
-    width: 100%;
-    height: 2px;
-    background: #FFD700;
-    animation: drawLine 1s ease-out forwards;
-}
-
-.line-vertical {
-    width: 2px;
-    height: 60px;
-    background: #FFD700;
-    animation: drawLine 1s ease-out 0.5s forwards;
-    opacity: 0;
-}
-
-.final-match {
-    border-color: #fff;
-    background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(171,71,188,0.2));
-}
-
-.trophy-icon {
-    font-size: 2rem;
-    text-align: center;
-    animation: flotarCopa 2s ease-in-out infinite;
-}
-
-.placeholder {
-    opacity: 0.6;
-    font-style: italic;
-}
-
-@keyframes fadeInScale {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes drawLine {
-    from { width: 0; height: 0; opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .bracket-container {
-        flex-direction: column;
-    }
-    .bracket-connector {
-        transform: rotate(90deg);
-        margin: 20px 0;
-    }
-}
-.match-label {
-    font-size: 0.75rem;
-    color: #FFD700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.third-place .bracket-match {
-    border-color: #CD7F32; /* Bronce */
-    background: rgba(205, 127, 50, 0.1);
-}
-
-.final-match .trophy-icon {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1.8rem;
-    animation: flotarCopa 2s ease-in-out infinite;
-}
-/* ============================================
-   LAYOUT FORZADO 80/20 - SOLUCIÓN DEFINITIVA
-   ============================================ */
-
-/* 1. Forzar Flexbox en el contenedor principal */
-.main-container {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    gap: 20px !important;
-    width: 100% !important;
-    max-width: 1400px !important;
-    margin: 0 auto !important;
-    box-sizing: border-box !important;
-}
-
-/* 2. Columna Izquierda: Ocupa el espacio restante pero NO más del 75% */
-.content-left {
-    flex: 1 1 70% !important; /* Crece, se encoge, base 70% */
-    min-width: 0 !important;   /* CRÍTICO: Permite encogerse ante contenido ancho */
-    max-width: 75% !important; /* Límite duro para dejar espacio a la derecha */
-    overflow: hidden !important; /* Corta cualquier desbordamiento interno */
-}
-
-/* 3. Columna Derecha: Ancho fijo mínimo garantizado */
-.content-right {
-    flex: 0 0 280px !important; /* NO crece, NO se encoge, base 280px */
-    min-width: 280px !important;
-    max-width: 300px !important;
-    position: sticky !important;
-    top: 20px !important;
-    z-index: 10 !important;
-}
-
-/* 4. Bracket: Debe ser fluido DENTRO de la columna izquierda */
-.bracket-section {
-    width: 100% !important;
-    overflow-x: auto !important; /* Scroll horizontal si el bracket es muy ancho */
-    padding-bottom: 10px !important;
-}
-
-.bracket-container {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 15px !important;
-    min-width: 600px !important; /* Ancho mínimo para que el bracket se vea bien */
-}
-
-/* 5. Responsive: Solo en tablets/móviles se apila */
-@media (max-width: 992px) {
-    .main-container {
-        flex-direction: column !important;
-        gap: 30px !important;
-    }
-    
-    .content-left, 
-    .content-right {
-        flex: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 100% !important;
-        position: static !important;
-    }
-    
-    .bracket-container {
-        flex-direction: column !important;
-        min-width: auto !important;
-    }
-}
+/* Si usas una clase específica como .posicion-jugador, asegúrate de agregarla aquí */
