@@ -40,65 +40,6 @@ $flash = get_flash_message();
     <!-- SECCIÓN IZQUIERDA (FIXTURE Y EQUIPOS) -->
     <div class="content-left">
         <?php if ($flash): ?><?= render_toast($flash['message'], $flash['type']) ?><?php endif; ?>
-
-        <!-- ============================================ -->
-        <!-- CUADRO DE ELIMINACIÓN DIRECTA (BRACKET) -->
-        <!-- ============================================ -->
-        <section class="bracket-wrapper">
-            <h3 class="section-title-playoffs">🏆 CUADRO DE ELIMINACIÓN DIRECTA</h3>
-            
-            <div class="bracket-grid">
-                <!-- COLUMNA 1: SEMIFINALES -->
-                <div class="bracket-col">
-                    <div class="bracket-match-card sf1">
-                        <div class="match-label">SEMI FINAL 1 • 24 JUN</div>
-                        <div class="team-row winner">
-                            <span class="team-name">Mas Menos 1 Metro FC</span>
-                            <span class="seed">1ºA</span>
-                        </div>
-                        <div class="vs-divider">VS</div>
-                        <div class="team-row">
-                            <span class="team-name">Jacque Boys</span>
-                            <span class="seed">2ºB</span>
-                        </div>
-                    </div>
-
-                    <div class="bracket-match-card sf2">
-                        <div class="match-label">SEMI FINAL 2 • 01 JUL</div>
-                        <div class="team-row">
-                            <span class="team-name">Calidad Prime</span>
-                            <span class="seed">1ºB</span>
-                        </div>
-                        <div class="vs-divider">VS</div>
-                        <div class="team-row winner">
-                            <span class="team-name">Pem-K-Zo</span>
-                            <span class="seed">2ºA</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- COLUMNA 2: CONECTORES (Se pintarán con CSS después) -->
-                <div class="bracket-col connectors"></div>
-
-                <!-- COLUMNA 3: 3ER LUGAR Y FINAL -->
-                <div class="bracket-col">
-                    <div class="bracket-match-card third-place">
-                        <div class="match-label">3er LUGAR • 08 JUL</div>
-                        <div class="team-row placeholder">PERDEDOR SF1</div>
-                        <div class="vs-divider">VS</div>
-                        <div class="team-row placeholder">PERDEDOR SF2</div>
-                    </div>
-
-                    <div class="bracket-match-card final">
-                        <div class="trophy-icon">🏆</div>
-                        <div class="match-label">GRAN FINAL • 15 JUL</div>
-                        <div class="team-row placeholder">GANADOR SF1</div>
-                        <div class="vs-divider final-vs">FINAL</div>
-                        <div class="team-row placeholder">GANADOR SF2</div>
-                    </div>
-                </div>
-            </div>
-        </section>
         
         <!-- FIXTURE -->
         <!-- ============================================ -->
