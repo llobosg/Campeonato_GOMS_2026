@@ -1,0 +1,2191 @@
+/* ============================================
+   CAMPEONATO GOMS 2026 - Estilos Principales
+   Diseño: FIFA World Cup 2026 Style
+   Colores: Fluorescentes, vibrantes, modernos
+   ============================================ */
+:root {
+    /* Colores FIFA 2026 */
+    --color-primary: #00ff87;        /* Verde fluorescente */
+    --color-secondary: #ff006e;      /* Rosa/Magenta fluorescente */
+    --color-accent: #3a86ff;         /* Azul eléctrico */
+    --color-gold: #ffd700;           /* Dorado trofeo */
+    --color-dark: #0a0a0a;           /* Negro profundo */
+    --color-light: #ffffff;          /* Blanco */
+    --color-gray: #1a1a1a;           /* Gris oscuro */
+    --color-gray-light: #2a2a2a;     /* Gris medio */
+    
+    /* Colores de grupos */
+    --grupo-a: #00ff87;              /* Verde para Grupo A */
+    --grupo-b: #ff006e;              /* Rosa para Grupo B */
+    
+    /* Gradientes */
+    --gradient-header: linear-gradient(135deg, #00ff87 0%, #3a86ff 50%, #ff006e 100%);
+    --gradient-card: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+    --gradient-button: linear-gradient(90deg, #00ff87 0%, #3a86ff 100%);
+    
+    /* Sombras */
+    --shadow-sm: 0 2px 8px rgba(0, 255, 135, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 255, 135, 0.2);
+    --shadow-lg: 0 8px 32px rgba(0, 255, 135, 0.3);
+    --shadow-glow: 0 0 20px rgba(0, 255, 135, 0.5);
+    
+    /* Bordes */
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 16px;
+    
+    /* Espaciado */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    /* Tipografía */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-bold: 700;
+    --font-size-sm: 12px;
+    --font-size-base: 14px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --font-size-xxl: 32px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: var(--color-dark);
+    color: var(--color-light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   HEADER COMPACTO ESTÁNDAR
+   ============================================ */
+
+.championship-header {
+    background: var(--gradient-header); /* Tu degradado actual */
+    padding: 10px 15px; /* Padding reducido */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.header-main-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logo-container {
+    flex-shrink: 0;
+}
+
+.championship-logo {
+    height: 80px;
+    width: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.header-title {
+    flex: 1;
+    text-align: center;
+}
+
+/* Título Principal */
+.header-title h1 {
+    font-family: 'FIFA2026', sans-serif;
+    margin: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Badge de Fecha */
+.header-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 5px;
+}
+
+.header-title h2 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-gold);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.badge-text {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-light);
+    text-transform: uppercase;
+}
+
+/* ============================================
+   CONTENEDOR PRINCIPAL (80/20)
+   ============================================ */
+.main-container {
+    max-width: 1400px;
+    margin: var(--spacing-lg) auto;
+    padding: 0 var(--spacing-md);
+    display: grid;
+    grid-template-columns: 80% 20%;
+    gap: var(--spacing-lg);
+}
+
+/* ============================================
+   SECCIÓN IZQUIERDA (80%)
+   ============================================ */
+.content-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-title .icon {
+    font-size: var(--font-size-xxl);
+}
+
+/* ============================================
+   FIXTURE SECTION
+   ============================================ */
+.fixture-section {
+    background: var(--gradient-card);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0, 255, 135, 0.2);
+}
+
+.fechas-tabs {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    overflow-x: auto;
+    padding-bottom: var(--spacing-sm);
+}
+
+.fecha-tab {
+    background: var(--color-gray);
+    border: 2px solid transparent;
+    color: var(--color-light);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.fecha-tab small {
+    font-size: var(--font-size-sm);
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+.fecha-tab:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.fecha-tab.active {
+    background: var(--gradient-button);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-glow);
+    transform: scale(1.05);
+}
+
+.fecha-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.fecha-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fecha-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.fecha-header h4 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary);
+}
+
+.hora-range {
+    font-size: var(--font-size-sm);
+    color: var(--color-gold);
+    font-weight: 600;
+}
+
+.grupo-matches {
+    margin-bottom: var(--spacing-lg);
+}
+
+.grupo-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+}
+
+.grupo-a .grupo-title {
+    background: rgba(0, 255, 135, 0.2);
+    color: var(--grupo-a);
+    border-left: 4px solid var(--grupo-a);
+}
+
+.grupo-b .grupo-title {
+    background: rgba(255, 0, 110, 0.2);
+    color: var(--grupo-b);
+    border-left: 4px solid var(--grupo-b);
+}
+
+.match-card {
+    background: var(--color-gray);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    display: grid;
+    grid-template-columns: 80px 1fr auto auto;
+    align-items: center;
+    gap: var(--spacing-md);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.match-card:hover {
+    border-color: var(--color-primary);
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.match-time {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-gold);
+    text-align: center;
+}
+
+.match-teams {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.team {
+    flex: 1;
+    text-align: center;
+}
+
+.vs {
+    color: var(--color-secondary);
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-sm);
+    padding: 0 var(--spacing-sm);
+}
+
+.match-result {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-bold);
+}
+
+.score {
+    background: var(--color-primary);
+    color: var(--color-dark);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    min-width: 40px;
+    text-align: center;
+}
+
+.score-divider {
+    color: var(--color-light);
+    opacity: 0.5;
+}
+
+.pending {
+    color: var(--color-gray-light);
+    font-size: var(--font-size-base);
+    font-style: italic;
+}
+
+.btn-resultado {
+    background: var(--gradient-button);
+    color: var(--color-dark);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: inline-block !important; /* <--- AGREGA ESTO PARA FORZARLO */
+}
+
+.btn-resultado:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   EQUIPOS SECTION
+   ============================================ */
+.equipos-section {
+    background: var(--gradient-card);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0, 255, 135, 0.2);
+}
+
+.equipos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+.equipo-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.grupo-header {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.equipo-column.grupo-a .grupo-header {
+    background: rgba(0, 255, 135, 0.2);
+    color: var(--grupo-a);
+}
+
+.equipo-column.grupo-b .grupo-header {
+    background: rgba(255, 0, 110, 0.2);
+    color: var(--grupo-b);
+}
+
+.equipo-card {
+    background: var(--color-gray);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    border-left: 4px solid var(--color-primary);
+    transition: all 0.3s ease;
+}
+
+.equipo-card:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.equipo-name {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.jugadores-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.jugador-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-xs) 0;
+    font-size: var(--font-size-sm);
+}
+
+.jugador-nombre {
+    color: var(--color-light);
+}
+
+.jugador-area {
+    color: solid rgba(48, 58, 241, 0.311);
+    font-style: italic;
+}
+
+.no-jugadores {
+    color: var(--color-light);
+    font-style: italic;
+    font-size: var(--font-size-sm);
+}
+
+/* ============================================
+   SECCIÓN DERECHA (20%)
+   ============================================ */
+.content-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.posiciones-section,
+.goleadores-section {
+    background: rgba(255, 255, 255, 0.05); /* Mismo fondo semi-transparente que posiciones */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 100%; /* Mismo ancho que el contenedor de posiciones */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Asegurar que la tabla interna ocupe todo el espacio */
+.goleadores-section table {
+    width: 100%;
+    table-layout: fixed; /* Distribución equitativa */
+}
+
+/* Ajustar columnas de la tabla de goleadores */
+.goleadores-section th, 
+.goleadores-section td {
+    padding: 10px;
+    text-align: center;
+}
+
+/* Columna de Nombre más ancha */
+.goleadores-section td:nth-child(2),
+.goleadores-section th:nth-child(2) {
+    text-align: left;
+    padding-left: 15px;
+    width: 50%; /* La mitad del ancho para el nombre */
+}
+
+.tabla-grupo,
+.goleadores-grupo {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.tabla-grupo:last-child,
+.goleadores-grupo:last-child {
+    margin-bottom: 0;
+}
+
+.grupo-mini-header {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-bold);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.grupo-mini-header.grupo-a {
+    background: rgba(0, 255, 135, 0.2);
+    color: var(--grupo-a);
+}
+
+.grupo-mini-header.grupo-b {
+    background: rgba(255, 0, 110, 0.2);
+    color: var(--grupo-b);
+}
+
+/* Tabla de posiciones */
+.tabla-posiciones {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.tabla-posiciones thead {
+    background: var(--color-gray);
+}
+
+.tabla-posiciones th {
+    padding: var(--spacing-xs);
+    text-align: center;
+    font-weight: 600;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.tabla-posiciones td {
+    padding: var(--spacing-xs);
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.tabla-posiciones tr:hover {
+    background: rgba(0, 255, 135, 0.1);
+}
+
+.tabla-posiciones .first-place {
+    background: rgba(255, 215, 0, 0.1);
+    font-weight: var(--font-bold);
+}
+
+.tabla-posiciones .position {
+    font-weight: var(--font-bold);
+    color: var(--color-gold);
+}
+
+.tabla-posiciones .team-name {
+    text-align: left;
+    font-weight: 600;
+}
+
+.tabla-posiciones .puntos {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+    background: rgba(0, 255, 135, 0.2);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-xs);
+}
+
+
+
+.goleador-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.goleador-item.top-scorer {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.2) 0%, var(--color-gray) 100%);
+    border-left: 4px solid var(--color-gold);
+}
+
+
+/* 5. Asegurar que la tabla de posiciones y los goleadores tengan el mismo "peso" visual */
+.tabla-posiciones, .goleadores-grupo {
+    background: rgba(255, 255, 255, 0.05); /* Mismo fondo sutil si lo tienes */
+    border-radius: var(--border-radius);
+    padding: 10px;
+}
+
+
+.no-data {
+    color: var(--color-light);
+    font-style: italic;
+    text-align: center;
+    padding: var(--spacing-md);
+}
+
+/* Botón Resultados en Vivo */
+.btn-vivo {
+    width: 100%;
+    background: var(--gradient-button);
+    color: var(--color-dark);
+    border: none;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: var(--shadow-md); }
+    50% { box-shadow: var(--shadow-glow); }
+}
+
+.btn-vivo:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   MODAL RESULTADO
+   ============================================ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: var(--gradient-card);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--color-primary);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.modal-header h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    text-transform: uppercase;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: var(--font-size-xxl);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--color-secondary);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.modal-instruction {
+    font-size: var(--font-size-base);
+    color: var(--color-light);
+    margin-bottom: var(--spacing-md);
+}
+
+.input-password {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: var(--color-gray);
+    border: 2px solid var(--color-gray-light);
+    border-radius: var(--border-radius);
+    color: var(--color-light);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+    transition: all 0.3s ease;
+}
+
+.input-password:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-glow);
+}
+
+.error-message {
+    color: var(--color-secondary);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.partido-info {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.partido-info h4 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.marcador-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-bold);
+}
+
+.marcador-numero {
+    background: var(--color-primary);
+    color: var(--color-dark);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    min-width: 60px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.marcador-numero.number-pop {
+    animation: numberPop 0.3s ease;
+}
+
+@keyframes numberPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.goles-input-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+.equipo-goles h5 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    padding: var(--spacing-sm);
+    background: var(--color-gray);
+    border-radius: var(--border-radius);
+}
+
+.jugadores-goles-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    max-height: 400px;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+    background: var(--color-gray);
+    border-radius: var(--border-radius);
+}
+
+.jugador-gol-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    background: var(--color-gray-light);
+    border-radius: var(--border-radius-sm);
+    transition: all 0.3s ease;
+}
+
+.jugador-gol-item:hover {
+    background: rgba(0, 255, 135, 0.1);
+}
+
+.gol-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.btn-minus,
+.btn-plus {
+    background: var(--color-gray);
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-minus:hover,
+.btn-plus:hover {
+    background: var(--color-primary);
+    color: var(--color-dark);
+    transform: scale(1.1);
+}
+
+.gol-count {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-light);
+    min-width: 30px;
+    text-align: center;
+    background: var(--color-dark);
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius-sm);
+}
+
+.btn-finalizar {
+    width: 100%;
+    background: linear-gradient(90deg, #00ff87 0%, #00cc6a 100%);
+    color: var(--color-dark);
+    border: none;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: var(--spacing-md);
+}
+
+.btn-finalizar:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--gradient-card);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: 2000;
+    animation: toastSlideUp 0.3s ease forwards;
+    max-width: 400px;
+}
+
+.toast-exit {
+    animation: toastSlideDown 0.3s ease forwards;
+}
+
+@keyframes toastSlideUp {
+    from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+@keyframes toastSlideDown {
+    from { transform: translateX(-50%) translateY(0); opacity: 1; }
+    to { transform: translateX(-50%) translateY(100px); opacity: 0; }
+}
+
+.toast-success {
+    border-color: var(--color-primary);
+}
+
+.toast-error {
+    border-color: var(--color-secondary);
+}
+
+.toast-icon {
+    font-size: var(--font-size-xl);
+}
+
+.toast-message {
+    flex: 1;
+    font-weight: 600;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.toast-close:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* ============================================
+   BOTONES GENÉRICOS
+   ============================================ */
+.btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: var(--font-size-base);
+}
+
+.btn-primary {
+    background: var(--gradient-button);
+    color: var(--color-dark);
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-success {
+    background: linear-gradient(90deg, #00ff87 0%, #00cc6a 100%);
+    color: var(--color-dark);
+}
+
+.btn-success:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   ESTILOS PARA HEADER Y FOOTER (Para que no se vean como los 90s)
+   ============================================ */
+
+/* Top Navigation Bar */
+.top-nav {
+    background: var(--gradient-header); /* Usa tu gradiente definido :root */
+    padding: 0.5rem 1rem;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    color: white;
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+.admin-link {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Footer Styles */
+.site-footer {
+    background: #1a1a1a; /* Color oscuro consistente */
+    color: white;
+    padding: 3rem 1rem;
+    margin-top: 4rem;
+    border-top: 4px solid var(--color-primary);
+}
+
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-brand h3 {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-brand p {
+    color: #ccc;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.footer-column h4 {
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-column a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-column a:hover {
+    color: var(--color-primary);
+}
+
+.footer-divider {
+    height: 1px;
+    background: #333;
+    margin: 2rem 0;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-copyright {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.social-link:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    .footer-top {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+/* ============================================
+   AJUSTES ESPECÍFICOS PARA MÓVIL (STANDARD APP LOOK)
+   ============================================ */
+@media (max-width: 768px) {
+    .championship-header {
+        padding: 8px 10px; /* Aún más compacto */
+    }
+
+    .header-title h1 {
+        font-size: 1.5rem; /* Tamaño estándar de app móvil */
+    }
+
+    .balon-animado-img {
+        width: 30px; /* Balón pequeño pero visible */
+        height: auto;
+    }
+
+    .header-badge {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+    }
+    
+    /* Si decidiste ocultar la copa en móvil, asegúrate de esto: */
+    .copa-animada-container {
+        display: none; 
+    }
+}
+/* Ajustes para Escritorio (Para que no se vea raro en PC) */
+@media (min-width: 769px) {
+    .header-title h1 {
+        font-size: 2.5rem;
+    }
+    
+    .balon-animado-img {
+        width: 60px;
+    }
+    
+    .header-content {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .header-main-group {
+        flex-grow: 1;
+        justify-content: flex-start;
+        margin-left: 20px;
+    }
+}
+/* ============================================
+   CORRECCIONES DE CONTRASTE PARA EQUIPO_DETALLE
+   ============================================ */
+
+/* Texto "QR no generado aún" */
+.no-qr-text {
+    color: #ffffff !important; /* Blanco puro */
+    font-weight: 500;
+}
+
+/* Estadísticas (Jugadores, Partidos, etc.) */
+.stat-label {
+    color: #cccccc !important; /* Gris claro para etiquetas */
+}
+.stat-value {
+    color: #ffffff !important; /* Blanco para los valores */
+    font-weight: bold;
+}
+
+/* Estado "No hay jugadores" */
+.empty-state p {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+}
+
+/* VS y Pendiente en Historial */
+.vs {
+    color: #888888 !important; /* Gris medio para el VS */
+    font-weight: bold;
+}
+.status-pending {
+    color: #ffffff !important; /* Blanco para el estado Pendiente */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil */
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - MOBILE
+   ============================================ */
+@media (max-width: 1024px) {
+    .main-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .content-right {
+        order: -1;
+    }
+    
+    .header-title h1 {
+        font-size: var(--font-size-xl);
+    }
+    
+    .header-title h2 {
+        font-size: var(--font-size-lg);
+    }
+    
+    .championship-logo {
+        height: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-xxl: 24px;
+        --font-size-xl: 20px;
+        --font-size-lg: 16px;
+        --font-size-base: 14px;
+        --font-size-sm: 12px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .match-card {
+        grid-template-columns: 60px 1fr auto;
+        gap: var(--spacing-sm);
+    }
+    
+    .equipos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .goles-input-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: var(--spacing-md);
+    }
+    
+    .marcador-preview {
+        font-size: var(--font-size-xl);
+    }
+    
+    .toast {
+        width: 90%;
+        left: 5%;
+        transform: translateX(0) translateY(100px);
+    }
+    
+    @keyframes toastSlideUp {
+        from { transform: translateX(0) translateY(100px); opacity: 0; }
+        to { transform: translateX(0) translateY(0); opacity: 1; }
+    }
+    
+    @keyframes toastSlideDown {
+        from { transform: translateX(0) translateY(0); opacity: 1; }
+        to { transform: translateX(0) translateY(100px); opacity: 0; }
+    }
+}
+
+@media (max-width: 480px) {
+    .fechas-tabs {
+        gap: var(--spacing-xs);
+    }
+    
+    .fecha-tab {
+        min-width: 80px;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .match-teams {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .vs {
+        display: none;
+    }
+}
+/* ============================================
+   CORRECCIONES FORMULARIO DE REGISTRO
+   ============================================ */
+
+/* Textos de ayuda (hints) debajo de los inputs */
+.form-hint {
+    color: #cccccc !important; /* Gris claro legible */
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Checkbox personalizado */
+.checkbox-custom {
+    background-color: #ffffff !important; /* Fondo blanco para el cuadro */
+    border: 2px solid #00ff87 !important; /* Borde verde neón */
+}
+
+/* Cuando está marcado */
+.checkbox-input:checked + .checkbox-custom {
+    background-color: #00ff87 !important; /* Fondo verde neón */
+    border-color: #00ff87 !important;
+}
+
+/* El check (✓) dentro del cuadro */
+.checkbox-input:checked + .checkbox-custom::after {
+    color: #000000 !important; /* Check negro para contraste */
+}
+
+/* Texto de los términos */
+.checkbox-text {
+    color: #ffffff !important;
+}
+
+.link-terms {
+    color: #00ff87 !important; /* Link verde neón */
+    text-decoration: underline;
+}
+/* ============================================
+   CORRECCIONES TABLAS DE POSICIONES
+   ============================================ */
+.posiciones-table th, .posiciones-table td {
+    text-align: center;
+    padding: 8px 4px;
+}
+
+/* Forzar ancho mínimo para la columna de Equipo/Jugador */
+.posiciones-table td:nth-child(2), 
+.posiciones-table th:nth-child(2) {
+    min-width: 120px; /* Ancho fijo para nombres */
+    text-align: left;
+    padding-left: 10px;
+}
+
+/* Asegurar que las tablas ocupen el mismo espacio */
+.card-grupo-a, .card-grupo-b {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-grupo-a table, .card-grupo-b table {
+    width: 100%;
+    table-layout: fixed; /* Distribuye el ancho equitativamente */
+}
+.btn-fecha-img {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s;
+}
+.btn-fecha-img:hover {
+    transform: scale(1.05);
+}
+.hero-copa-container {
+    text-align: center;
+    margin: 20px 0;
+}
+.copa-hero-img {
+    max-width: 150px; /* Ajusta el tamaño según prefieras */
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 135, 0.5)); /* Brillo neón sutil */
+}
+.status-pendiente {
+    color: var(--color-gold);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-bold);
+}
+.equipo-jugadores-lista {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+.equipo-jugadores-lista li {
+    color: #cccccc !important; /* Gris claro */
+    font-size: 0.9rem;
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.equipo-jugadores-lista li:last-child {
+    border-bottom: none;
+}
+.jugador-posicion {
+    color: #00ff87 !important; /* Verde neón para la posición */
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+/* ============================================
+   ESTILOS PARA TABS DE FECHAS CON IMÁGENES
+   ============================================ */
+.fechas-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.fecha-tab-img {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0.7; /* Opacidad para las no activas */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fecha-tab-img:hover {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.fecha-tab-img.active {
+    opacity: 1;
+    box-shadow: 0 0 15px var(--color-primary); /* Brillo neón verde */
+    transform: scale(1.1);
+}
+
+/* Imágenes de Fechas (Fecha 1 a 5) */
+.fecha-img {
+    width: 105px; /* Aumentado aprox 5% desde 100px */
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+/* Asegurar que el contenedor de la fecha permita el crecimiento */
+.fecha-tab-img:hover .fecha-img {
+    transform: scale(1.05); /* Efecto zoom adicional al pasar el mouse */
+}
+/* Responsive: Ajuste proporcional en móviles */
+@media (max-width: 600px) {
+    .copa-animada-img {
+        width: 70px;
+    }
+    .fecha-img {
+        width: 90px;
+    }
+}
+/* ============================================
+   COPA ANIMADA - TAMAÑO +50% Y SIN EFECTOS BORROSOS
+   ============================================ */
+.copa-animada-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+}
+
+.copa-animada-img {
+    /* AUMENTO DEL 50%: De 90px a 135px */
+    width: 270px; 
+    height: auto;
+    
+    /* ELIMINAMOS mix-blend-mode PARA EVITAR EL DESLAVADO */
+    /* Solo mantenemos la sombra para integrarla */
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+    
+    animation: flotarCopa 3s ease-in-out infinite;
+}
+
+@keyframes flotarCopa {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); } /* Movimiento más amplio acorde al nuevo tamaño */
+}
+
+/* Ajuste móvil proporcional (+50% respecto al anterior valor móvil de 60px) */
+@media (max-width: 768px) {
+    .copa-animada-img {
+        width: 90px; 
+    }
+}
+
+/* ============================================
+   BALÓN FIFA 2026 ANIMADO EN HEADER
+   ============================================ */
+
+.header-text-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Espacio entre el texto y el balón */
+}
+
+.balon-container {
+    display: flex;
+    align-items: center;
+}
+
+.balon-animado-img {
+    width: 50px; /* Tamaño ajustado para equilibrar con el título */
+    height: auto;
+    
+    /* Animación de giro continuo */
+    animation: girarBalon 4s linear infinite;
+    
+    /* Sombra sutil para dar profundidad */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+@keyframes girarBalon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Ajuste Responsive para móviles */
+@media (max-width: 768px) {
+    .header-text-group {
+        flex-direction: column; /* En móvil, poner el balón bajo el título si falta espacio */
+        gap: 5px;
+    }
+    
+    .balon-animado-img {
+        width: 35px; /* Más pequeño en móvil */
+    }
+}
+
+/* ============================================
+   MINI BALÓN GIRATORIO EN LISTA DE JUGADORES
+   ============================================ */
+.mini-balon-giratorio {
+    width: 18px; /* Tamaño similar a una letra mayúscula */
+    height: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle; /* Alineación perfecta con el texto */
+    
+    /* Animación de giro */
+    animation: girarBalon 3s linear infinite;
+}
+
+/* Reutilizamos la animación que ya creamos para el header */
+@keyframes girarBalon {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Ajuste específico para el balón en la tabla de goleadores */
+.goleador-goles .mini-balon-giratorio {
+    width: 20px; /* Un poquito más grande que en la lista de nombres para destacar */
+    margin-left: 4px;
+    vertical-align: middle;
+}
+/* ============================================
+   TABLAS DE POSICIONES SIMÉTRICAS (GRUPO A y B)
+   ============================================ */
+.posiciones-section {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-width: 300px; /* Ancho mínimo para móviles */
+    max-width: 500px; /* Ancho máximo para escritorio */
+}
+
+.tabla-grupo {
+    flex: 1;
+    min-width: 300px; /* Ancho mínimo para móviles */
+    max-width: 500px; /* Ancho máximo para escritorio */
+}
+
+.tabla-posiciones {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* CLAVE: Fuerza anchos fijos independientes del contenido */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla-posiciones th, 
+.tabla-posiciones td {
+    padding: 8px 4px;
+    text-align: center;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Definir anchos específicos para cada columna */
+.tabla-posiciones th:nth-child(1), /* # */
+.tabla-posiciones td:nth-child(1) {
+    width: 30px;
+}
+
+.tabla-posiciones th:nth-child(2), /* Equipo */
+.tabla-posiciones td:nth-child(2) {
+    width: 140px; /* Ancho fijo generoso para nombres */
+    text-align: left;
+    padding-left: 10px;
+    white-space: nowrap;       /* Evita que el nombre se parta en dos líneas */
+    overflow: hidden;          /* Oculta lo que sobra si es muy largo */
+    text-overflow: ellipsis;   /* Pone ... si el nombre es muy largo */
+}
+
+/* Columnas numéricas (PJ, G, E, P, GF, GC, Pts) */
+.tabla-posiciones th:nth-child(n+3), 
+.tabla-posiciones td:nth-child(n+3) {
+    width: 35px; /* Ancho uniforme para números */
+}
+
+/* Estilo para el primer lugar */
+.first-place {
+    background-color: rgba(0, 255, 135, 0.1); /* Fondo verde sutil */
+    font-weight: bold;
+}
+
+.first-place .puntos {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .posiciones-section {
+        flex-direction: column;
+    }
+    
+    .tabla-grupo {
+        max-width: 100%;
+    }
+    
+    .tabla-posiciones th:nth-child(2),
+    .tabla-posiciones td:nth-child(2) {
+        width: 100px; /* Reducir un poco en móvil */
+        font-size: 0.8rem;
+    }
+}
+
+/* ============================================
+   ALINEACIÓN PERFECTA DE GOLEADORES (GRID)
+   ============================================ */
+
+.goleador-item {
+    display: grid;
+    /* Columna 1: Ranking (fija) | Columna 2: Nombre (elástica) | Columna 3: Goles+Balón (fija a la derecha) */
+    grid-template-columns: 35px 2fr 70px;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 12px;
+    width: 100%;
+}
+
+/* El ranking (#1, #2...) */
+.goleador-rank {
+    font-weight: bold;
+    color: var(--color-gold);
+    text-align: center;
+}
+
+/* El contenedor de info (Nombre y Equipo) */
+.goleador-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0; /* Importante para que el texto no desborde */
+}
+
+.goleador-nombre {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si es MUY largo, pone ... al final */
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.goleador-equipo {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* La columna de goles y balón */
+.goleador-goles {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinea todo a la derecha */
+    gap: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+/* ============================================
+   HEADER COMPACTO Y RESPONSIVE
+   ============================================ */
+
+/* Header Principal */
+.top-nav {
+    padding: 0.5rem 1rem; /* Reducido significativamente (antes era ~1rem o más) */
+}
+
+.nav-container {
+    gap: 10px; /* Menos espacio entre elementos */
+}
+
+.nav-brand {
+    font-size: 1.2rem; /* Título un poco más pequeño */
+}
+
+/* Copa Animada en Header (Más pequeña para compensar el header delgado) */
+.copa-animada-img {
+    width: 60px; /* Reducida desde 90px */
+    margin-bottom: 0;
+}
+
+/* Ajuste específico para Móviles (60% más delgado) */
+@media (max-width: 768px) {
+    .top-nav {
+        padding: 0.3rem 0.5rem; /* Muy compacto en móvil */
+    }
+    
+    .nav-brand {
+        font-size: 1rem;
+    }
+    
+    .copa-animada-img {
+        width: 45px; /* Aún más pequeña en móvil */
+    }
+    
+    .nav-links a {
+        font-size: 0.8rem; /* Links más pequeños */
+        padding: 5px;
+    }
+}
+/* ============================================
+   CONTENEDOR DE POSICIONES (EL CUBO SEMI-TRANSPARENTE)
+   ============================================ */
+
+.posiciones-section {
+    background: rgba(255, 255, 255, 0.05); /* El fondo semi-transparente */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 100%; /* Asegurar que use todo el ancho disponible */
+    width: 95%; /* Un poco de margen lateral */
+    box-sizing: border-box;
+}
+
+/* Asegurar que las tablas ocupen el espacio dentro del cubo */
+.tabla-grupo {
+    width: 100%; /* Forzar ancho completo dentro de su columna flex */
+    margin-bottom: 20px;
+}
+
+/* En escritorio, poner Grupo A y B lado a lado dentro del mismo cubo */
+@media (min-width: 769px) {
+    .posiciones-section {
+        display: flex;
+        gap: 30px;
+        justify-content: space-between;
+    }
+    
+    .tabla-grupo {
+        width: 48%; /* Cada tabla ocupa casi la mitad del cubo */
+        margin-bottom: 0;
+    }
+}
+/* ============================================
+   COLOR DE POSICIÓN DE JUGADORES
+   ============================================ */
+.jugador-posicion, 
+.equipo-jugadores-lista li span:last-child { /* Selector genérico si no tienes clase específica */
+    color: #FFC107 !important; /* Amarillo Ocre / Ámbar brillante */
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* Sombra suave para legibilidad */
+}
+
+/* Clase auxiliar para mostrarlo vía JS */
+.btn-resultado.btn-visible {
+    display: inline-block; /* O block, según tu layout */
+    background: var(--gradient-button);
+    color: var(--color-dark);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    animation: pulseButton 2s infinite; /* Opcional: para destacar que ya se puede jugar */
+}
+
+@keyframes pulseButton {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 255, 135, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0); }
+}
+
+/* ============================================
+   MODAL RESULTADOS EN VIVO (PANTALLA GIGANTE)
+   ============================================ */
+
+.modal-vivo-overlay {
+    background: rgba(0, 0, 0, 0.95); /* Casi negro total */
+    backdrop-filter: blur(10px);
+    z-index: 2000; /* Por encima de todo */
+}
+
+.modal-vivo-content {
+    width: 90%;
+    max-width: 1200px; /* Muy ancho para pantallas grandes */
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 50px rgba(0, 255, 135, 0.3);
+    position: relative;
+    background: linear-gradient(145deg, #111 0%, #222 100%);
+}
+
+/* Botón Cerrar Rojo Animado */
+.btn-close-vivo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+.close-icon {
+    font-size: 4rem;
+    color: #ff006e; /* Rosa/Rojo neón */
+    font-weight: bold;
+    line-height: 1;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+}
+
+.btn-close-vivo:hover .close-icon {
+    transform: rotate(90deg) scale(1.2);
+    color: #fff;
+    text-shadow: 0 0 20px #ff006e;
+}
+
+.vivo-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.vivo-title {
+    font-size: 3rem;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(0, 255, 135, 0.5);
+}
+
+.vivo-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ff006e;
+    color: white;
+    padding: 5px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    animation: pulseLive 1.5s infinite;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+}
+
+@keyframes pulseLive {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Tarjeta de Partido Gigante */
+.vivo-match-card {
+    width: 100%;
+    text-align: center;
+}
+
+.vivo-teams-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 30px;
+}
+
+.vivo-team h3 {
+    font-size: 2.5rem;
+    color: var(--color-light);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.vivo-score {
+    font-size: 6rem; /* Números gigantes */
+    font-weight: 900;
+    color: var(--color-primary);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px 40px;
+    border-radius: 20px;
+    border: 2px solid var(--color-primary);
+    min-width: 150px;
+    text-shadow: 0 0 30px rgba(0, 255, 135, 0.6);
+}
+
+.vivo-vs {
+    font-size: 3rem;
+    color: var(--color-gray-light);
+    font-weight: bold;
+}
+
+.vivo-info p {
+    font-size: 1.5rem;
+    color: var(--color-gold);
+    margin: 5px 0;
+}
+
+.vivo-scorers-list {
+    margin-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+}
+
+.vivo-scorers-list h4 {
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.vivo-scorers-list ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.vivo-scorers-list li {
+    background: rgba(255,255,255,0.05);
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Responsive para móviles (aunque es para pantalla gigante, por si acaso) */
+@media (max-width: 768px) {
+    .vivo-teams-display { flex-direction: column; gap: 20px; }
+    .vivo-score { font-size: 4rem; min-width: 100px; padding: 10px 20px; }
+    .vivo-team h3 { font-size: 1.5rem; }
+    .vivo-title { font-size: 2rem; }
+}
+
+/* Clase auxiliar para mostrarlo vía JS */
+.btn-resultado.btn-visible {
+    display: inline-block; /* O block, según tu layout */
+    background: var(--gradient-button);
+    color: var(--color-dark);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    animation: pulseButton 2s infinite; /* Opcional: para destacar */
+}
+
+@keyframes pulseButton {
+    0% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 255, 135, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 255, 135, 0); }
+}
+
+/* ============================================
+   PESTAÑAS PLAYOFFS - TEXTO LEGIBLE
+   ============================================ */
+.fecha-tab-img.playoff-tab {
+    background: linear-gradient(135deg, #FFD700, #B8860B);
+    border: 2px solid #fff;
+    color: #FFFFFF !important; /* Texto blanco forzado */
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 25px;
+    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease;
+    
+    /* Sombra de texto para garantizar lectura sobre cualquier fondo */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.fecha-tab-img.playoff-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6);
+    color: #FFFFFF !important;
+}
+
+.fecha-tab-img.playoff-tab.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #FFD700;
+    border-color: #FFD700;
+    color: #FFFFFF !important;
+    background: linear-gradient(135deg, #FFF8DC, #DAA520); /* Fondo más claro al estar activo */
+}
+
+/* Asegurar que los iconos también sean visibles */
+.playoff-tab span {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+}
+
+/* ============================================
+   BOTÓN COMPARTIR WHATSAPP (MODAL VIVO)
+   ============================================ */
+.vivo-share-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn-share-wsp {
+    background: #25D366; /* Verde oficial WhatsApp */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+.btn-share-wsp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+    background: #20bd5a;
+}
+
+.btn-share-wsp:active {
+    transform: scale(0.98);
+}
+
+.header-title h1 {
+    font-family: 'Chakra Petch', sans-serif; /* Estilo FIFA */
+    font-size: 3rem; /* Ajustable */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.header-title h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    color: var(--color-gold);
+}
+.btn-resultado {
+    position: relative;
+    z-index: 9999; /* Asegura que esté por encima de todo */
+    pointer-events: auto !important; /* Fuerza la recepción de clicks */
+    cursor: pointer !important;
+}
+.btn-install-pwa {
+    background: var(--color-gold);
+    color: black;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    animation: pulseButton 2s infinite;
+}
+@media (max-width: 768px) {
+    .playoffs-tabs {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        padding: 10px 0 !important;
+    }
+    
+    .fecha-tab-img.playoff-tab {
+        font-size: 0.8rem !important;
+        padding: 6px 12px !important;
+        min-width: auto !important;
+        white-space: nowrap !important;
+    }
+}

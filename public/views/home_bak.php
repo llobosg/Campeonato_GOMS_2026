@@ -41,8 +41,9 @@ $flash = get_flash_message();
     <div class="content-left">
         <?php if ($flash): ?><?= render_toast($flash['message'], $flash['type']) ?><?php endif; ?>
         
+        <!-- FIXTURE -->
         <!-- ============================================ -->
-        <!-- SECCIÓN FASE FINAL (PLAYOFFS) -->
+        <!-- SECCIÓN FASE FINAL (PLAYOFFS) - NUEVA -->
         <!-- ============================================ -->
         <section class="playoffs-section">
             <div class="playoffs-title-group">
@@ -67,10 +68,7 @@ $flash = get_flash_message();
             <?php foreach ($fechas as $fecha): ?>
                 <?php if ($fecha['nro_fecha'] >= 6): 
                     $partidosPlayoff = get_fixture_fecha($pdo, $fecha['nro_fecha']);
-                    
-                    // ⚠️ IMPORTANTE: Usa el ID REAL del equipo "Por Definir" que creaste en BD
-                    // Si no estás seguro, verifica con: SELECT id_equipo FROM equipos WHERE nombre = 'Por Definir';
-                    $placeholderId = 11; 
+                    $placeholderId = 11; // AJUSTA ESTE ID AL REAL DE TU BD
                     
                     $getNombre = function($idEquipo) use ($pdo, $placeholderId) {
                         if ($idEquipo == $placeholderId) return 'Por Definir';
@@ -95,7 +93,6 @@ $flash = get_flash_message();
                                     
                                     <div class="match-time"><?= format_time($partido['hora']) ?></div>
                                     <div class="match-teams">
-                                        <!-- AQUÍ SE MUESTRAN LOS NOMBRES REALES DE LA BD -->
                                         <span class="team team-home"><?= h($getNombre($partido['equipo_a'])) ?></span>
                                         <span class="vs">VS</span>
                                         <span class="team team-away"><?= h($getNombre($partido['equipo_b'])) ?></span>
